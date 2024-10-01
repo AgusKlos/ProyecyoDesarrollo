@@ -1,26 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Image } from 'react-bootstrap';
 import utniconwhite from '../images/utniconwhite.png';
-import { Row, Col, Card, Button } from 'react-bootstrap';
+import { Row, Col, Card, Button, Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const TipoComunidades = () => {
-    const communities = [
-        { icon: <span className="bi bi-code-slash"></span>, title: 'Programación', linkText: 'Ver todos los grupos' },
-        { icon: <span className="bi bi-basketball"></span>, title: 'Deportes', linkText: 'Ver todos los grupos' },
-        { icon: <span className="bi bi-wrench"></span>, title: 'ING Mecánica', linkText: 'Ver todos los grupos' },
-        { icon: <span className="bi bi-cup-hot"></span>, title: 'Intereses/afinidad', linkText: 'Ver todos los grupos' },
-        { icon: <span className="bi bi-heart"></span>, title: 'Estilo de vida', linkText: 'Ver todos los grupos' },
-        { icon: <span className="bi bi-chevron-double-right"></span>, title: 'Programación', linkText: 'Ver todos los grupos' },
-        { icon: <span className="bi bi-compass"></span>, title: 'Ubicación', linkText: 'Ver todos los grupos' },
-        { icon: <span className="bi bi-linkedin"></span>, title: 'Trabajo', linkText: 'Ver todos los grupos' },
-        { icon: <span className="bi bi-chevron-double-right"></span>, title: 'Programación', linkText: 'Ver todos los grupos' },
-        { icon: <span className="bi bi-currency-dollar"></span>, title: 'Inversiones', linkText: 'Ver todos los grupos' },
-        { icon: <span className="bi bi-display"></span>, title: 'ING Sistemas', linkText: 'Ver todos los grupos' },
-        { icon: <span className="bi bi-chevron-double-right"></span>, title: 'Programación', linkText: 'Ver todos los grupos' },
-    ];
-
+    
     const CommunityCard = ({ icon, title, linkText }) => (
         <Card className="text-center">
           <Card.Body>
@@ -30,6 +16,12 @@ const TipoComunidades = () => {
           </Card.Body>
         </Card>
     );
+
+    const [selectedFilter, setSelectedFilter] = useState('Conferencias');
+
+    const handleFilterChange = (eventKey) => {
+      setSelectedFilter(eventKey);
+    };
 
     const navigate = useNavigate()
 
@@ -56,6 +48,30 @@ const TipoComunidades = () => {
     const handleBeneficiosClick = () => {
         navigate('/beneficios');
     }
+
+    const techGroups = [
+        {
+          title: 'HTML y bla bla bla',
+          members: '10000 miembros - mundial',
+          image: 'ruta/a/imagen/html.png', // Reemplaza con la ruta correcta
+          private: true,
+        },
+        // Agrega más grupos aquí...
+      ];
+    
+      const mobileGroups = [
+        {
+          title: 'Android y bla bla bla',
+          members: '777 miembros - mundial',
+          image: 'ruta/a/imagen/android.jpg', // Reemplaza con la ruta correcta
+        },
+        {
+          title: 'iOS y bla bla bla',
+          members: '0 miembros - mundial',
+          image: 'ruta/a/imagen/ios.png', // Reemplaza con la ruta correcta
+        },
+        // Agrega más grupos aquí...
+      ];
     
     return (
         <>
@@ -80,12 +96,77 @@ const TipoComunidades = () => {
                 </Button>
             </Navbar>
 
+            <Row className="mb-4 ms-2">
+                    
+                <h3 className='mt-3 mb-2'>Todas las comunidades</h3> <br/>
+
+                <p className='my-2'>Buscar Comunidad</p>
+                <Col className="d-flex">
+                <Dropdown className='me-5 mb-1' onSelect={handleFilterChange}>
+                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                    {selectedFilter}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                    <Dropdown.Item eventKey="Conferencias">Conferencias</Dropdown.Item>
+                    <Dropdown.Item eventKey="Honores">Honores</Dropdown.Item>
+                    <Dropdown.Item eventKey="Talleres">Talleres</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+
+                <Button className='ms-5 bg-dark mb-1'>Limpiar Filtros</Button>
+                </Col>
+
+            </Row>
+
+            <Button className='m-2 bg-dark' variant="secondary" onClick={() => window.history.back()}>
+                &#8592; Volver
+            </Button>
+
             <Container>
-                <h2>Todas las comunidades</h2>
+                <Row className="mb-4">
+                    <Col>
+                    <h2>Tecnologias web - Ver todo</h2>
+                    </Col>
+                </Row>
                 <Row>
-                    {communities.map((community, index) => (
-                    <Col key={index} xs={12} sm={6} md={4} lg={3} className="mb-4">
-                        <CommunityCard {...community} />
+                    {techGroups.map((group) => (
+                    <Col key={group.title} md={4} className="mb-4">
+                        <Card>
+                        <Card.Img variant="top" src={group.image} />
+                        {group.private && (
+                            <Card.ImgOverlay className="text-white bg-danger">
+                            <Card.Title>Privado</Card.Title>
+                            </Card.ImgOverlay>
+                        )}
+                        <Card.Body>
+                            <Card.Title>{group.title}</Card.Title>
+                            <Card.Text>{group.members}</Card.Text>
+                            <Button variant="dark">Entrar</Button>
+                            <Button variant="light">Ver grupo</Button>
+                        </Card.Body>
+                        </Card>
+                    </Col>
+                    ))}
+                </Row>
+
+                {/* Repetir estructura para Aplicaciones moviles */}
+                <Row className="mb-4">
+                    <Col>
+                    <h2>Aplicaciones moviles - Ver todo</h2>
+                    </Col>
+                </Row>
+                <Row>
+                    {mobileGroups.map((group) => (
+                    <Col key={group.title} md={4} className="mb-4">
+                        <Card>
+                        <Card.Img variant="top" src={group.image} />
+                        <Card.Body>
+                            <Card.Title>{group.title}</Card.Title>
+                            <Card.Text>{group.members}</Card.Text>
+                            <Button variant="dark">Entrar</Button>
+                            <Button variant="light">Ver grupo</Button>
+                        </Card.Body>
+                        </Card>
                     </Col>
                     ))}
                 </Row>

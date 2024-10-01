@@ -113,6 +113,19 @@ const Eventos = () => {
 
             </Row>
 
+
+            <Row className='my-2'>
+                <Col className='col-md-1'>
+                    <Button className='p-1 py-0 px-2 mx-1' variant="dark" size="sm">Próximos</Button>
+                </Col>
+                <Col className='col-md-1'>
+                    <Button className='p-1 py-0 px-2 mx-1' variant="light" size="sm" style={{ color: 'black' }}>Esta semana </Button>
+                </Col>
+                <Col className='col-md-1'>
+                    <Button className='p-1 py-0 px-2 mx-1' variant="light" size="sm" style={{ color: 'black' }}>Este mes</Button>
+                </Col>
+            </Row>
+
             <Row className="justify-content-center">
                 {eventos.map((evento, index) => (
                     <Col key={index} xs={6} md={4} lg={3} xl={2} className="mb-4 mx-2">

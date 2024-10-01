@@ -85,39 +85,30 @@ const Comunidades = () => {
             </Navbar>
 
             <Container>
-                <Row className="mb-4">
-                    
-                    <h3 className='mt-3 mb-2'>Todas las comunidades</h3> <br/>
+                <Container> 
+                    <Row className="mb-4">
+                        
+                        <h3 className='mt-3 mb-2'>Todas las comunidades</h3> <br/>
 
-                    <p className='my-2'>Buscar Comunidad</p>
-                    <Col className="d-flex">
-                    <Dropdown className='me-5 mb-1' onSelect={handleFilterChange}>
-                        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                        {selectedFilter}
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                        <Dropdown.Item eventKey="Conferencias">Conferencias</Dropdown.Item>
-                        <Dropdown.Item eventKey="Honores">Honores</Dropdown.Item>
-                        <Dropdown.Item eventKey="Talleres">Talleres</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                        <p className='my-2'>Buscar Comunidad</p>
+                        <Col className="d-flex">
+                        <Dropdown className='me-5 mb-1' onSelect={handleFilterChange}>
+                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                            {selectedFilter}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                            <Dropdown.Item eventKey="Conferencias">Conferencias</Dropdown.Item>
+                            <Dropdown.Item eventKey="Honores">Honores</Dropdown.Item>
+                            <Dropdown.Item eventKey="Talleres">Talleres</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
 
-                    <Button className='ms-5 bg-dark mb-1'>Limpiar Filtros</Button>
-                    </Col>
-    
-                </Row>
-
-                <Row className='my-2'>
-                    <Col className='col-md-1'>
-                        <Button className='p-1 py-0 px-2 mx-1' variant="dark" size="sm">Próximos</Button>
-                    </Col>
-                    <Col className='col-md-1'>
-                        <Button className='p-1 py-0 px-2 mx-1' variant="light" size="sm" style={{ color: 'black' }}>Esta semana </Button>
-                    </Col>
-                    <Col className='col-md-1'>
-                        <Button className='p-1 py-0 px-2 mx-1' variant="light" size="sm" style={{ color: 'black' }}>Este mes</Button>
-                    </Col>
-                </Row>
+                        <Button className='ms-5 bg-dark mb-1'>Limpiar Filtros</Button>
+                        </Col>
+        
+                    </Row>
+                </Container>
+      
 
                 <Row xs={1} sm={2} md={3} lg={4} className="g-4">
                     {communityData.map((community, index) => (
