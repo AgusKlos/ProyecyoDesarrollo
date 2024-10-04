@@ -9,6 +9,10 @@ import { Image } from 'react-bootstrap';
 import utniconwhite from '../images/utniconwhite.png';
 import { useNavigate } from 'react-router-dom';
 
+import NOTICIAS_1 from '../images/NOTICIAS_1.jpg';
+import NOTICIAS_2 from '../images/NOTICIAS_2.jpg';
+import NOTICIAS_3 from '../images/NOTICIAS_3.jpg';
+
 const Inicio = () => {
 
     const eventos = [
@@ -111,17 +115,21 @@ const Inicio = () => {
                 <h2 className="mb-4">Noticias</h2>
                 <div className="row">
                     <div className={`col-md-3 mb-4 pd-4 ${activeLink === 'noticias' ? 'active-link' : ''}`} onClick={handleNoticiasClick}>
-                        <button className="btn btn-primary" type="button" >
+                        <button className="btn btn-primary" type="button">
                             Ver Todas
                         </button>
                     </div>
 
                     <div className="col-md-9">
                         <div className="row">
-                            {[...Array(4)].map((_, index) => (
-                                <div className="col-md-6 col-lg-3 mb-4" key={index}>
+                            {['NOTICIAS_1.jpg', 'NOTICIAS_2.jpg', 'NOTICIAS_3.jpg'].map((image, index) => (
+                                <div className="col-md-6 col-lg-4 mb-4" key={index}>
                                     <div className="card">
-                                        <img src={`https://via.placeholder.com/300x200?text=Card+${index + 1}`} className="card-img-top" alt={`Card ${index + 1}`} />
+                                        <img 
+                                            src={require(`../images/${image}`)} 
+                                            className="card-img-top" 
+                                            alt={`Card ${index + 1}`} 
+                                        />
                                         <div className="card-body">
                                             <h5 className="card-title">Título {index + 1}</h5>
                                             <p className="card-text">Texto de la tarjeta {index + 1}</p>
