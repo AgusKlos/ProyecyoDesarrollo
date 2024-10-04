@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { Navbar, Container, Nav } from 'react-bootstrap';
-import { Image } from 'react-bootstrap';
 import utniconwhite from '../images/utniconwhite.png';
-import { Row, Col, Card, Dropdown } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
+import { Navbar, Container, Nav, Image, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { IonIcon } from 'https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js';
 
@@ -32,6 +29,12 @@ const Comunidades = () => {
 
     const navigate = useNavigate()
     const [activeLink, setActiveLink] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleInputChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
 
     const handleNoticiasClick = () => {
         setActiveLink('noticias');
@@ -59,6 +62,10 @@ const Comunidades = () => {
     const handleBeneficiosClick = () => {
         navigate('/beneficios');
     }
+
+    const filteredCommunities = communityData.filter(community =>
+        community.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
     
     return (
         <>
@@ -85,43 +92,38 @@ const Comunidades = () => {
             </Navbar>
 
             <Container>
-                <Container> 
-                    <Row className="mb-4">
-                        
-                        <h3 className='mt-3 mb-2'>Todas las comunidades</h3> <br/>
-
-                        <p className='my-2'>Buscar Comunidad</p>
-                        <Col className="d-flex">
-                        <Dropdown className='me-5 mb-1' onSelect={handleFilterChange}>
-                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                            {selectedFilter}
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                            <Dropdown.Item eventKey="Conferencias">Conferencias</Dropdown.Item>
-                            <Dropdown.Item eventKey="Honores">Honores</Dropdown.Item>
-                            <Dropdown.Item eventKey="Talleres">Talleres</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-
-                        <Button className='ms-5 bg-dark mb-1'>Limpiar Filtros</Button>
-                        </Col>
-        
-                    </Row>
-                </Container>
-      
+                <Row className="mb-4">
+                    <h3 className='mt-4 mb-2'>Todas las comunidades</h3> <br />
+                    <Col className="d-flex mt-3">
+                        <Form.Control
+                            type="text"
+                            placeholder="Buscar Comunidad"
+                            value={searchTerm}
+                            onChange={handleInputChange}
+                            className='me-3 mb-1'
+                        />
+                        <Button className='bg-dark mb-1' onClick={() => setSearchTerm('')}>Limpiar Búsqueda</Button>
+                    </Col>
+                </Row>
 
                 <Row xs={1} sm={2} md={3} lg={4} className="g-4">
-                    {communityData.map((community, index) => (
-                    <Col key={index}>
-                        <Card className="text-center h-100">
-                        <Card.Body>
-                            <div dangerouslySetInnerHTML={{ __html: community.icon }} />
-                            <Card.Title>{community.title}</Card.Title>
-                            <Card.Link href={community.link}>Ver todos los grupos</Card.Link>
-                        </Card.Body>
-                        </Card>
-                    </Col>
-                    ))}
+                    {filteredCommunities.length > 0 ? (
+                        filteredCommunities.map((community, index) => (
+                            <Col key={index}>
+                                <Card className="text-center h-100">
+                                    <Card.Body>
+                                        <div dangerouslySetInnerHTML={{ __html: community.icon }} />
+                                        <Card.Title>{community.title}</Card.Title>
+                                        <Card.Link href={community.link}>Ver todos los grupos</Card.Link>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))
+                    ) : (
+                        <Col>
+                            <p>No se encontraron comunidades</p>
+                        </Col>
+                    )}
                 </Row>
             </Container>
         </>
