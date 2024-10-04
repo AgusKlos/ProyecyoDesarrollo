@@ -8,10 +8,9 @@ import { faFacebook, faTwitter, faInstagram, faYoutube } from '@fortawesome/free
 import { Image } from 'react-bootstrap';
 import utniconwhite from '../images/utniconwhite.png';
 import { useNavigate } from 'react-router-dom';
-
-import NOTICIAS_1 from '../images/NOTICIAS_1.jpg';
-import NOTICIAS_2 from '../images/NOTICIAS_2.jpg';
-import NOTICIAS_3 from '../images/NOTICIAS_3.jpg';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import fotoUtn from '../images/foto_utn_2.jpg';
 
 const Inicio = () => {
 
@@ -100,15 +99,30 @@ const Inicio = () => {
                 <div id="carouselExampleSlidesOnly" className="carousel slide" data-bs-ride="carousel">
                     <div className="carousel-inner">
                         <div className="carousel-item active">
-                            <img src="https://via.placeholder.com/1200x400" className="d-block w-100" alt="Slide" />
+                            <img src={require(`../images/foto_utn_1.jpg`)} className="d-block w-100" alt="Slide 1" />
                             <div className="carousel-caption d-none d-md-block">
-                                <h5></h5>
+                                <h5>Título de la Slide 1</h5>
                             </div>
                         </div>
-                        {/* Agregar más imágenes aquí */}
+                        <div className="carousel-item">
+                            <img src={require(`../images/foto_utn_2.jpg`)} className="d-block w-100" alt="Slide 2" />
+                            <div className="carousel-caption d-none d-md-block">
+                                <h5>Título de la Slide 2</h5>
+                            </div>
+                        </div>
+                        {/* Agregar más imágenes aquí si es necesario */}
                     </div>
+                    <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="prev">
+                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span className="visually-hidden">Anterior</span>
+                    </button>
+                    <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="next">
+                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span className="visually-hidden">Siguiente</span>
+                    </button>
                 </div>
             </section>
+
 
 
             <section className="container my-5">
@@ -143,16 +157,16 @@ const Inicio = () => {
             </section>
 
 
-            <section className="position-relative d-flex align-items-center justify-content-between" style={{ backgroundImage: 'url(https://via.placeholder.com/1200x800)', backgroundSize: 'cover', backgroundPosition: 'center', height: '500px', color: 'white' }}>
+            <section className="position-relative d-flex align-items-center justify-content-between" style={{ backgroundImage: `url(${fotoUtn})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '500px', color: 'white' }}>
                 <div className="position-absolute w-100 h-100 bg-dark" style={{ opacity: 0.3, zIndex: 1 }}></div>
                 <div className="d-flex align-items-center w-100 h-100 px-4 position-relative" style={{ zIndex: 2 }}>
-                    <h1 className="display-3 fw-bold mb-0">Título Grande</h1>
+                    <h1 className="display-3 fw-bold mb-0 me-0 pe-0">Título Grande</h1>
                     <div className="d-flex ml-auto me-0">
-                        <button className="btn btn-light ms-2" style={{ opacity: 0.8 }}>Botón 1</button>
-                        <button className="btn btn-light ms-2" style={{ opacity: 0.8 }}>Botón 2</button>
-                        <button className="btn btn-light ms-2" style={{ opacity: 0.8 }}>Botón 3</button>
-                        <button className="btn btn-light ms-2" style={{ opacity: 0.8 }}>Botón 4</button>
-                        <button className="btn btn-light ms-2" style={{ opacity: 0.8 }}>Botón 5</button>
+                        <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 1</button>
+                        <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 2</button>
+                        <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 3</button>
+                        <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 4</button>
+                        <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 5</button>
                     </div>
                 </div>
             </section>
@@ -191,16 +205,16 @@ const Inicio = () => {
             </section>
 
 
-            <section className="position-relative d-flex align-items-center justify-content-between" style={{ backgroundImage: 'url(https://via.placeholder.com/1200x800)', backgroundSize: 'cover', backgroundPosition: 'center', height: '500px', color: 'white' }}>
+            <section className="position-relative d-flex align-items-center justify-content-between" style={{ backgroundImage: `url(${fotoUtn})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '500px', color: 'white' }}>
                 <div className="position-absolute w-100 h-100 bg-dark" style={{ opacity: 0.3, zIndex: 1 }}></div>
                 <div className="d-flex align-items-center w-100 h-100 px-4 position-relative" style={{ zIndex: 2 }}>
                     <h1 className="display-3 fw-bold mb-0">Links de Interés</h1>
                     <div className="d-flex ml-auto">
-                        <button className="btn btn-light ms-2" style={{ opacity: 0.8 }}>Botón 1</button>
-                        <button className="btn btn-light ms-2" style={{ opacity: 0.8 }}>Botón 2</button>
-                        <button className="btn btn-light ms-2" style={{ opacity: 0.8 }}>Botón 3</button>
-                        <button className="btn btn-light ms-2" style={{ opacity: 0.8 }}>Botón 4</button>
-                        <button className="btn btn-light ms-2" style={{ opacity: 0.8 }}>Botón 5</button>
+                        <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 1</button>
+                        <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 2</button>
+                        <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 3</button>
+                        <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 4</button>
+                        <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 5</button>
                     </div>
                 </div>
             </section>
