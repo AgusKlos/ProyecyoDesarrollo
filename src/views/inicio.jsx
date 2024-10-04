@@ -11,6 +11,9 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import fotoUtn from '../images/foto_utn_2.jpg';
+import evento1 from '../images/EVENTO_1.jpg';
+import evento2 from '../images/EVENTO_2.jpg';
+import evento3 from '../images/EVENTO_3.jpg';
 
 const Inicio = () => {
 
@@ -18,28 +21,21 @@ const Inicio = () => {
         {
           fecha: '10 de agosto - 20:00 hs',
           titulo: 'Nuevos lenguajes y sus usos practicos',
-          imagen: 'https://via.placeholder.com/300x200',
+          imagen: evento1,
           categorias: ['Conferencias', 'Virtual', 'Español'],
         },
         {
           fecha: '12 de agosto - 21:00 hs',
           titulo: 'Entrega de diplomas ING INDUSTRIAL',
-          imagen: 'https://via.placeholder.com/300x200',
+          imagen: evento2,
           categorias: ['Honores', 'Presencial', 'Español'],
         },
         {
           fecha: '1 de septiembre - 18:00 hs',
           titulo: 'Taller de RCP',
-          imagen: 'https://via.placeholder.com/300x200',
+          imagen: evento3,
           categorias: ['Taller', 'Presencial', 'Español'],
         },
-        {
-          fecha: '22 de septiembre - 20:30 hs',
-          titulo: 'Criptomonedas y bla bla bla',
-          imagen: 'https://via.placeholder.com/300x200',
-          categorias: ['Conferencias', 'Virtual', 'Inglés'],
-        },
-        // ... más eventos
     ];
 
     const navigate = useNavigate()
@@ -203,7 +199,6 @@ const Inicio = () => {
                     </Row>
                 </div>
             </section>
-
 
             <section className="position-relative d-flex align-items-center justify-content-between" style={{ backgroundImage: `url(${fotoUtn})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '500px', color: 'white' }}>
                 <div className="position-absolute w-100 h-100 bg-dark" style={{ opacity: 0.3, zIndex: 1 }}></div>

@@ -104,10 +104,14 @@ const Noticias = () => {
             <Row className='my-4 mx-3'>
                 <div className="col-md-9">
                     <div className="row">
-                        {[...Array(4)].map((_, index) => (
-                            <div className="col-md-6 col-lg-3 mb-4" key={index}>
+                        {['NOTICIAS_1.jpg', 'NOTICIAS_2.jpg', 'NOTICIAS_3.jpg'].map((image, index) => (
+                            <div className="col-md-6 col-lg-4 mb-4" key={index}>
                                 <div className="card">
-                                    <img src={`https://via.placeholder.com/300x200?text=Card+${index + 1}`} className="card-img-top" alt={`Card ${index + 1}`} />
+                                    <img 
+                                        src={require(`../images/${image}`)} 
+                                        className="card-img-top" 
+                                        alt={`Card ${index + 1}`} 
+                                    />
                                     <div className="card-body">
                                         <h5 className="card-title">Título {index + 1}</h5>
                                         <p className="card-text">Texto de la tarjeta {index + 1}</p>
@@ -118,8 +122,6 @@ const Noticias = () => {
                     </div>
                 </div>
             </Row>
-
-
         </>
     );
 }

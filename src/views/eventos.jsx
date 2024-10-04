@@ -5,32 +5,36 @@ import utniconwhite from '../images/utniconwhite.png';
 import { Card, Row, Col, Badge, Dropdown } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
+import evento1 from '../images/EVENTO_1.jpg';
+import evento2 from '../images/EVENTO_2.jpg';
+import evento3 from '../images/EVENTO_3.jpg';
+import evento4 from '../images/EVENTO_4.jpg';
 
 const Eventos = () => {
 
     const eventos = [
         {
-          fecha: '10 de agosto - 20:00 hs',
-          titulo: 'Nuevos lenguajes y sus usos practicos',
-          imagen: 'https://via.placeholder.com/300x200',
-          categorias: ['Conferencias', 'Virtual', 'Español'],
+            fecha: '10 de agosto - 20:00 hs',
+            titulo: 'Nuevos lenguajes y sus usos practicos',
+            imagen: evento1,
+            categorias: ['Conferencias', 'Virtual', 'Español'],
         },
         {
-          fecha: '12 de agosto - 21:00 hs',
-          titulo: 'Entrega de diplomas ING INDUSTRIAL',
-          imagen: 'https://via.placeholder.com/300x200',
-          categorias: ['Honores', 'Presencial', 'Español'],
+            fecha: '12 de agosto - 21:00 hs',
+            titulo: 'Entrega de diplomas ING INDUSTRIAL',
+            imagen: evento2,
+            categorias: ['Honores', 'Presencial', 'Español'],
         },
         {
-          fecha: '1 de septiembre - 18:00 hs',
-          titulo: 'Taller de RCP',
-          imagen: 'https://via.placeholder.com/300x200',
-          categorias: ['Talleres', 'Presencial', 'Español'],
+            fecha: '1 de septiembre - 18:00 hs',
+            titulo: 'Taller de RCP',
+            imagen: evento3,
+            categorias: ['Taller', 'Presencial', 'Español'],
         },
         {
           fecha: '22 de septiembre - 20:30 hs',
           titulo: 'Criptomonedas y bla bla bla',
-          imagen: 'https://via.placeholder.com/300x200',
+          imagen: evento4,
           categorias: ['Conferencias', 'Virtual', 'Inglés'],
         },
         // ... más eventos
