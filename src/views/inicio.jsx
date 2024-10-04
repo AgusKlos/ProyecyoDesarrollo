@@ -156,7 +156,7 @@ const Inicio = () => {
             <section className="position-relative d-flex align-items-center justify-content-between" style={{ backgroundImage: `url(${fotoUtn})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '500px', color: 'white' }}>
                 <div className="position-absolute w-100 h-100 bg-dark" style={{ opacity: 0.3, zIndex: 1 }}></div>
                 <div className="d-flex align-items-center w-100 h-100 px-4 position-relative" style={{ zIndex: 2 }}>
-                    <h1 className="display-3 fw-bold mb-0 me-0 pe-0">Título Grande</h1>
+                    <h1 className="display-3 fw-bold mb-0 me-0 pe-0">Las mejores cosas se viven en comunidad</h1>
                     <div className="d-flex ml-auto me-0">
                         <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 1</button>
                         <button className="btn btn-light ms-2" style={{ opacity: 0.37 }}>Botón 2</button>
