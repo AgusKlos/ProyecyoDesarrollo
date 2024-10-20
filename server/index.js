@@ -1,11 +1,11 @@
 const express = require ('express');
 const app = express();
-const mysql= require ('mysql');
+const mysql2= require ('mysql2');
 const cors= require('cors');
 
 app.use(cors());
 
-let db = mysql.createPool({
+let db = mysql2.createPool({
     host: 'localhost',
     user: 'root',
     password: '10203040',
@@ -13,7 +13,7 @@ let db = mysql.createPool({
 })
 
 app.get('/', (req, res) => {
-    db.query("INSERT INTO 'mydb'.'Profesion' ('nombre') VALUES('Ingeniería de prueba')", (err, result) => {
+    db.query("INSERT INTO `mydb`.`Profesion` (`nombre`) VALUES('Ingeniería prueba')", (err, result) => {
         if (err) {
             console.log(err);
             res.status(400).send('Error en la base de datos');
