@@ -1,30 +1,24 @@
-const express = require ('express');
+const express = require('express');
+const cors = require('cors');
+const db = require('./database/db.js');
+//const ComunidadModel = require('./models/modelComunidad.js');
+const {getTodosUsuarios} = require('./controllers/controllerUsuario.js');
+
 const app = express();
-const mysql2= require ('mysql2');
-const cors= require('cors');
-
 app.use(cors());
+app.use(express.json());
 
-let db = mysql2.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '10203040',
-    database: 'mydb'
-})
+db.sync()
+  .then(() => {
+    console.log('Conexión a la base de datos exitosa y tablas sincronizadas.');
+  })
+  .catch((error) => {
+    console.error('Error al sincronizar la base de datos:', error);
+  });
 
-app.get('/', (req, res) => {
-    db.query("INSERT INTO `mydb`.`Profesion` (`nombre`) VALUES('Ingeniería prueba')", (err, result) => {
-        if (err) {
-            console.log(err);
-            res.status(400).send('Error en la base de datos');
-        } else {
-            console.log(result);
-            res.send('Datos insertados correctamente');
-        }
-    });
+  app.get('/', getTodosUsuarios);
+
+app.listen(8080, () => {
+  console.log('Servidor escuchando en el puerto 8080');
 });
 
-
-app.listen(8080, ()=>{
-    console.log('server escuchando puerto 8080');
-})
