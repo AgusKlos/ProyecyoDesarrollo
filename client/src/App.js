@@ -1,60 +1,16 @@
 import './App.css';
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import AppRoutes from './routes/Routes';
+//import { UserProvider } from './functions/services/context';
 function App() {
-  const [mail, setMail] = useState('');
-  const [contrasenia, setContrasenia] = useState('');
-  const [mensaje, setMensaje] = useState('');
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      
-      const response = await axios.post('http://localhost:8080/api/login', {
-        mail,
-        contrasenia
-      });
-      
-      setMensaje(`Bienvenido, ${response.data.usuario.nombre}`);
-    } catch (error) {
-      
-      if (error.response && error.response.data) {
-        setMensaje(error.response.data.message);
-      } else {
-        setMensaje('Error en el login');
-      }
-    }
-  };
 
   return (
+    //<UserProvider>
     <div className="App">
-      <header className="App-header">
-        <h2>Login de Usuario</h2>
-        <form onSubmit={handleLogin}>
-          <div>
-            <label>Email:</label>
-            <input
-              type="email"
-              value={mail}
-              onChange={(e) => setMail(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Contraseña:</label>
-            <input
-              type="password"
-              value={contrasenia}
-              onChange={(e) => setContrasenia(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit">Iniciar Sesión</button>
-        </form>
-        {mensaje && <p>{mensaje}</p>}
-      </header>
+      <AppRoutes/>
     </div>
+    //</UserProvider>
   );
 }
 
