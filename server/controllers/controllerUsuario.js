@@ -5,10 +5,10 @@ const getTodosUsuarios = async (req, res) => {
     try {
         const usuarios = await UsuarioModel.findAll();
         
-        // Mapea los resultados para obtener solo los dataValues
+        
         const usuariosLimpios = usuarios.map(usuario => usuario.dataValues);
 
-        res.json(usuariosLimpios);  // Enviar solo los valores limpios
+        res.json(usuariosLimpios);  
     } catch (error) {
         console.error('Error al obtener usuarios:', error);
         res.status(500).json({ message: error.message });
@@ -23,7 +23,7 @@ const getUsuarioPorId = async (req, res) => {
         });
 
         if (usuario) {
-            res.json(usuario.dataValues);  // Devolver solo el usuario encontrado
+            res.json(usuario.dataValues);  
         } else {
             res.status(404).json({ message: 'Usuario no encontrado' });
         }
@@ -33,20 +33,20 @@ const getUsuarioPorId = async (req, res) => {
     }
 };
 
-// Login de usuario (sin encriptación de contraseña)
+// Login de usuario 
 const loginUsuario = async (req, res) => {
     const { mail, contrasenia } = req.body;
 
     try {
-        // Buscar el usuario por correo
+        
         const usuario = await UsuarioModel.findOne({ where: { mail } });
 
-        // Verificar si el usuario existe y si la contraseña coincide (sin encriptación)
+        
         if (!usuario || usuario.contrasenia !== contrasenia) {
             return res.status(401).json({ message: 'Correo o contraseña incorrecta' });
         }
 
-        // Si es exitoso, responde con los datos necesarios
+        
         res.json({ message: 'Login exitoso', usuario: { id: usuario.idUsuario, nombre: usuario.nombre } });
     } catch (error) {
         console.error('Error al iniciar sesión:', error);

@@ -7,7 +7,7 @@ const app = express();
 
 // Configuración de CORS
 app.use(cors({
-    origin: 'http://localhost:3000', // Reemplaza esto por el origen de tu frontend
+    origin: 'http://localhost:3000', 
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -23,13 +23,11 @@ db.sync()
     console.error('Error al sincronizar la base de datos:', error);
   });
 
-// Ruta para obtener todos los usuarios
+
 app.get('/', getTodosUsuarios);
 
-// Nueva ruta para el login de usuario
 app.post('/api/login', loginUsuario);
 
-// Configuración del puerto
 app.listen(8080, () => {
   console.log('Servidor escuchando en el puerto 8080');
 });

@@ -10,15 +10,15 @@ function App() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      // Realizar la solicitud POST para el login
+      
       const response = await axios.post('http://localhost:8080/api/login', {
         mail,
         contrasenia
       });
-      // Manejar la respuesta del servidor
+      
       setMensaje(`Bienvenido, ${response.data.usuario.nombre}`);
     } catch (error) {
-      // Manejar errores (e.g., usuario no encontrado o contraseña incorrecta)
+      
       if (error.response && error.response.data) {
         setMensaje(error.response.data.message);
       } else {

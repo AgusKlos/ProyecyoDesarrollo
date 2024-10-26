@@ -2,16 +2,14 @@ const ComunidadModel= require( '../models/modelComunidad');
 
 // metodos CRUD
 
-
 // todos los registros
 const getTodosComunidades = async (req, res) => {
     try {
         const comunidades = await ComunidadModel.findAll();
         
-        // Mapea los resultados para obtener solo los dataValues
         const comunidadesLimpias = comunidades.map(comunidad => comunidad.dataValues);
 
-        res.json(comunidadesLimpias);  // Enviar solo los valores limpios
+        res.json(comunidadesLimpias);  
     } catch (error) {
         console.error('Error al obtener comunidades:', error);
         res.status(500).json({ message: error.message });
