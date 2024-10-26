@@ -33,7 +33,7 @@
 const { Sequelize } = require('sequelize'); 
 
 // Configura Sequelize para conectarse a la base de datos
-const db = new Sequelize('mydb', 'root', 'root', {
+const db = new Sequelize('mydb', 'root', '10203040', {
   host: 'localhost',
   dialect: 'mysql',
 });
