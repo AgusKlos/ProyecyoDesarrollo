@@ -8,11 +8,13 @@ import axios from 'axios';
 import BtnAcceder from '../components/buttons/BtnAcceder';
 import IptPassword from "../components/inputs/IptPassword";
 import IptUsername from "../components/inputs/IptUsername";
+import { useUser } from '../components/context';
 
 const Login = () => {
     const [mail, setMail] = useState('');
     const [contrasenia, setContrasenia] = useState('');
     const navigate = useNavigate();
+    const { setUser } = useUser();
 
     const handleUsernameChange = (event) => {
         setMail(event.target.value);
@@ -25,12 +27,12 @@ const Login = () => {
     const handleAccederClick = async (event) => {
         event.preventDefault();
         const response = await axios.post('http://localhost:8080/api/login', {
-             mail,
-             contrasenia   
+            mail,
+            contrasenia   
         });
 
         if (response) {
-            alert(`Bienvenido, ${response.data.usuario.nombre}`);
+            setUser(response.data.usuario);
             navigate('/');
         } else {
             console.log(response.token);
@@ -38,12 +40,16 @@ const Login = () => {
             //navigate('/');
         }
     };
+
+    const handleInicioClick = () => {
+        navigate('/');
+    };
     
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
                 <Container>
-                <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" href="#home">
+                <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" href="#home" onClick={handleInicioClick}>
                     <Image src={utniconwhite} className="img-fluid d-flex justify-content-center align-items-center mw-100 h-auto mx-2 my-0" alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
                     UTN &middot; La Plata
                     </Navbar.Brand>

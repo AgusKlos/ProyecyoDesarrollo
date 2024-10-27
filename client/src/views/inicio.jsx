@@ -15,11 +15,11 @@ import foto_utn_2 from '../assets/images/foto_utn_2.jpg';
 import evento1 from '../assets/images/EVENTO_1.jpg';
 import evento2 from '../assets/images/EVENTO_2.jpg';
 import evento3 from '../assets/images/EVENTO_3.jpg';
-//import { useUser } from '../functions/services/context';  Importa el contexto de usuario
+import { useUser } from '../components/context';
 
 
 const Inicio = () => {
-    //const { user } = useUser(); Accede al usuario desde el contexto
+    const { user } = useUser() || {};  // Obtener el usuario del contexto
 
     const eventos = [
         {
@@ -89,17 +89,14 @@ const Inicio = () => {
                                 <Nav.Link className={`text-white ${activeLink === 'beneficios' ? 'active-link' : ''}`} href="#link" onClick={handleBeneficiosClick}>Beneficios</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
-                        {/* {user ? (
-                            <span className="text-white me-3">{user.nombre} {user.apellido}</span>
-                            ) : (
+                        {user ? (
+                            <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
+                        ) : (
                             <Button variant="outline-light me-3" onClick={handleLoginClick}>
                                 Iniciar Sesión
                             </Button>
-                        )} Sirve para mostrar el nombre del usuario si ya se logueo */}
+                        )}
                 </Container>
-                <Button variant="outline-light me-3" onClick={handleLoginClick}>
-                    Iniciar Sesión
-                </Button>
             </Navbar>
 
             <section className="bg-dark">

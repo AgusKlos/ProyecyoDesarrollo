@@ -3,16 +3,23 @@ import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Image, Row, Col, Button, Dropdown } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
 import { useNavigate } from 'react-router-dom';
+import CrearNoticia from '../components/crearNoticia';
+import { useUser } from '../components/context';
 
 const Noticias = () => {
 
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
+    const [showCrearNoticia, setShowCrearNoticia] = useState(false);
+    const { user } = useUser (); // Obtener el usuario del contexto
+    const navigate = useNavigate();
+
+    const handleShowCrearNoticia = () => setShowCrearNoticia(true);
+    const handleCloseCrearNoticia = () => setShowCrearNoticia(false);
 
     const handleFilterChange = (eventKey) => {
       setSelectedFilter(eventKey);
     };
 
-    const navigate = useNavigate()
 
     const handleNoticiasClick = () => {
         navigate('/noticias')
@@ -55,6 +62,13 @@ const Noticias = () => {
                                 <Nav.Link className="text-white" href="#link" onClick={handleBeneficiosClick}>Beneficios</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
+                        {user ? (
+                            <Button variant="outline-light me-3" onClick={handleShowCrearNoticia}>
+                                Crear Noticia
+                            </Button>
+                        ) : (
+                            <span className="text-white me-3">No puedes crear noticias sin estar autenticado</span>
+                        )}
                 </Container>
                 <Button variant="outline-light me-3" onClick={handleLoginClick}>
                     Iniciar Sesión
@@ -67,21 +81,21 @@ const Noticias = () => {
 
                 <p className='my-2'>Buscar Noticias</p>
                 <Col className="d-flex">
-                <Dropdown className='me-5 mb-1' onSelect={handleFilterChange}>
-                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                    Sistemas de Información
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                    <Dropdown.Item eventKey="Sistemas de Información">Sistemas de Información</Dropdown.Item>
-                    <Dropdown.Item eventKey="Industrial">Industrial</Dropdown.Item>
-                    <Dropdown.Item eventKey="Mecánica">Mecánica</Dropdown.Item>
-                    <Dropdown.Item eventKey="Química">Química</Dropdown.Item>
-                    <Dropdown.Item eventKey="Eléctrica">Eléctrica</Dropdown.Item>
-                    <Dropdown.Item eventKey="Civil">Civil</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
+                    <Dropdown className='me-5 mb-1' onSelect={handleFilterChange}>
+                        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                        Sistemas de Información
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                        <Dropdown.Item eventKey="Sistemas de Información">Sistemas de Información</Dropdown.Item>
+                        <Dropdown.Item eventKey="Industrial">Industrial</Dropdown.Item>
+                        <Dropdown.Item eventKey="Mecánica">Mecánica</Dropdown.Item>
+                        <Dropdown.Item eventKey="Química">Química</Dropdown.Item>
+                        <Dropdown.Item eventKey="Eléctrica">Eléctrica</Dropdown.Item>
+                        <Dropdown.Item eventKey="Civil">Civil</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
 
-                <Button className='ms-5 bg-dark mb-1'>Limpiar Filtros</Button>
+                    <Button className='ms-5 bg-dark mb-1'>Limpiar Filtros</Button>
                 </Col>
 
             </Row>
@@ -122,6 +136,8 @@ const Noticias = () => {
                     </div>
                 </div>
             </Row>
+
+            <CrearNoticia show={showCrearNoticia} handleClose={handleCloseCrearNoticia} user={user} />
         </>
     );
 }
