@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Image, Row, Col, Button, Dropdown } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
 import { useNavigate } from 'react-router-dom';
 import CrearNoticia from '../components/crearNoticia';
 import { useUser } from '../components/context';
+import axios from 'axios';
 
 const Noticias = () => {
 
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
     const [showCrearNoticia, setShowCrearNoticia] = useState(false);
+    const [noticias, setNoticias] = useState([]);
     const { user } = useUser (); // Obtener el usuario del contexto
     const navigate = useNavigate();
 
@@ -45,6 +47,24 @@ const Noticias = () => {
         navigate('/beneficios');
     }
 
+    useEffect(() => {
+        const fetchNoticias = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/noticias'); // Cambia la URL según tu configuración
+                setNoticias(response.data);
+            } catch (error) {
+                console.error('Error al obtener las noticias:', error);
+            }
+        };
+
+        fetchNoticias();
+    }, []);
+
+    const handleNoticiaClick = (id) => {
+        navigate(`/noticia/${id}`); // Navegar a la noticia específica
+    };
+
+
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
@@ -70,7 +90,7 @@ const Noticias = () => {
                             <span className="text-white me-3">No puedes crear noticias sin estar autenticado</span>
                         )}
                 </Container>
-                <Button variant="outline-light me-3" onClick={handleLoginClick}>
+                <Button variant="outline-light me-3" onClick={() => navigate('/login')}>
                     Iniciar Sesión
                 </Button>
             </Navbar>
@@ -115,7 +135,7 @@ const Noticias = () => {
                 </Col>
             </Row>
 
-            <Row className='my-4 mx-3'>
+            {/*<Row className='my-4 mx-3'>
                 <div className="col-md-9">
                     <div className="row">
                         {['NOTICIAS_1.jpg', 'NOTICIAS_2.jpg', 'NOTICIAS_3.jpg'].map((image, index) => (
@@ -135,7 +155,26 @@ const Noticias = () => {
                         ))}
                     </div>
                 </div>
+            </Row>*/}
+
+            <Row className='my-4 mx-3'>
+                <div className="col-md-9">
+                    <div className="row">
+                        {noticias.map((noticia) => (
+                            <div className="col-md-6 col-lg-4 mb-4" key={noticia.id}>
+                                <div className="card" onClick={() => handleNoticiaClick(noticia.id)}>
+                                    <div className="card-body">
+                                        <h5 className="card-title">{noticia.titulo}</h5>
+                                        <p className="card-text">{noticia.descripcion}</p>
+                                        <p className="card-text"><small className="text-muted">Fecha: {new Date(noticia.fecha).toLocaleDateString()}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </Row>
+       
 
             <CrearNoticia show={showCrearNoticia} handleClose={handleCloseCrearNoticia} user={user} />
         </>

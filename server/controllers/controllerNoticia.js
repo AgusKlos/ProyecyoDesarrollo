@@ -9,7 +9,8 @@ export const getTodosNoticias = async (req, res) => {
         const noticias = await NoticiaModel.findAll()
         res.json(noticias)
     }catch(error){
-        res.json({message: error.message})
+        console.error('Error al obtener las noticias:', error);
+        res.status(500).json({ error: 'Error al obtener las noticias' });
     }
 }
 
@@ -63,6 +64,7 @@ export const deleteNoticia = async (req, res) => {
         res.json({message: error.message})
     }
 }
+
 
 module.exports = {
     getTodosNoticias,

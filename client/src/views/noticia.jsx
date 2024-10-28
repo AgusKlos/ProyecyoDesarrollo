@@ -1,12 +1,42 @@
-import React from 'react';
-import { Navbar, Container, Nav, Button } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Navbar, Container, Nav, Button, Row, Col } from 'react-bootstrap';
 import { Image } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Noticia = () => {
+    const { id } = useParams(); // Obtenemos el id de la noticia desde la URL
+    const [noticia, setNoticia] = useState(null);
+    const [otrasNoticias, setOtrasNoticias] = useState([]);
+    const navigate = useNavigate();
 
-    const navigate = useNavigate()
+    useEffect(() => {
+        const fetchNoticia = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/noticias/${id}`); // Cambia la URL según tu configuración
+                setNoticia(response.data);
+            } catch (error) {
+                console.error('Error al obtener la noticia:', error);
+            }
+        };
+
+        const fetchOtrasNoticias = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/noticias'); // Obtener todas las noticias para mostrar en el aside
+                setOtrasNoticias(response.data.filter(n => n.id !== Number(id))); // Filtrar la noticia actual
+            } catch (error) {
+                console.error('Error al obtener otras noticias:', error);
+            }
+        };
+
+        fetchNoticia();
+        fetchOtrasNoticias();
+    }, [id]);
+
+    const handleNoticiaClick = (id) => {
+        navigate(`/noticia/${id}`); // Navegar a la noticia específica
+    };
 
     const handleNoticiasClick = () => {
         navigate('/noticias')
@@ -54,6 +84,32 @@ const Noticia = () => {
                     Iniciar Sesión
                 </Button>
             </Navbar>
+
+            <Row className='my-4 mx-3'>
+                <Col md={8}>
+                    {noticia ? (
+                        <div className="card mb-4">
+                            <div className="card-body">
+                                <h5 className="card-title">{noticia.titulo}</h5>
+                                <p className="card-text">{noticia.descripcion}</p>
+                                <p className="card-text"><small className="text-muted">Fecha: {new Date(noticia.fecha).toLocaleDateString()}</small></p>
+                            </div>
+                        </div>
+                    ) : (
+                        <p>Cargando noticia...</p>
+                    )}
+                </Col>
+                <Col md={4}>
+                    <h5>Otras Noticias</h5>
+                    <div className="list-group">
+                        {otrasNoticias.map((n) => (
+                            <button key={n.id} className="list-group-item list-group-item-action" onClick={() => handleNoticiaClick(n.id)}>
+                                {n.titulo}
+                            </button>
+                        ))}
+                    </div>
+                </Col>
+            </Row>
 
 
         </>
