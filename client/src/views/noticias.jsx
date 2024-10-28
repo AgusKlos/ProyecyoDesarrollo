@@ -60,8 +60,8 @@ const Noticias = () => {
         fetchNoticias();
     }, []);
 
-    const handleNoticiaClick = (id) => {
-        navigate(`/noticia/${id}`); // Navegar a la noticia específica
+    const handleNoticiaClick = (idNoticia) => {
+        navigate(`/noticia/${idNoticia}`); // Navegar a la noticia específica
     };
 
     const handleNoticiaCreada = () => {
@@ -87,11 +87,11 @@ const Noticias = () => {
                             </Nav>
                         </Navbar.Collapse>
                         {user ? (
-                            <Button variant="outline-light me-3" onClick={handleShowCrearNoticia}>
+                            <Button variant="outline-light d-none d-md-inline me-3" onClick={handleShowCrearNoticia}>
                                 Crear Noticia
                             </Button>
                         ) : (
-                            <span className="text-white me-3">No puedes crear noticias sin estar autenticado</span>
+                            <span className="text-white d-none d-md-inline me-3">No puedes crear noticias sin estar autenticado</span>
                         )}
                 </Container>
                 <Button variant="outline-light me-3" onClick={() => navigate('/login')}>
@@ -166,7 +166,7 @@ const Noticias = () => {
                     <div className="row">
                         {noticias.map((noticia) => (
                             <div className="col-md-6 col-lg-4 mb-4" key={noticia.idNoticia}>
-                                <div className="card" onClick={() => handleNoticiaClick(noticia.id)}>
+                                <div className="card" onClick={() => handleNoticiaClick(noticia.idNoticia)}>
                                     <div className="card-body">
                                         <h5 className="card-title">{noticia.titulo}</h5>
                                         <p className="card-text">{noticia.descripcion}</p>

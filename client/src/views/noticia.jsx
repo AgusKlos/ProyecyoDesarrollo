@@ -14,8 +14,9 @@ const Noticia = () => {
     useEffect(() => {
         const fetchNoticia = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/noticias/${id}`); // Cambia la URL según tu configuración
-                setNoticia(response.data);
+                const response = await axios.get(`http://localhost:8080/api/noticias`);
+                const noticiaEncontrada = response.data.find(n => n.idNoticia === Number(id)); // Cambia la URL según tu configuración
+                setNoticia(noticiaEncontrada);
             } catch (error) {
                 console.error('Error al obtener la noticia:', error);
             }
@@ -103,7 +104,7 @@ const Noticia = () => {
                     <h5>Otras Noticias</h5>
                     <div className="list-group">
                         {otrasNoticias.map((n) => (
-                            <button key={n.id} className="list-group-item list-group-item-action" onClick={() => handleNoticiaClick(n.id)}>
+                            <button key={n.idNoticia} className="list-group-item list-group-item-action" onClick={() => handleNoticiaClick(n.idNoticia)}>
                                 {n.titulo}
                             </button>
                         ))}
