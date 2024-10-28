@@ -14,7 +14,14 @@ const CrearNoticia = ({ show, handleClose, user, onNoticiaCreada }) => {
                 titulo,
                 descripcion,
                 fecha,
-                idUsuario: user.idUsuario 
+                idUsuario: user.id, 
+            });
+
+            console.log({
+                titulo,
+                descripcion,
+                fecha,
+                idUsuario: user.idUsuario,
             });
 
             if (response.status === 201) {

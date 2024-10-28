@@ -7,7 +7,6 @@ const noticiasRoutes = require('./routes/noticias.js');
 const comunidadesRoutes = require('./routes/comunidades.js');
 
 const app = express();
-const port = 8080;
 
 // Middleware
 //app.use(bodyParser.json());
@@ -35,6 +34,7 @@ db.sync()
 //app.use('/api/noticias', noticiasRoutes);
 app.use(noticiasRoutes);
 
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Algo salió mal!');
@@ -61,6 +61,7 @@ db.sync()
 //  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 //});
 
+const port = 8080;
 app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
 });

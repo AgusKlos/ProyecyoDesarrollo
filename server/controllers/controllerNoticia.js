@@ -34,14 +34,8 @@ const getNoticia = async (req, res) => {
 const createNoticia = async(req, res) => {
     try {
         const { titulo, descripcion, fecha, idUsuario } = req.body;
-
-        // Validar que los campos no estén vacíos
-        if (!titulo || !descripcion || !fecha || !idUsuario) {
-            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
-        }
-
+        console.log(req.body); //esto sacarlo después
         const noticia = await NoticiaModel.create({ titulo, descripcion, fecha, idUsuario });
-
         res.status(201).json({ message: 'Noticia creada con éxito', noticia }); // Cambiado a 201
     } catch(error){
         console.error('Error al crear la noticia:', error);
