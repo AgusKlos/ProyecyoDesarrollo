@@ -35,6 +35,8 @@ const AppRoutes = () => {
                 <Route path="/noticias" element={<Noticias/>}></Route>
                 <Route path="/noticias" element={<Noticias/>}></Route>
                 <Route path='/beneficios' element={<Beneficios/>}></Route>
+                <Route path="/comunidad/:idComunidad" element={<Comunidad />} />
+                <Route path="/noticia/:idNoticia" element={<Noticia />} />
             </Routes>
         </UserProvider>
     );

@@ -47,21 +47,25 @@ const Noticias = () => {
         navigate('/beneficios');
     }
 
-    useEffect(() => {
-        const fetchNoticias = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/api/noticias'); // Cambia la URL según tu configuración
-                setNoticias(response.data);
-            } catch (error) {
-                console.error('Error al obtener las noticias:', error);
-            }
-        };
+    const fetchNoticias = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/noticias'); // Cambia la URL según tu configuración
+            setNoticias(response.data);
+        } catch (error) {
+            console.error('Error al obtener las noticias:', error);
+        }
+    };
 
+    useEffect(() => {
         fetchNoticias();
     }, []);
 
     const handleNoticiaClick = (id) => {
         navigate(`/noticia/${id}`); // Navegar a la noticia específica
+    };
+
+    const handleNoticiaCreada = () => {
+        fetchNoticias();
     };
 
 
@@ -161,7 +165,7 @@ const Noticias = () => {
                 <div className="col-md-9">
                     <div className="row">
                         {noticias.map((noticia) => (
-                            <div className="col-md-6 col-lg-4 mb-4" key={noticia.id}>
+                            <div className="col-md-6 col-lg-4 mb-4" key={noticia.idNoticia}>
                                 <div className="card" onClick={() => handleNoticiaClick(noticia.id)}>
                                     <div className="card-body">
                                         <h5 className="card-title">{noticia.titulo}</h5>
@@ -176,7 +180,7 @@ const Noticias = () => {
             </Row>
        
 
-            <CrearNoticia show={showCrearNoticia} handleClose={handleCloseCrearNoticia} user={user} />
+            <CrearNoticia show={showCrearNoticia} handleClose={handleCloseCrearNoticia} user={user} onNoticiaCreada={handleNoticiaCreada}/>
         </>
     );
 }

@@ -2,24 +2,30 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 
-const CrearNoticia = ({ show, handleClose, user }) => {
+const CrearNoticia = ({ show, handleClose, user, onNoticiaCreada }) => {
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [fecha, setFecha] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await axios.post('http://localhost:8080/api/noticias', {
-            titulo,
-            descripcion,
-            fecha,
-            idUsuario: user.idUsuario // Asegúrate de que el idUsuario esté disponible en el contexto de usuario
-        });
+        try {
+            const response = await axios.post('http://localhost:8080/api/noticias', {
+                titulo,
+                descripcion,
+                fecha,
+                idUsuario: user.idUsuario 
+            });
 
-        if (response.status === 201) {
-            // Aquí puedes manejar la respuesta, como cerrar el modal y reiniciar los campos
-            handleClose();
-        } else {
+            if (response.status === 201) {
+                // Aquí puedes manejar la respuesta, como cerrar el modal y reiniciar los campos
+                onNoticiaCreada();
+                handleClose();
+            } else {
+                alert('Error al crear la noticia');
+            }
+        }catch (error) {
+            console.error('Error al crear la noticia:', error);
             alert('Error al crear la noticia');
         }
     };
@@ -42,7 +48,7 @@ const CrearNoticia = ({ show, handleClose, user }) => {
                         />
                     </Form.Group>
                     <Form.Group controlId="formDescripcion">
-                        <Form.Label>Descripción</Form.Label>
+                        <Form.Label className='mt-2'>Descripción</Form.Label>
                         <Form.Control
                             as="textarea"
                             rows={3}
@@ -53,7 +59,7 @@ const CrearNoticia = ({ show, handleClose, user }) => {
                         />
                     </Form.Group>
                     <Form.Group controlId="formFecha">
-                        <Form.Label>Fecha</Form.Label>
+                        <Form.Label className='mt-2'>Fecha </Form.Label>
                         <Form.Control
                             type="date"
                             value={fecha}
@@ -61,7 +67,7 @@ const CrearNoticia = ({ show, handleClose, user }) => {
                             required
                         />
                     </Form.Group>
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" className='mt-4'>
                         Crear Noticia
                     </Button>
                 </Form>

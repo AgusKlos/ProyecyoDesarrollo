@@ -4,14 +4,13 @@ const db = require('./database/db.js');
 const bodyParser = require('body-parser');
 const { getTodosUsuarios, loginUsuario } = require('./controllers/controllerUsuario.js');
 const noticiasRoutes = require('./routes/noticias.js');
+const comunidadesRoutes = require('./routes/comunidades.js');
 
 const app = express();
-
-
-const PORT = process.env.PORT || 8080;
+const port = 8080;
 
 // Middleware
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 
 // Configuración de CORS
 app.use(cors({
@@ -33,12 +32,35 @@ db.sync()
 
 
 // Rutas
-app.use('/api/noticias', noticiasRoutes);
+//app.use('/api/noticias', noticiasRoutes);
+app.use(noticiasRoutes);
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Algo salió mal!');
+});
+
 
 app.get('/', getTodosUsuarios);
 
 app.post('/api/login', loginUsuario);
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+app.use('/api/comunidades', comunidadesRoutes);
+
+
+db.sync()
+.then(() => {
+  console.log('Modelos sincronizados con la base de datos.');
+})
+.catch(err => {
+  console.error('Error al sincronizar los modelos:', err);
+});
+
+//const PORT = process.env.PORT || 8080;
+//app.listen(PORT, () => {
+//  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+//});
+
+app.listen(port, () => {
+  console.log(`Servidor escuchando en http://localhost:${port}`);
 });

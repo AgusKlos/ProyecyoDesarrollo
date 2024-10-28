@@ -4,7 +4,8 @@ const  {DataTypes}  = require('sequelize');
 const ComunidadModel = db.define('Comunidad', {
     idComunidad: {
         type: DataTypes.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true,
     },
     nombre: {type: DataTypes.STRING},
     descripcion: {type: DataTypes.STRING},

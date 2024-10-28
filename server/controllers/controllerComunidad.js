@@ -12,7 +12,7 @@ const getTodosComunidades = async (req, res) => {
         res.json(comunidadesLimpias);  
     } catch (error) {
         console.error('Error al obtener comunidades:', error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: 'Error al obtener las comunidades' });
     }
 };
 

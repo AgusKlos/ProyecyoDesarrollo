@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import utniconwhite from '../assets/images/utniconwhite.png';
 import { Navbar, Container, Nav, Image, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { IonIcon } from 'https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js';
+import axios from 'axios';
 
 const Comunidades = () => {
     
-    const communityData = [
+    /*const communityData = [
         { icon: '<svg>...</svg>', title: 'Programación', link: '/programacion' },
         { icon: '<svg>...</svg>', title: 'Deportes', link: '/deportes' },
         { icon: '<svg>...</svg>', title: 'ING Mecánica', link: '/mecanica' },
@@ -19,7 +20,7 @@ const Comunidades = () => {
         { icon: '<svg>...</svg>', title: 'Inversiones', link: '/inversiones' },
         { icon: '<svg>...</svg>', title: 'ING Sistemas', link: '/sistemas' },
         { icon: '<svg>...</svg>', title: 'Programación', link: '/programacion' },
-    ];
+    ];*/
 
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
 
@@ -30,11 +31,24 @@ const Comunidades = () => {
     const navigate = useNavigate()
     const [activeLink, setActiveLink] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [comunidades, setComunidades] = useState([]);
 
     const handleInputChange = (e) => {
         setSearchTerm(e.target.value);
     };
 
+    useEffect(() => {
+        const fetchComunidades = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/comunidades'); // Cambia la URL según tu configuración
+                setComunidades(response.data);
+            } catch (error) {
+                console.error('Error al obtener las comunidades:', error);
+            }
+        };
+
+        fetchComunidades();
+    }, []);
 
     const handleNoticiasClick = () => {
         setActiveLink('noticias');
@@ -63,9 +77,17 @@ const Comunidades = () => {
         navigate('/beneficios');
     }
 
-    const filteredCommunities = communityData.filter(community =>
+    /*const filteredCommunities = communityData.filter(community =>
         community.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );*/
+
+    const filteredComunidades = comunidades.filter(comunidad =>
+        comunidad.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const handleCardClick = (idComunidad) => {
+        navigate(`/comunidad/${idComunidad}`); // Navegar a la comunidad específica
+    };
     
     return (
         <>
@@ -106,7 +128,7 @@ const Comunidades = () => {
                     </Col>
                 </Row>
 
-                <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+                {/*<Row xs={1} sm={2} md={3} lg={4} className="g-4">
                     {filteredCommunities.length > 0 ? (
                         filteredCommunities.map((community, index) => (
                             <Col key={index}>
@@ -124,7 +146,28 @@ const Comunidades = () => {
                             <p>No se encontraron comunidades</p>
                         </Col>
                     )}
-                </Row>
+                    </Row>*/}
+
+                    <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+                        {filteredComunidades.length > 0 ? (
+                            filteredComunidades.map((comunidad, index) => (
+                                <Col key={index}>
+                                    <Card className="text-center h-100">
+                                        <Card.Body>
+                                            <div dangerouslySetInnerHTML={{ __html: comunidad.icon }} />
+                                            <Card.Title>{comunidad.nombre}</Card.Title>
+                                            <Card.Link href="#" onClick={() => handleCardClick(comunidad.idComunidad)}>Ver comunidad</Card.Link>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))
+                        ) : (
+                            <Col>
+                                <p>No se encontraron comunidades</p>
+                            </Col>
+                        )}
+                    </Row>
+
             </Container>
         </>
     );
