@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const db = require('./database/db.js');
 const { getTodosUsuarios, loginUsuario } = require('./controllers/controllerUsuario.js');
-
+const { getTodosNoticias, getNoticia, createNoticia, updateNoticia, deleteNoticia } = require('./controllers/controllerNoticia.js');
 const app = express();
 
 // Configuración de CORS
@@ -23,10 +23,10 @@ db.sync()
     console.error('Error al sincronizar la base de datos:', error);
   });
 
-
+// Rutas
 app.get('/', getTodosUsuarios);
-
 app.post('/api/login', loginUsuario);
+app.post('/api/noticias', getTodosNoticias, getNoticia, createNoticia, updateNoticia, deleteNoticia); 
 
 app.listen(8080, () => {
   console.log('Servidor escuchando en el puerto 8080');

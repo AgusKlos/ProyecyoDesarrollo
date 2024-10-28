@@ -1,73 +1,73 @@
-const NoticiaModel = require( '../models/modelNoticia');
-
-// metodos CRUD
-
+const NoticiaModel = require('../models/modelNoticia');
 
 // todos los registros
-export const getTodosNoticias = async (req, res) => {
+const getTodosNoticias = async (req, res) => {
     try {
-        const noticias = await NoticiaModel.findAll()
-        res.json(noticias)
-    }catch(error){
-        res.json({message: error.message})
+        const noticias = await NoticiaModel.findAll();
+        res.json(noticias);
+    } catch (error) {
+        res.json({ message: error.message });
     }
-}
+};
 
-//un registro 
-export const getNoticia = async (req, res) => {
+// un registro 
+const getNoticia = async (req, res) => {
     try {
-        const Noticia = NoticiaModel.findAll({
-            where: {id:req.params.id}
-        })
-    }catch (error){
-        res.json({message: error.message})
+        const noticia = await NoticiaModel.findAll({
+            where: { id: req.params.id }
+        });
+        res.json(noticia);
+    } catch (error) {
+        res.json({ message: error.message });
     }
-}
+};
 
-//crear un registro
-export const createNoticia = async(req, res) => {
+// crear un registro
+const createNoticia = async (req, res) => {
     try {
-        await NoticiaModel.create(req.body)
-        res.json({
-            "message":"¡Registro creado correctamente!"
-        })
-    } catch(error){
-        res.json({message: error.message})
+        const nuevaNoticia = await NoticiaModel.create(req.body);
+        res.status(201).json({
+            message: "¡Registro creado correctamente!",
+            noticia: nuevaNoticia,
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-}
+};
 
-//actualizar un registro 
-export const updateNoticia = async (req, res) => {
+
+// actualizar un registro 
+const updateNoticia = async (req, res) => {
     try {
         await NoticiaModel.update(req.body, {
-            where: {id:req.params.id}
-        })
+            where: { id: req.params.id }
+        });
         res.json({
-            "message":"¡Registro actualizado correctamente!"
-        })
-    } catch(error){
-        res.json({message: error.message})
+            message: "¡Registro actualizado correctamente!"
+        });
+    } catch (error) {
+        res.json({ message: error.message });
     }
-}
+};
 
-//Eliminar un regisro
-export const deleteNoticia = async (req, res) => {
+// eliminar un registro
+const deleteNoticia = async (req, res) => {
     try {
         await NoticiaModel.destroy({
-            where: {id:req.params.id}
-        })
+            where: { id: req.params.id }
+        });
         res.json({
-            "message":"¡Registro eliminado correctamente!"
-        })
-    } catch(error){
-        res.json({message: error.message})
+            message: "¡Registro eliminado correctamente!"
+        });
+    } catch (error) {
+        res.json({ message: error.message });
     }
-}
+};
 
 module.exports = {
     getTodosNoticias,
     getNoticia,
-    deleteNoticia,
-    updateNoticia,
     createNoticia,
+    updateNoticia,
+    deleteNoticia,
 };

@@ -118,7 +118,7 @@ const Eventos = () => {
                             <Dropdown.Item eventKey="">Todos</Dropdown.Item>
                             <Dropdown.Item eventKey="Conferencias">Conferencias</Dropdown.Item>
                             <Dropdown.Item eventKey="Honores">Honores</Dropdown.Item>
-                            <Dropdown.Item eventKey="Talleres">Talleres</Dropdown.Item>
+                            <Dropdown.Item eventKey="Taller">Taller</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
 

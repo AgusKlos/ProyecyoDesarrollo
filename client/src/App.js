@@ -1,17 +1,13 @@
-import './App.css';
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import AppRoutes from './routes/Routes';
-//import { UserProvider } from './functions/services/context';
-function App() {
+import { UserProvider } from './components/context';
 
-  return (
-    //<UserProvider>
-    <div className="App">
-      <AppRoutes/>
-    </div>
-    //</UserProvider>
-  );
+function App() {
+    return (
+        <UserProvider>
+            <AppRoutes />
+        </UserProvider>
+    );
 }
 
 export default App;

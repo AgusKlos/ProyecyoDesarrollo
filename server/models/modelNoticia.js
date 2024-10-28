@@ -1,14 +1,14 @@
-import db from "../database/db.js";
-import { DataTypes } from "sequelize";
+const db = require('../database/db.js');
+const { DataTypes } = require('sequelize');
 
 const NoticiaModel = db.define('noticias', {
-    descripcion: {type: DataTypes.STRING},
-    fecha: {type: DataTypes.DATE},
-    titulo: {type: DataTypes.STRING},
+    descripcion: { type: DataTypes.TEXT },
+    fecha: { type: DataTypes.DATE },
+    titulo: { type: DataTypes.STRING },
     idUsuario: {
         type: DataTypes.INTEGER,
         foreignKey: true
     },
-})
+});
 
-export default NoticiaModel 
+module.exports = NoticiaModel;

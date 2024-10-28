@@ -1,5 +1,5 @@
-import React from "react";
-import {Routes, Route} from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Routes, Route } from 'react-router-dom';
 import Inicio from '../views/inicio.jsx';
 import Escritorio from '../views/escritorio.jsx';
 import Comunidad from '../views/comunidad.jsx';
@@ -14,29 +14,53 @@ import TipoComunidades from '../views/tipocomunidades.jsx';
 import Noticia from '../views/noticia.jsx';
 import Noticias from '../views/noticias.jsx';
 import Beneficios from '../views/beneficios.jsx';
-import { UserProvider } from '../components/context.jsx';
+import CrearNoticia from '../components/crearNoticia.jsx';
+import { useUser } from '../components/context.jsx';
 
 const AppRoutes = () => {
+    const [showCrearNoticia, setShowCrearNoticia] = useState(false);
+    const { user, setUser } = useUser() || {};
+
+    const handleShowCrearNoticia = () => {
+        if (user && user.id) { 
+            setShowCrearNoticia(true);
+        } else {
+            alert("Error: El usuario no está disponible");
+        }
+    };
+    const handleCloseCrearNoticia = () => setShowCrearNoticia(false);
+
     return (
-        <UserProvider>
+        <>
             <Routes>
-                <Route path="/" element={<Inicio/>}></Route>
-                <Route path="/escritorio" element={<Escritorio/>}></Route>
-                <Route path="/comunidad" element={<Comunidad/>}></Route>
-                <Route path="/comunidades" element={<Comunidades/>}></Route>
-                <Route path="/evento" element={<Evento/>}></Route>
-                <Route path="/eventos" element={<Eventos/>}></Route>
-                <Route path="/login" element={<Login/>}></Route>
-                <Route path="/trabajo" element={<Trabajo/>}></Route>
-                <Route path="/bolsatrabajo" element={<BolsaTrabajo/>}></Route>
-                <Route path="/perfilusuario" element={<PerfilUsuario/>}></Route>
-                <Route path="/tipocomunidades" element={<TipoComunidades/>}></Route>
-                <Route path="/noticia" element={<Noticia/>}></Route>
-                <Route path="/noticias" element={<Noticias/>}></Route>
-                <Route path="/noticias" element={<Noticias/>}></Route>
-                <Route path='/beneficios' element={<Beneficios/>}></Route>
+                <Route path="/" element={<Inicio />} />
+                <Route path="/escritorio" element={<Escritorio />} />
+                <Route path="/comunidad" element={<Comunidad />} />
+                <Route path="/comunidades" element={<Comunidades />} />
+                <Route path="/evento" element={<Evento />} />
+                <Route path="/eventos" element={<Eventos />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/trabajo" element={<Trabajo />} />
+                <Route path="/bolsatrabajo" element={<BolsaTrabajo />} />
+                <Route path="/perfilusuario" element={<PerfilUsuario />} />
+                <Route path="/tipocomunidades" element={<TipoComunidades />} />
+                <Route path="/noticia" element={<Noticia />} />
+                <Route path="/noticias" element={<Noticias />} />
+                <Route path="/beneficios" element={<Beneficios />} />
+                <Route 
+                    path="/crear-noticia" 
+                    element={<button onClick={handleShowCrearNoticia}>Crear Noticia</button>} 
+                />
             </Routes>
-        </UserProvider>
+
+            {user && (
+                <CrearNoticia 
+                    show={showCrearNoticia} 
+                    handleClose={handleCloseCrearNoticia} 
+                    user={user} 
+                />
+            )}
+        </>
     );
 };
 

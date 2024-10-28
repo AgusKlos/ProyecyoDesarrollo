@@ -1,26 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 
 const CrearNoticia = ({ show, handleClose, user }) => {
+    console.log("Usuario recibido en CrearNoticia:", user);
+
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [fecha, setFecha] = useState('');
+    const [idUsuario, setIdUsuario] = useState('')
+
+    useEffect(() => {
+        if (user && user.id) {
+            setIdUsuario(user.id);
+        }
+    }, [user]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await axios.post('http://localhost:8080/api/noticias', {
-            titulo,
-            descripcion,
-            fecha,
-            idUsuario: user.idUsuario // Asegúrate de que el idUsuario esté disponible en el contexto de usuario
-        });
-
-        if (response.status === 201) {
-            // Aquí puedes manejar la respuesta, como cerrar el modal y reiniciar los campos
-            handleClose();
-        } else {
+    
+        if (!user?.id) {
+            alert("Usuario no definido correctamente.");
+            return;
+        }
+    
+        try {
+            const response = await axios.post('http://localhost:8080/api/noticias', {
+                titulo,
+                descripcion,
+                fecha,
+                idUsuario, 
+            });
+    
+            if (response.status === 201) {
+                handleClose();
+                setTitulo('');
+                setDescripcion('');
+                setFecha('');
+            } else {
+                alert('Error al crear la noticia');
+            }
+        } catch (error) {
             alert('Error al crear la noticia');
+            console.error(error);
         }
     };
 
