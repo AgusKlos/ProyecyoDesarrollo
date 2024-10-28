@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./database/db.js');
-import bodyParser from 'body-parser';
+const bodyParser = require('body-parser');
 const { getTodosUsuarios, loginUsuario } = require('./controllers/controllerUsuario.js');
-import noticiasRoutes from './routes/noticias.js';
+const noticiasRoutes = require('./routes/noticias.js');
 
 const app = express();
 

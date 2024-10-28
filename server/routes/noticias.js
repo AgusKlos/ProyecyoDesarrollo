@@ -1,5 +1,5 @@
-import express from 'express';
-import { getTodosNoticias } from '../controllers/controllerNoticia'; 
+const express = require('express');
+const { getTodosNoticias } = require('../controllers/controllerNoticia');
 
 const router = express.Router();
 

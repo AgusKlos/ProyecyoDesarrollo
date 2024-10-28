@@ -1,4 +1,4 @@
-const db = require('../database/db');
+const db = require('../database/db.js');
 const  {DataTypes}  = require('sequelize'); 
 
 const ComunidadModel = db.define('Comunidad', {

@@ -1,5 +1,5 @@
-import db from "../database/db.js";
-import { DataTypes } from "sequelize";
+const db = require('../database/db.js');
+const  {DataTypes}  = require('sequelize'); 
 
 const PublicacionModel = db.define('publicaciones', {
     descripcion: {type: DataTypes.STRING},
