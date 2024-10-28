@@ -35,8 +35,8 @@ const Noticia = () => {
         fetchOtrasNoticias();
     }, [id]);
 
-    const handleNoticiaClick = (id) => {
-        navigate(`/noticia/${id}`); // Navegar a la noticia específica
+    const handleNoticiaClick = (idNoticia) => {
+        navigate(`/noticia/${idNoticia}`); // Navegar a la noticia específica
     };
 
     const handleNoticiasClick = () => {
