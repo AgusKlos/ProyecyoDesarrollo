@@ -6,4 +6,4 @@ const PublicacionModel = db.define('publicaciones', {
     titulo: {type: DataTypes.STRING},
 })
 
-export default PublicacionModel 
+module.exports = PublicacionModel;

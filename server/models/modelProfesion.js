@@ -7,4 +7,4 @@ const ProfesionModel = db.define('profesiones', {
     nombre: {type: DataTypes.STRING},
 })
 
-export default ProfesionModel 
+module.exports = ProfesionModel;

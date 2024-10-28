@@ -7,4 +7,4 @@ const EventoModel = db.define('eventos', {
     nombre: {type: DataTypes.STRING},
 })
 
-export default EventoModel 
+module.exports = EventoModel;

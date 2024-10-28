@@ -11,4 +11,4 @@ const NoticiaModel = db.define('noticias', {
     },
 })
 
-export default NoticiaModel 
+module.exports = NoticiaModel;

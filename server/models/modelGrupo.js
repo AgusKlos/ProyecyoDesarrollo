@@ -5,4 +5,4 @@ const GrupoModel = db.define('grupos', {
     nombre: {type: DataTypes.STRING},
 })
 
-export default GrupoModel 
+module.exports = GrupoModel;

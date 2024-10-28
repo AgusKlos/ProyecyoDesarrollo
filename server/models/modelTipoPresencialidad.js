@@ -6,4 +6,4 @@ const TipoPresencialidadModel = db.define('tipospresencialidad', {
     nombre: {type: DataTypes.STRING},
 })
 
-export default TipoPresencialidadModel 
+module.exports = TipoPresencialidadModel;
