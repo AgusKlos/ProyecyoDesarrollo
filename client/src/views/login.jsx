@@ -14,7 +14,7 @@ const Login = () => {
     const [mail, setMail] = useState('');
     const [contrasenia, setContrasenia] = useState('');
     const navigate = useNavigate();
-    const { setUser } = useUser();
+    const { login } = useUser();
 
     const handleUsernameChange = (event) => {
         setMail(event.target.value);
@@ -26,19 +26,20 @@ const Login = () => {
 
     const handleAccederClick = async (event) => {
         event.preventDefault();
-        const response = await axios.post('http://localhost:8080/api/login', {
+        try{
+            const response = await axios.post('http://localhost:8080/api/login', {
             mail,
             contrasenia   
-        });
-
-        if (response) {
-            setUser(response.data.usuario);
-            navigate('/');
-        } else {
-            console.log(response.token);
-            alert('Usuario y/o contraseña invalidos');
-            //navigate('/');
-        }
+            });
+            if (response.data && response.data.usuario) {
+                login(response.data.usuario);
+                navigate('/');
+            } else {
+                alert('Usuario y/o contraseña invalidos');
+            }
+        }catch (error){
+            alert('Error al iniciar sesión');
+        }    
     };
 
     const handleInicioClick = () => {

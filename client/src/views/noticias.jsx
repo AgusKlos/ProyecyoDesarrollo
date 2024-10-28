@@ -8,11 +8,10 @@ import { useUser } from '../components/context';
 import axios from 'axios';
 
 const Noticias = () => {
-
+    const { user, logout } = useUser();
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
     const [showCrearNoticia, setShowCrearNoticia] = useState(false);
     const [noticias, setNoticias] = useState([]);
-    const { user } = useUser (); // Obtener el usuario del contexto
     const navigate = useNavigate();
 
     const handleShowCrearNoticia = () => setShowCrearNoticia(true);
@@ -94,9 +93,13 @@ const Noticias = () => {
                             <span className="text-white d-none d-md-inline me-3">No puedes crear noticias sin estar autenticado</span>
                         )}
                 </Container>
-                <Button variant="outline-light me-3" onClick={() => navigate('/login')}>
-                    Iniciar Sesión
-                </Button>
+                {user ? (
+                            <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
+                        ) : (
+                            <Button variant="outline-light me-3" onClick={handleLoginClick}>
+                                Iniciar Sesión
+                            </Button>
+                    )}
             </Navbar>
 
             <Row className="mb-4 mx-2">
@@ -138,29 +141,6 @@ const Noticias = () => {
                     <Button className='p-1 py-0 px-2 mx-1' variant="light" size="sm" style={{ color: 'black' }}>Año anterior</Button>
                 </Col>
             </Row>
-
-            {/*<Row className='my-4 mx-3'>
-                <div className="col-md-9">
-                    <div className="row">
-                        {['NOTICIAS_1.jpg', 'NOTICIAS_2.jpg', 'NOTICIAS_3.jpg'].map((image, index) => (
-                            <div className="col-md-6 col-lg-4 mb-4" key={index}>
-                                <div className="card">
-                                    <img 
-                                        src={require(`../assets/images/${image}`)} 
-                                        className="card-img-top" 
-                                        alt={`Card ${index + 1}`} 
-                                    />
-                                    <div className="card-body">
-                                        <h5 className="card-title">Título {index + 1}</h5>
-                                        <p className="card-text">Texto de la tarjeta {index + 1}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </Row>*/}
-
             <Row className='my-4 mx-3'>
                 <div className="col-md-9">
                     <div className="row">

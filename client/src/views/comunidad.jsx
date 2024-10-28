@@ -5,9 +5,10 @@ import {Row, Col, Button, Card, ListGroup, Image } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import Notificacion from '../components/notificacion'
 import axios from 'axios';
+import { useUser } from '../components/context';
 
 const Comunidad = () => {
-
+    const { setUser } = useUser();
     const navigate = useNavigate()
 
     const handleNoticiasClick = () => {
