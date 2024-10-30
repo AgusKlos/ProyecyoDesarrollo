@@ -76,17 +76,17 @@ const Inicio = () => {
         <>
             <Navbar className="bg-dark text-white text-center py-2">
                 <Container>
-                    <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" href="#home" onClick={handleInicioClick}>
+                    <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" onClick={handleInicioClick}>
                     <Image src={utniconwhite} className="img-fluid d-flex justify-content-center align-items-center mw-100 h-auto mx-2 my-0" alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
                     UTN &middot; La Plata
                     </Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="cabecera me-auto">
-                                <Nav.Link className={`text-white ${activeLink === 'noticias' ? 'active-link' : ''}`} href="#home" onClick={handleNoticiasClick}>Noticias</Nav.Link>
-                                <Nav.Link className={`text-white ${activeLink === 'comunidades' ? 'active-link' : ''}`} href="#link" onClick={handleComunidadesClick}>Comunidades</Nav.Link>
-                                <Nav.Link className={`text-white ${activeLink === 'eventos' ? 'active-link' : ''}`} href="#link" onClick={handleEventosClick}>Eventos</Nav.Link>
-                                <Nav.Link className={`text-white ${activeLink === 'beneficios' ? 'active-link' : ''}`} href="#link" onClick={handleBeneficiosClick}>Beneficios</Nav.Link>
+                                <Nav.Link className={`text-white ${activeLink === 'noticias' ? 'active-link' : ''}`} onClick={handleNoticiasClick}>Noticias</Nav.Link>
+                                <Nav.Link className={`text-white ${activeLink === 'comunidades' ? 'active-link' : ''}`} onClick={handleComunidadesClick}>Comunidades</Nav.Link>
+                                <Nav.Link className={`text-white ${activeLink === 'eventos' ? 'active-link' : ''}`} onClick={handleEventosClick}>Eventos</Nav.Link>
+                                <Nav.Link className={`text-white ${activeLink === 'beneficios' ? 'active-link' : ''}`} onClick={handleBeneficiosClick}>Beneficios</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
                         {user ? (
