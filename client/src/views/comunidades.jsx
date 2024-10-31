@@ -48,15 +48,20 @@ const Comunidades = () => {
     };
 
     const handleUnirmeAComunidad = async (idComunidad) => {
-        try {
+        if(user){
+            try {
             const response = await axios.post('http://localhost:8080/api/comunidadXusuario', {
                 idComunidad,
                 idUsuario:user.id
             });
             alert('Te has unido a la comunidad');
-        } catch (error) {
+            } catch (error) {
             console.error('Error en la solicitud de unirse a la comunidad:', error);
+            }
+        }else if(!!user){
+            alert('Necesita estar registrado para unirse a una Comunidad');
         }
+        
     };
     
     const handleLoginClick = () => {
@@ -116,7 +121,7 @@ const Comunidades = () => {
                                         <div dangerouslySetInnerHTML={{ __html: comunidad.icon }} />
                                         <Card.Title>{comunidad.nombre}</Card.Title>
                                         <Button variant="primary" onClick={() => handleCardClick(comunidad.idComunidad)}>Ver comunidad</Button>
-                                        <Button variant="success" className="ms-2" onClick={() => handleUnirmeAComunidad(comunidad.idComunidad, idUsuario)}>Unirme</Button>
+                                        <Button variant="success" className="ms-2" onClick={() => handleUnirmeAComunidad(comunidad.idComunidad,user.id)}>Unirme</Button>
                                     </Card.Body>
                                 </Card>
                             </Col>

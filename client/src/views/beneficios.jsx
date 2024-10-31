@@ -8,10 +8,11 @@ import { faFacebook, faTwitter, faInstagram, faYoutube } from '@fortawesome/free
 import { Image } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../components/context';
 
 const Beneficios = () => {
 
-
+    const { user, logout } = useUser();
     const navigate = useNavigate()
     const [activeLink, setActiveLink] = useState('');
 
@@ -60,9 +61,13 @@ const Beneficios = () => {
                             </Nav>
                         </Navbar.Collapse>
                 </Container>
-                <Button variant="outline-light me-3" onClick={handleLoginClick}>
-                    Iniciar Sesión
-                </Button>
+                {user ? (
+                            <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
+                        ) : (
+                            <Button variant="outline-light me-3" onClick={handleLoginClick}>
+                                Iniciar Sesión
+                            </Button>
+                    )}
             </Navbar>
 
             <section className="my-5">

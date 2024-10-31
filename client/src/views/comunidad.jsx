@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useUser } from '../components/context';
 
 const Comunidad = () => {
-    const { setUser } = useUser();
+    const { user, logout } = useUser();
     const navigate = useNavigate()
 
     const handleNoticiasClick = () => {
@@ -91,9 +91,13 @@ const Comunidad = () => {
                 <Col xs={7} md={2} className='mx-5'>
                     <Notificacion show={showNotification} message={message} />
                 </Col>
-                <Button variant="outline-light me-3" onClick={handleLoginClick}>
-                    Iniciar Sesión
-                </Button>
+                {user ? (
+                            <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
+                        ) : (
+                            <Button variant="outline-light me-3" onClick={handleLoginClick}>
+                                Iniciar Sesión
+                            </Button>
+                    )}
             </Navbar>
 
             {/*<div>

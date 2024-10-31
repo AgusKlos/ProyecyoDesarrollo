@@ -39,6 +39,7 @@ export const UserProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
         localStorage.removeItem('user');
+        return false
     };
 
     return (
@@ -47,3 +48,5 @@ export const UserProvider = ({ children }) => {
         </UserContext.Provider>
     );
 };
+
+

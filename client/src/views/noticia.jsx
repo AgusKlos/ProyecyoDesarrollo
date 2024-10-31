@@ -4,8 +4,10 @@ import { Image } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useUser } from '../components/context';
 
 const Noticia = () => {
+    const { user, logout } = useUser();
     const { id } = useParams(); // Obtenemos el id de la noticia desde la URL
     const [noticia, setNoticia] = useState(null);
     const [otrasNoticias, setOtrasNoticias] = useState([]);
@@ -81,9 +83,13 @@ const Noticia = () => {
                             </Nav>
                         </Navbar.Collapse>
                 </Container>
-                <Button variant="outline-light me-3" onClick={handleLoginClick}>
-                    Iniciar Sesión
-                </Button>
+                {user ? (
+                            <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
+                        ) : (
+                            <Button variant="outline-light me-3" onClick={handleLoginClick}>
+                                Iniciar Sesión
+                            </Button>
+                    )}
             </Navbar>
 
             <Row className='my-4 mx-3'>

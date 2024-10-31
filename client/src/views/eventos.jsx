@@ -9,9 +9,10 @@ import evento1 from '../assets/images/EVENTO_1.jpg';
 import evento2 from '../assets/images/EVENTO_2.jpg';
 import evento3 from '../assets/images/EVENTO_3.jpg';
 import evento4 from '../assets/images/EVENTO_4.jpg';
+import { useUser } from '../components/context';
 
 const Eventos = () => {
-
+    const { user, logout } = useUser();
     const eventos = [
         {
             fecha: '10 de agosto - 20:00 hs',
@@ -101,9 +102,13 @@ const Eventos = () => {
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
-                <Button variant="outline-light me-3" onClick={handleLoginClick}>
-                    Iniciar Sesión
-                </Button>
+                {user ? (
+                            <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
+                        ) : (
+                            <Button variant="outline-light me-3" onClick={handleLoginClick}>
+                                Iniciar Sesión
+                            </Button>
+                    )}
             </Navbar>
 
             <Row className="ms-2 mb-4">

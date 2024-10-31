@@ -104,10 +104,10 @@ const Noticias = () => {
 
             <Row className="mb-4 mx-2">
                     
-                <h3 className='mt-3 mb-2'>Todas los noticias</h3> <br/>
+                <h3 className='mt-3 mb-2'>NOTICIAS</h3> <br/>
 
-                <p className='my-2'>Buscar Noticias</p>
-                <Col className="d-flex">
+                {/* <p className='my-2'>Buscar Noticias</p> */}
+                {/* <Col className="d-flex">
                     <Dropdown className='me-5 mb-1' onSelect={handleFilterChange}>
                         <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                         Sistemas de Información
@@ -123,12 +123,12 @@ const Noticias = () => {
                     </Dropdown>
 
                     <Button className='ms-5 bg-dark mb-1'>Limpiar Filtros</Button>
-                </Col>
+                </Col> */}
 
             </Row>
 
             <Row>
-                <Col className='col-md-1'>
+                {/* <Col className='col-md-1'>
                     <Button className='p-1 py-0 px-2 mx-1' variant="dark" size="sm">Este mes</Button>
                 </Col>
                 <Col className='col-md-1'>
@@ -139,7 +139,7 @@ const Noticias = () => {
                 </Col>
                 <Col className='col-md-1'>
                     <Button className='p-1 py-0 px-2 mx-1' variant="light" size="sm" style={{ color: 'black' }}>Año anterior</Button>
-                </Col>
+                </Col> */}
             </Row>
             <Row className='my-4 mx-3'>
                 <div className="col-md-9">
