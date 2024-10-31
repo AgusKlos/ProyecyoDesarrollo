@@ -8,12 +8,14 @@ import { faFacebook, faTwitter, faInstagram, faYoutube } from '@fortawesome/free
 import { Image } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../components/context';
 
 const Beneficios = () => {
 
-
+    const { user, logout } = useUser();
     const navigate = useNavigate()
     const [activeLink, setActiveLink] = useState('');
+    const idUsuario = user ? user.id : null;
 
     const handleNoticiasClick = () => {
         setActiveLink('noticias');
@@ -42,27 +44,39 @@ const Beneficios = () => {
         navigate('/beneficios');
     }
 
+    const handleNavigationClick = (path) => {
+        setActiveLink(path);
+        navigate(`/${path}`);
+    };
+
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
                 <Container>
-                    <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" onClick={handleInicioClick}>
-                    <Image src={utniconwhite} className="img-fluid d-flex justify-content-center align-items-center mw-100 h-auto mx-2 my-0" alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
-                    UTN &middot; La Plata
+                    <Navbar.Brand 
+                        className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center"
+                        onClick={() => handleNavigationClick('')}
+                    >
+                        <Image src={utniconwhite} alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
+                        UTN &middot; La Plata
                     </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="cabecera me-auto">
-                                <Nav.Link className={`text-white ${activeLink === 'noticias' ? 'active-link' : ''}`} onClick={handleNoticiasClick}>Noticias</Nav.Link>
-                                <Nav.Link className={`text-white ${activeLink === 'comunidades' ? 'active-link' : ''}`} onClick={handleComunidadesClick}>Comunidades</Nav.Link>
-                                <Nav.Link className={`text-white ${activeLink === 'eventos' ? 'active-link' : ''}`} onClick={handleEventosClick}>Eventos</Nav.Link>
-                                <Nav.Link className={`text-white ${activeLink === 'beneficios' ? 'active-link' : ''}`} onClick={handleBeneficiosClick}>Beneficios</Nav.Link>
-                            </Nav>
-                        </Navbar.Collapse>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="cabecera me-auto">
+                            <Nav.Link className={`text-white ${activeLink === 'noticias' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('noticias')}>Noticias</Nav.Link>
+                            <Nav.Link className={`text-white ${activeLink === 'comunidades' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('comunidades')}>Comunidades</Nav.Link>
+                            <Nav.Link className={`text-white ${activeLink === 'eventos' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('eventos')}>Eventos</Nav.Link>
+                            <Nav.Link className={`text-white ${activeLink === 'beneficios' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('beneficios')}>Beneficios</Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                    {user ? (
+                            <span className="text-white me-3"></span>
+                        ) : (
+                            <Button variant="outline-light me-3" onClick={handleLoginClick}>
+                                Iniciar Sesión
+                            </Button>
+                    )}
                 </Container>
-                <Button variant="outline-light me-3" onClick={handleLoginClick}>
-                    Iniciar Sesión
-                </Button>
             </Navbar>
 
             <section className="my-5">

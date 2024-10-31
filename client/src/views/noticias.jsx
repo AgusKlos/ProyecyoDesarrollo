@@ -86,7 +86,7 @@ const Noticias = () => {
                             </Nav>
                         </Navbar.Collapse>
                         {user ? (
-                            <Button variant="outline-light d-none d-md-inline me-3" onClick={handleShowCrearNoticia}>
+                            <Button variant="outline-light me-3" onClick={handleShowCrearNoticia}>
                                 Crear Noticia
                             </Button>
                         ) : (
@@ -94,7 +94,7 @@ const Noticias = () => {
                         )}
                 </Container>
                 {user ? (
-                            <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
+                            <span className="text-white me-3"></span>
                         ) : (
                             <Button variant="outline-light me-3" onClick={handleLoginClick}>
                                 Iniciar Sesión

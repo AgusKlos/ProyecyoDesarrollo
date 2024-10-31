@@ -19,7 +19,7 @@ import { useUser } from '../components/context';
 
 
 const Inicio = () => {
-    const { user } = useUser() || {};  // Obtener el usuario del contexto
+    const { user, logout } = useUser() || {}; // Obtener el usuario del contexto
 
     const eventos = [
         {
@@ -72,6 +72,11 @@ const Inicio = () => {
         navigate('/beneficios');
     }
 
+    const handleLogoutClick = () => {
+        logout(); 
+        navigate('/');
+    };
+
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
@@ -90,7 +95,11 @@ const Inicio = () => {
                             </Nav>
                         </Navbar.Collapse>
                         {user ? (
-                            <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
+                            <span className="text-white me-3">
+                                {`Bienvenido, ${user.nombre}`}
+                                <Button variant="outline-light ms-5 me-2" onClick={handleLogoutClick}>
+                                Cerrar Sesión
+                                </Button></span>
                         ) : (
                             <Button variant="outline-light me-3" onClick={handleLoginClick}>
                                 Iniciar Sesión
