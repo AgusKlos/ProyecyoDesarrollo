@@ -10,6 +10,7 @@ import { useUser } from '../components/context';
 const Comunidad = () => {
     const { user, logout } = useUser();
     const navigate = useNavigate()
+    const idUsuario = user ? user.id : null;
 
     const handleNoticiasClick = () => {
         navigate('/noticias')
@@ -65,6 +66,22 @@ const Comunidad = () => {
 
         fetchComunidades();
     }, [idComunidad]);
+
+    const handleUnirmeAComunidad = async (idComunidad,idUsuario) => {
+        if (!idUsuario) {
+            alert('Debes iniciar sesión para unirte a la comunidad.');
+            return;
+        }
+        try {
+            const response = await axios.post('http://localhost:8080/api/comunidadXusuario', {
+                idComunidad,
+                idUsuario:idUsuario
+            });
+            alert('Te has unido a la comunidad');
+        } catch (error) {
+            console.error('Error en la solicitud de unirse a la comunidad:', error);
+        }
+    };
 
     if (!comunidad) {
         return <p>Cargando comunidad...</p>; // O un mensaje de error si no se encuentra
@@ -186,6 +203,9 @@ const Comunidad = () => {
                         <Row className="align-items-center text-center">
                             <Col xs={7} md={6}>
                                 <h1>{comunidad.nombre}</h1>
+                            </Col>
+                            <Col xs={7} md={6}>
+                                <Button variant="success" className="ms-2" onClick={() => handleUnirmeAComunidad(comunidad.idComunidad,idUsuario)}>Unirme</Button>
                             </Col>
                         </Row>
                     </Container>

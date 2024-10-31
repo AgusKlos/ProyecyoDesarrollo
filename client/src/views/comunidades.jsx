@@ -127,7 +127,7 @@ const Comunidades = () => {
                                         <div dangerouslySetInnerHTML={{ __html: comunidad.icon }} />
                                         <Card.Title>{comunidad.nombre}</Card.Title>
                                         <Button variant="primary" onClick={() => handleCardClick(comunidad.idComunidad)}>Ver comunidad</Button>
-                                        <Button variant="success" className="ms-2" onClick={() => handleUnirmeAComunidad(comunidad.idComunidad,user.id)}>Unirme</Button>
+                                        <Button variant="success" className="ms-2" onClick={() => handleUnirmeAComunidad(comunidad.idComunidad,idUsuario)}>Unirme</Button>
                                     </Card.Body>
                                 </Card>
                             </Col>
