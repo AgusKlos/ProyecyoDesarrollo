@@ -74,6 +74,7 @@ const Inicio = () => {
 
     const handleLogoutClick = () => {
         logout(); // Cambia el contexto a no logueado
+        localStorage.removeItem(user);
         navigate('/');
     };
 
