@@ -97,10 +97,9 @@ const Inicio = () => {
                         {user ? (
                             <span className="text-white me-3">
                                 {`Bienvenido, ${user.nombre}`}
-                                <Button variant="outline-light ms-2 me-3" onClick={handleLogoutClick}>
+                                <Button variant="outline-light ms-5 me-2" onClick={handleLogoutClick}>
                                 Cerrar Sesión
-                                </Button>
-                            </span>
+                                </Button></span>
                         ) : (
                             <Button variant="outline-light ms-2 me-3" onClick={handleLoginClick}>
                                 Iniciar Sesión

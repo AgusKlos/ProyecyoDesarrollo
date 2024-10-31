@@ -12,7 +12,6 @@ import evento4 from '../assets/images/EVENTO_4.jpg';
 import { useUser } from '../components/context';
 
 const Eventos = () => {
-    const { user, logout } = useUser();
     const eventos = [
         {
             fecha: '10 de agosto - 20:00 hs',
@@ -43,6 +42,10 @@ const Eventos = () => {
 
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
     const [attendanceFilter, setAttendanceFilter] = useState('Virtual');
+    const { user, logout } = useUser();
+    const [activeLink, setActiveLink] = useState('');
+    const idUsuario = user ? user.id : null;
+
 
     const handleFilterChange = (eventKey) => {
       setSelectedFilter(eventKey);
@@ -78,6 +81,11 @@ const Eventos = () => {
         navigate('/beneficios');
     }
 
+    const handleNavigationClick = (path) => {
+        setActiveLink(path);
+        navigate(`/${path}`);
+    };
+
     const filteredEventos = eventos.filter(evento => {
         const matchesCategory = selectedFilter === '' || evento.categorias.includes(selectedFilter);
         const matchesAttendance = attendanceFilter === '' || evento.categorias.includes(attendanceFilter);
@@ -88,17 +96,20 @@ const Eventos = () => {
         <>
             <Navbar className="bg-dark text-white text-center py-2">
                 <Container>
-                    <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" onClick={handleInicioClick}>
-                        <Image src={utniconwhite} className="img-fluid d-flex justify-content-center align-items-center mw-100 h-auto mx-2 my-0" alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
+                    <Navbar.Brand 
+                        className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center"
+                        onClick={() => handleNavigationClick('')}
+                    >
+                        <Image src={utniconwhite} alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
                         UTN &middot; La Plata
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link className="text-white" onClick={handleNoticiasClick}>Noticias</Nav.Link>
-                            <Nav.Link className="text-white" onClick={handleComunidadesClick}>Comunidades</Nav.Link>
-                            <Nav.Link className="text-white" onClick={handleEventosClick}>Eventos</Nav.Link>
-                            <Nav.Link className="text-white" onClick={handleBeneficiosClick}>Beneficios</Nav.Link>
+                        <Nav className="cabecera me-auto">
+                            <Nav.Link className={`text-white ${activeLink === 'noticias' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('noticias')}>Noticias</Nav.Link>
+                            <Nav.Link className={`text-white ${activeLink === 'comunidades' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('comunidades')}>Comunidades</Nav.Link>
+                            <Nav.Link className={`text-white ${activeLink === 'eventos' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('eventos')}>Eventos</Nav.Link>
+                            <Nav.Link className={`text-white ${activeLink === 'beneficios' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('beneficios')}>Beneficios</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
