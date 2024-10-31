@@ -12,7 +12,7 @@ const Comunidades = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [comunidades, setComunidades] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
-    const idUsuario=user.id;
+    const idUsuario = user ? user.id : null;
 
     const handleFilterChange = (eventKey) => {
         setSelectedFilter(eventKey);
@@ -47,21 +47,20 @@ const Comunidades = () => {
         navigate(`/comunidad/${idComunidad}`);
     };
 
-    const handleUnirmeAComunidad = async (idComunidad) => {
-        if(user){
-            try {
+    const handleUnirmeAComunidad = async (idComunidad,idUsuario) => {
+        if (!idUsuario) {
+            alert('Debes iniciar sesión para unirte a la comunidad.');
+            return;
+        }
+        try {
             const response = await axios.post('http://localhost:8080/api/comunidadXusuario', {
                 idComunidad,
-                idUsuario:user.id
+                idUsuario:idUsuario
             });
             alert('Te has unido a la comunidad');
-            } catch (error) {
+        } catch (error) {
             console.error('Error en la solicitud de unirse a la comunidad:', error);
-            }
-        }else if(!!user){
-            alert('Necesita estar registrado para unirse a una Comunidad');
         }
-        
     };
     
     const handleLoginClick = () => {
