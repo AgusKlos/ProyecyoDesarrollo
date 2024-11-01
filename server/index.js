@@ -16,6 +16,9 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(express.json());
 
 // Sincronización de la base de datos
@@ -29,7 +32,7 @@ db.sync()
 
 
 // Rutas
-//app.use('/api/noticias', noticiasRoutes);
+app.use('/api/noticias', noticiasRoutes);
 app.use(noticiasRoutes);
 
 

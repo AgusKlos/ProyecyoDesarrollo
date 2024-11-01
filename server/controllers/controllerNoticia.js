@@ -18,7 +18,7 @@ const getTodosNoticias = async (req, res) => {
 const getNoticia = async (req, res) => {
     try {
         const noticia = await NoticiaModel.findOne({
-            where: { idNoticia: req.params.id }
+            where: { id: req.params.id }
         });
         if (!noticia) {
             return res.status(404).json({ message: 'Noticia no encontrada' });
@@ -34,11 +34,12 @@ const getNoticia = async (req, res) => {
 const createNoticia = async(req, res) => {
     try {
         const { titulo, descripcion, fecha, idUsuario } = req.body;
-        console.log(req.body); //esto sacarlo después
+        console.log("los datos son: ", req.body); //esto sacarlo después
         const noticia = await NoticiaModel.create({ titulo, descripcion, fecha, idUsuario });
         res.status(201).json({ message: 'Noticia creada con éxito', noticia }); // Cambiado a 201
     } catch(error){
         console.error('Error al crear la noticia:', error);
+        console.error('Detalles del error:', error.stack);
         res.status(500).json({ message: 'Error al crear la noticia', error: error.message }); // Cambiado a 500
     }
 }

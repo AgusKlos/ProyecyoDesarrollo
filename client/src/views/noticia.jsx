@@ -105,6 +105,9 @@ const Noticia = () => {
                             <h5 className="card-title">{noticia.titulo}</h5>
                             <p className="card-text">{noticia.descripcion}</p>
                             <p className="card-text"><small className="text-muted">Fecha: {new Date(noticia.fecha).toLocaleDateString()}</small></p>
+                            {noticia.imagen && (
+                                <img src={noticia.imagen} alt="Imagen de la noticia" style={{ width: '100%', marginTop: '10px' }} />
+                            )}
                         </div>
                     </div>
                 </Col>
