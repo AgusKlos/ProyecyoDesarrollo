@@ -18,7 +18,7 @@ const getTodosNoticias = async (req, res) => {
 const getNoticia = async (req, res) => {
     try {
         const noticia = await NoticiaModel.findOne({
-            where: { id: req.params.id }
+            where: { idNoticia: req.params.id }
         });
         if (!noticia) {
             return res.status(404).json({ message: 'Noticia no encontrada' });

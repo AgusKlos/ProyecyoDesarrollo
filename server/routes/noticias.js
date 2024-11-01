@@ -11,6 +11,7 @@ module.exports = router; */
 const express = require('express');
 const router = express.Router();
 const NoticiaModel = require('../models/modelNoticia'); // Asegúrate de que la ruta sea correcta
+const { getNoticia } = require('../controllers/controllerNoticia');
 
 // Ruta para obtener todas las noticias
 router.get('/api/noticias', async (req, res) => {
@@ -22,6 +23,9 @@ router.get('/api/noticias', async (req, res) => {
         res.status(500).json({ error: 'Error al obtener las noticias' });
     }
 });
+
+// Ruta para obtener una noticia específica
+router.get('/api/noticias/:id', getNoticia); 
 
 // Ruta para crear una nueva noticia
 router.post('/api/noticias', async (req, res) => {
