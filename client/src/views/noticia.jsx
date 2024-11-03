@@ -16,7 +16,7 @@ const Noticia = () => {
     useEffect(() => {
         const fetchNoticia = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/noticias`);
+                const response = await axios.get(`http://localhost:8080/noticias`);
                 const noticiaEncontrada = response.data.find(n => n.idNoticia === Number(id)); // Cambia la URL según tu configuración
                 setNoticia(noticiaEncontrada);
             } catch (error) {
@@ -26,7 +26,7 @@ const Noticia = () => {
 
         const fetchOtrasNoticias = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/noticias'); // Obtener todas las noticias para mostrar en el aside
+                const response = await axios.get('http://localhost:8080/noticias'); // Obtener todas las noticias para mostrar en el aside
                 setOtrasNoticias(response.data.filter(n => n.id !== Number(id))); // Filtrar la noticia actual
             } catch (error) {
                 console.error('Error al obtener otras noticias:', error);

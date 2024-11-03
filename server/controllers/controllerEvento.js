@@ -3,7 +3,7 @@ const EventoModel = require( '../models/modelEvento');
 
 
 // todos los registros
-export const getTodosEventos = async (req, res) => {
+const getTodosEventos = async (req, res) => {
     try {
         const eventos = await EventoModel.findAll()
         res.json(eventos)
@@ -13,7 +13,7 @@ export const getTodosEventos = async (req, res) => {
 }
 
 //un registro 
-export const getEvento = async (req, res) => {
+const getEvento = async (req, res) => {
     try {
         const Evento = EventoModel.findAll({
             where: {id:req.params.id}
@@ -24,7 +24,7 @@ export const getEvento = async (req, res) => {
 }
 
 //crear un registro
-export const createEvento = async(req, res) => {
+const createEvento = async(req, res) => {
     try {
         await EventoModel.create(req.body)
         res.json({
@@ -36,7 +36,7 @@ export const createEvento = async(req, res) => {
 }
 
 //actualizar un registro 
-export const updateEvento = async (req, res) => {
+const updateEvento = async (req, res) => {
     try {
         await EventoModel.update(req.body, {
             where: {id:req.params.id}
@@ -50,7 +50,7 @@ export const updateEvento = async (req, res) => {
 }
 
 //Eliminar un regisro
-export const deleteEvento = async (req, res) => {
+const deleteEvento = async (req, res) => {
     try {
         await EventoModel.destroy({
             where: {id:req.params.id}

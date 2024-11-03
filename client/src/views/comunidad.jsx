@@ -54,7 +54,7 @@ const Comunidad = () => {
     useEffect(() => {
         const fetchComunidades = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/comunidades');
+                const response = await axios.get('http://localhost:8080/comunidades');
                 setComunidades(response.data);
                 // Filtrar la comunidad que corresponde al idComunidad
                 const comunidadEncontrada = response.data.find(c => c.idComunidad === parseInt(idComunidad));
@@ -73,7 +73,7 @@ const Comunidad = () => {
             return;
         }
         try {
-            const response = await axios.post('http://localhost:8080/api/comunidadXusuario', {
+            const response = await axios.post('http://localhost:8080/comunidadXusuario', {
                 idComunidad,
                 idUsuario:idUsuario
             });

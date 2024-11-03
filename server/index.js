@@ -7,6 +7,9 @@ const comunidadesRoutes = require('./routes/comunidades.js');
 const { getTodosComunidades } = require('./controllers/controllerComunidad.js');
 const { createUsuarioXComunidad } = require('./controllers/controllerComunidadXUsuario.js');
 const {loginUsuario } = require('./controllers/controllerUsuario.js');
+const { createUsuarioXEvento } = require('./controllers/controllerEventoXUsuario.js');
+const { getTodosEventos } = require('./controllers/controllerEvento.js');
+const { getTodosNoticias } = require('./controllers/controllerNoticia.js');
 const app = express();
 
 // Configuración de CORS
@@ -40,10 +43,13 @@ app.use((err, req, res, next) => {
 
 //metodos get
 app.get('/');
-app.get('/api/comunidades', getTodosComunidades);
+app.get('/comunidades', getTodosComunidades);
+app.get('/eventos',getTodosEventos);
+app.get('/noticias', getTodosNoticias);
 //metodos post
-app.post('/api/login', loginUsuario);
-app.post('/api/comunidadXusuario', createUsuarioXComunidad);
+app.post('/login', loginUsuario);
+app.post('/comunidadXusuario', createUsuarioXComunidad);
+app.post('/eventosXusuario', createUsuarioXEvento);
 
 const port = 8080;
 app.listen(port, () => {

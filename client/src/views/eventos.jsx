@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Image } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
@@ -9,43 +9,82 @@ import evento1 from '../assets/images/EVENTO_1.jpg';
 import evento2 from '../assets/images/EVENTO_2.jpg';
 import evento3 from '../assets/images/EVENTO_3.jpg';
 import evento4 from '../assets/images/EVENTO_4.jpg';
+import axios from 'axios';
+
 import { useUser } from '../components/context';
 
 const Eventos = () => {
-    const eventos = [
-        {
-            fecha: '10 de agosto - 20:00 hs',
-            titulo: 'Nuevos lenguajes y sus usos practicos',
-            imagen: evento1,
-            categorias: ['Conferencias', 'Virtual', 'Español'],
-        },
-        {
-            fecha: '12 de agosto - 21:00 hs',
-            titulo: 'Entrega de diplomas ING INDUSTRIAL',
-            imagen: evento2,
-            categorias: ['Honores', 'Presencial', 'Español'],
-        },
-        {
-            fecha: '1 de septiembre - 18:00 hs',
-            titulo: 'Taller de RCP',
-            imagen: evento3,
-            categorias: ['Taller', 'Presencial', 'Español'],
-        },
-        {
-          fecha: '22 de septiembre - 20:30 hs',
-          titulo: 'Criptomonedas y bla bla bla',
-          imagen: evento4,
-          categorias: ['Conferencias', 'Virtual', 'Inglés'],
-        },
-        // ... más eventos
-    ];
-
+    // const eventos = [
+    //     {
+    //         fecha: '10 de agosto - 20:00 hs',
+    //         titulo: 'Nuevos lenguajes y sus usos practicos',
+    //         imagen: evento1,
+    //         categorias: ['Conferencias', 'Virtual', 'Español'],
+    //     },
+    //     {
+    //         fecha: '12 de agosto - 21:00 hs',
+    //         titulo: 'Entrega de diplomas ING INDUSTRIAL',
+    //         imagen: evento2,
+    //         categorias: ['Honores', 'Presencial', 'Español'],
+    //     },
+    //     {
+    //         fecha: '1 de septiembre - 18:00 hs',
+    //         titulo: 'Taller de RCP',
+    //         imagen: evento3,
+    //         categorias: ['Taller', 'Presencial', 'Español'],
+    //     },
+    //     {
+    //       fecha: '22 de septiembre - 20:30 hs',
+    //       titulo: 'Criptomonedas y bla bla bla',
+    //       imagen: evento4,
+    //       categorias: ['Conferencias', 'Virtual', 'Inglés'],
+    //     },
+    //     // ... más eventos
+    // ];
+    const [eventos, setEventos]= useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
     const [attendanceFilter, setAttendanceFilter] = useState('Virtual');
     const { user, logout } = useUser();
     const [activeLink, setActiveLink] = useState('');
     const idUsuario = user ? user.id : null;
 
+    useEffect(() => {
+        const bajarEventos = async () => {
+            try {
+                console.log('ok');
+                const response = await axios.get('http://localhost:8080/eventos');
+                setEventos(response.data);
+            } catch (error) {
+                console.error('Error al obtener las comunidades:', error);
+            }
+        };
+        bajarEventos();
+    }, []);
+
+    const filteredEventos = eventos.filter(evento =>
+        evento.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );//Hay otro filteredEventos mas abajo comentado, preguntar para que sirve
+
+    //const handleCardClick = (idComunidad) => {
+      //  navigate(`/comunidad/${idComunidad}`);
+    //};
+
+    const handleUnirmeAEvento = async (idEvento,idUsuario) => {
+        if (!idUsuario) {
+            alert('Debes iniciar sesión para unirte a la comunidad.');
+            return;
+        }
+        try {
+            const response = await axios.post('http://localhost:8080/eventoXusuario', {
+                idEvento,
+                idUsuario:idUsuario
+            });
+            alert('Te has unido a la comunidad');
+        } catch (error) {
+            console.error('Error en la solicitud de unirse a la comunidad:', error);
+        }
+    };
 
     const handleFilterChange = (eventKey) => {
       setSelectedFilter(eventKey);
@@ -86,11 +125,11 @@ const Eventos = () => {
         navigate(`/${path}`);
     };
 
-    const filteredEventos = eventos.filter(evento => {
-        const matchesCategory = selectedFilter === '' || evento.categorias.includes(selectedFilter);
-        const matchesAttendance = attendanceFilter === '' || evento.categorias.includes(attendanceFilter);
-        return matchesCategory && matchesAttendance;
-    });
+    // const filteredEventos = eventos.filter(evento => {
+    //     const matchesCategory = selectedFilter === '' || evento.categorias.includes(selectedFilter);
+    //     const matchesAttendance = attendanceFilter === '' || evento.categorias.includes(attendanceFilter);
+    //     return matchesCategory && matchesAttendance;
+    // });
 
     return (
         <>

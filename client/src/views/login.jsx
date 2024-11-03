@@ -27,7 +27,7 @@ const Login = () => {
     const handleAccederClick = async (event) => {
         event.preventDefault();
         try{
-            const response = await axios.post('http://localhost:8080/api/login', {
+            const response = await axios.post('http://localhost:8080/login', {
             mail,
             contrasenia   
             });

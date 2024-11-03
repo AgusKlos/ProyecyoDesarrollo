@@ -25,7 +25,7 @@ const Comunidades = () => {
     useEffect(() => {
         const bajarComunidades = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/comunidades');
+                const response = await axios.get('http://localhost:8080/comunidades');
                 setComunidades(response.data);
             } catch (error) {
                 console.error('Error al obtener las comunidades:', error);
@@ -53,7 +53,7 @@ const Comunidades = () => {
             return;
         }
         try {
-            const response = await axios.post('http://localhost:8080/api/comunidadXusuario', {
+            const response = await axios.post('http://localhost:8080/comunidadXusuario', {
                 idComunidad,
                 idUsuario:idUsuario
             });

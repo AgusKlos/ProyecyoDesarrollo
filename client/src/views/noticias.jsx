@@ -48,7 +48,7 @@ const Noticias = () => {
 
     const fetchNoticias = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/noticias'); // Cambia la URL según tu configuración
+            const response = await axios.get('http://localhost:8080/noticias'); // Cambia la URL según tu configuración
             setNoticias(response.data);
         } catch (error) {
             console.error('Error al obtener las noticias:', error);
