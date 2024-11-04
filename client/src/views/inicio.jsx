@@ -5,6 +5,7 @@ import { Container, Card, Row, Col, Badge} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { faFacebook, faTwitter, faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { FaUser } from 'react-icons/fa';
 import { Image } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
 import { useNavigate } from 'react-router-dom';
@@ -16,10 +17,16 @@ import evento1 from '../assets/images/EVENTO_1.jpg';
 import evento2 from '../assets/images/EVENTO_2.jpg';
 import evento3 from '../assets/images/EVENTO_3.jpg';
 import { useUser } from '../components/context';
+import Menu from '../components/menu';
 
 
 const Inicio = () => {
     const { user, logout } = useUser();  // Obtener el usuario del contexto
+    const [showMenu, setShowMenu] = useState(false);
+    const handleShowMenu = () => setShowMenu(true);
+    const handleCloseMenu = () => setShowMenu(false);
+    const navigate = useNavigate()
+    const [activeLink, setActiveLink] = useState('');
 
     const eventos = [
         {
@@ -42,8 +49,7 @@ const Inicio = () => {
         },
     ];
 
-    const navigate = useNavigate()
-    const [activeLink, setActiveLink] = useState('');
+    
 
     const handleNoticiasClick = () => {
         setActiveLink('noticias');
@@ -79,33 +85,47 @@ const Inicio = () => {
     };
 
     return (
-        <>
+        <>  
+            <Menu show={showMenu} handleClose={handleCloseMenu} />
+            
+            {/* Barra de navegación principal */}
             <Navbar className="bg-dark text-white text-center py-2">
                 <Container>
-                    <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" onClick={handleInicioClick}>
-                    <Image src={utniconwhite} className="img-fluid d-flex justify-content-center align-items-center mw-100 h-auto mx-2 my-0" alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
-                    UTN &middot; La Plata
+                    <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" onClick={() => navigate('/')}>
+                        <Image src={utniconwhite} className="img-fluid d-flex justify-content-center align-items-center mw-100 h-auto mx-2 my-0" alt="Logo UTN" style={{ width: '18px', height: '18px' }} />
+                        UTN &middot; La Plata
                     </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="cabecera me-auto">
-                                <Nav.Link className={`text-white ${activeLink === 'noticias' ? 'active-link' : ''}`} onClick={handleNoticiasClick}>Noticias</Nav.Link>
-                                <Nav.Link className={`text-white ${activeLink === 'comunidades' ? 'active-link' : ''}`} onClick={handleComunidadesClick}>Comunidades</Nav.Link>
-                                <Nav.Link className={`text-white ${activeLink === 'eventos' ? 'active-link' : ''}`} onClick={handleEventosClick}>Eventos</Nav.Link>
-                                <Nav.Link className={`text-white ${activeLink === 'beneficios' ? 'active-link' : ''}`} onClick={handleBeneficiosClick}>Beneficios</Nav.Link>
-                            </Nav>
-                        </Navbar.Collapse>
-                        {user ? (
-                            <span className="text-white me-3">
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="cabecera me-auto">
+                            <Nav.Link className="text-white" onClick={() => navigate('/noticias')}>Noticias</Nav.Link>
+                            <Nav.Link className="text-white" onClick={() => navigate('/comunidades')}>Comunidades</Nav.Link>
+                            <Nav.Link className="text-white" onClick={() => navigate('/eventos')}>Eventos</Nav.Link>
+                            <Nav.Link className="text-white" onClick={() => navigate('/beneficios')}>Beneficios</Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                    {user ? (
+                        <span className="text-white me-3 d-flex align-items-center">
+                            <FaUser 
+                                className="me-2" 
+                                style={{ cursor: 'pointer' }} 
+                                onClick={handleShowMenu} 
+                            />
+                            <span 
+                                style={{ cursor: 'pointer' }}
+                                onClick={handleShowMenu}
+                            >
                                 {`Bienvenido, ${user.nombre}`}
-                                <Button variant="outline-light ms-5 me-2" onClick={handleLogoutClick}>
+                            </span>
+                            <Button variant="outline-light ms-5 me-2" onClick={handleLogoutClick}>
                                 Cerrar Sesión
-                                </Button></span>
-                        ) : (
-                            <Button variant="outline-light ms-2 me-3" onClick={handleLoginClick}>
-                                Iniciar Sesión
                             </Button>
-                        )}
+                        </span>
+                    ) : (
+                        <Button variant="outline-light ms-2 me-3" onClick={() => navigate('/login')}>
+                            Iniciar Sesión
+                        </Button>
+                    )}
                 </Container>
             </Navbar>
 

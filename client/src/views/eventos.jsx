@@ -2,45 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Image } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
-import { Card, Row, Col, Badge, Dropdown } from 'react-bootstrap';
+import { Card, Row, Col, Badge, Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
-import evento1 from '../assets/images/EVENTO_1.jpg';
-import evento2 from '../assets/images/EVENTO_2.jpg';
-import evento3 from '../assets/images/EVENTO_3.jpg';
-import evento4 from '../assets/images/EVENTO_4.jpg';
 import axios from 'axios';
-
 import { useUser } from '../components/context';
 
 const Eventos = () => {
-    // const eventos = [
-    //     {
-    //         fecha: '10 de agosto - 20:00 hs',
-    //         titulo: 'Nuevos lenguajes y sus usos practicos',
-    //         imagen: evento1,
-    //         categorias: ['Conferencias', 'Virtual', 'Español'],
-    //     },
-    //     {
-    //         fecha: '12 de agosto - 21:00 hs',
-    //         titulo: 'Entrega de diplomas ING INDUSTRIAL',
-    //         imagen: evento2,
-    //         categorias: ['Honores', 'Presencial', 'Español'],
-    //     },
-    //     {
-    //         fecha: '1 de septiembre - 18:00 hs',
-    //         titulo: 'Taller de RCP',
-    //         imagen: evento3,
-    //         categorias: ['Taller', 'Presencial', 'Español'],
-    //     },
-    //     {
-    //       fecha: '22 de septiembre - 20:30 hs',
-    //       titulo: 'Criptomonedas y bla bla bla',
-    //       imagen: evento4,
-    //       categorias: ['Conferencias', 'Virtual', 'Inglés'],
-    //     },
-    //     // ... más eventos
-    // ];
     const [eventos, setEventos]= useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
@@ -48,11 +16,11 @@ const Eventos = () => {
     const { user, logout } = useUser();
     const [activeLink, setActiveLink] = useState('');
     const idUsuario = user ? user.id : null;
+    const navigate = useNavigate();
 
     useEffect(() => {
         const bajarEventos = async () => {
             try {
-                console.log('ok');
                 const response = await axios.get('http://localhost:8080/eventos');
                 setEventos(response.data);
             } catch (error) {
@@ -62,27 +30,36 @@ const Eventos = () => {
         bajarEventos();
     }, []);
 
-    const filteredEventos = eventos.filter(evento =>
-        evento.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-    );//Hay otro filteredEventos mas abajo comentado, preguntar para que sirve
+    const [filteredEventos, setFilteredEventos] = useState([]);
+    const [fechaFilter, setFechaFilter] = useState('');
 
-    //const handleCardClick = (idComunidad) => {
-      //  navigate(`/comunidad/${idComunidad}`);
-    //};
+    useEffect(() => {
+        // Filtrar eventos según el término de búsqueda y la fecha
+        const eventosFiltrados = eventos.filter(evento => {
+            const matchesName = searchTerm === '' || evento.nombre.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesFecha = fechaFilter === '' || evento.fecha === fechaFilter;
+            return matchesName && matchesFecha;
+        });
+        setFilteredEventos(eventosFiltrados); // Actualizar eventos filtrados
+    }, [eventos, searchTerm, fechaFilter]); 
+
+    const handleCardClick = (idEvento) => {
+        navigate(`/evento/${idEvento}`);
+    };
 
     const handleUnirmeAEvento = async (idEvento,idUsuario) => {
         if (!idUsuario) {
-            alert('Debes iniciar sesión para unirte a la comunidad.');
+            alert('Debes iniciar sesión para unirte al evento');
             return;
         }
         try {
-            const response = await axios.post('http://localhost:8080/eventoXusuario', {
+            const response = await axios.post('http://localhost:8080/eventosXusuario', {
                 idEvento,
                 idUsuario:idUsuario
             });
-            alert('Te has unido a la comunidad');
+            alert('Te has unido al evento');
         } catch (error) {
-            console.error('Error en la solicitud de unirse a la comunidad:', error);
+            console.error('Error en la solicitud de unirse al evento:', error);
         }
     };
 
@@ -94,7 +71,7 @@ const Eventos = () => {
       setAttendanceFilter(eventKey);
     };
 
-    const navigate = useNavigate()
+    
 
     const handleNoticiasClick = () => {
         navigate('/noticias')
@@ -125,83 +102,61 @@ const Eventos = () => {
         navigate(`/${path}`);
     };
 
-    // const filteredEventos = eventos.filter(evento => {
-    //     const matchesCategory = selectedFilter === '' || evento.categorias.includes(selectedFilter);
-    //     const matchesAttendance = attendanceFilter === '' || evento.categorias.includes(attendanceFilter);
-    //     return matchesCategory && matchesAttendance;
-    // });
-
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
                 <Container>
                     <Navbar.Brand 
                         className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center"
-                        onClick={() => handleNavigationClick('')}
+                        onClick={() => navigate('/')}
                     >
-                        <Image src={utniconwhite} alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
+                        <Image src={utniconwhite} alt="Logo UTN" style={{ width: '18px', height: '18px' }}/>
                         UTN &middot; La Plata
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="cabecera me-auto">
-                            <Nav.Link className={`text-white ${activeLink === 'noticias' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('noticias')}>Noticias</Nav.Link>
-                            <Nav.Link className={`text-white ${activeLink === 'comunidades' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('comunidades')}>Comunidades</Nav.Link>
-                            <Nav.Link className={`text-white ${activeLink === 'eventos' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('eventos')}>Eventos</Nav.Link>
-                            <Nav.Link className={`text-white ${activeLink === 'beneficios' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('beneficios')}>Beneficios</Nav.Link>
+                        <Nav className="me-auto">
+                            <Nav.Link className="text-white" onClick={() => navigate('/noticias')}>Noticias</Nav.Link>
+                            <Nav.Link className="text-white" onClick={() => navigate('/comunidades')}>Comunidades</Nav.Link>
+                            <Nav.Link className="text-white" onClick={() => navigate('/eventos')}>Eventos</Nav.Link>
+                            <Nav.Link className="text-white" onClick={() => navigate('/beneficios')}>Beneficios</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
                 {user ? (
-                            <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
-                        ) : (
-                            <Button variant="outline-light me-3" onClick={handleLoginClick}>
-                                Iniciar Sesión
-                            </Button>
-                    )}
+                    <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
+                ) : (
+                    <Button variant="outline-light me-3" onClick={() => navigate('/login')}>Iniciar Sesión</Button>
+                )}
             </Navbar>
 
             <Row className="ms-2 mb-4">
-                <h3 className='mt-3 mb-2'>Todos los eventos</h3> <br/>
-                <p className='my-2'>Buscar Eventos</p>
-                <Col className="d-flex">
-                    <Dropdown className='me-5 mb-1' onSelect={handleFilterChange}>
-                        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                            {selectedFilter === '' ? 'Todos' : selectedFilter}
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item eventKey="">Todos</Dropdown.Item>
-                            <Dropdown.Item eventKey="Conferencias">Conferencias</Dropdown.Item>
-                            <Dropdown.Item eventKey="Honores">Honores</Dropdown.Item>
-                            <Dropdown.Item eventKey="Talleres">Talleres</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                <h3 className='mt-3 mb-2'>Todos los eventos</h3>
+                <Form className="d-flex">
+                    <Form.Group className="me-3">
+                        <Form.Label>Buscar por Nombre</Form.Label>
+                        <Form.Control 
+                            type="text" 
+                            placeholder="Buscar eventos" 
+                            value={searchTerm} 
+                            onChange={(e) => setSearchTerm(e.target.value)} 
+                        />
+                    </Form.Group>
 
-                    <Dropdown className='me-5 mb-1' onSelect={handleAttendanceFilterChange}>
-                        <Dropdown.Toggle variant="secondary" id="dropdown-attendance">
-                            {attendanceFilter === '' ? 'Presencial o Virtual' : attendanceFilter}
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item eventKey="">Todos</Dropdown.Item>
-                            <Dropdown.Item eventKey="Presencial">Presencial</Dropdown.Item>
-                            <Dropdown.Item eventKey="Virtual">Virtual</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                    <Form.Group className="me-3">
+                        <Form.Label>Filtrar por Fecha</Form.Label>
+                        <Form.Control 
+                            type="date" 
+                            value={fechaFilter} 
+                            onChange={(e) => setFechaFilter(e.target.value)} 
+                        />
+                    </Form.Group>
 
-                    <Button className='ms-5 bg-dark mb-1' onClick={() => setAttendanceFilter('')}>Limpiar Filtros</Button>
-                </Col>
-            </Row>
-
-            <Row className='my-2'>
-                <Col className='col-md-1'>
-                    <Button className='p-1 py-0 px-2 mx-1' variant="dark" size="sm">Próximos</Button>
-                </Col>
-                <Col className='col-md-1'>
-                    <Button className='p-1 py-0 px-2 mx-1' variant="light" size="sm" style={{ color: 'black' }}>Esta semana</Button>
-                </Col>
-                <Col className='col-md-1'>
-                    <Button className='p-1 py-0 px-2 mx-1' variant="light" size="sm" style={{ color: 'black' }}>Este mes</Button>
-                </Col>
+                    <Button variant="secondary" className="align-self-end" onClick={() => {
+                        setSearchTerm('');
+                        setFechaFilter('');
+                    }}>Limpiar Filtros</Button>
+                </Form>
             </Row>
 
             <Row className="justify-content-center">
@@ -211,17 +166,19 @@ const Eventos = () => {
                             <Card style={{ width: '15rem' }}>
                                 <Card.Img variant="top" src={evento.imagen} style={{ height: '10rem' }} />
                                 <Card.Body>
-                                    <Card.Title style={{ fontSize: '1rem' }}>{evento.titulo}</Card.Title>
+                                    <Card.Title style={{ fontSize: '1rem' }}>{evento.nombre}</Card.Title>
                                     <Card.Text>
                                         <small className="text-muted">{evento.fecha}</small>
                                     </Card.Text>
                                     <div className="d-flex justify-content-between">
-                                        {evento.categorias.map((categoria, i) => (
+                                        {evento.categorias && evento.categorias.map((categoria, i) => (
                                             <Badge key={i} variant="secondary" className="mr-1" style={{ fontSize: '0.8rem' }}>
                                                 {categoria}
                                             </Badge>
                                         ))}
                                     </div>
+                                    <Button variant="primary" className="mt-2" onClick={() => handleCardClick(evento.id)}>Ver Detalles</Button>
+                                    <Button variant="success" className="mt-2 ms-1" onClick={() => handleUnirmeAEvento(evento.idEvento,idUsuario)}>Unirme</Button>
                                 </Card.Body>
                             </Card>
                         </Col>

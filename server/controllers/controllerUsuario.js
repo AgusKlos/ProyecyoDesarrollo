@@ -54,8 +54,36 @@ const loginUsuario = async (req, res) => {
     }
 };
 
+const createUsuario = async(req, res) => {
+    try {
+        await UsuarioModel.create(req.body)
+        res.json({
+            "message":"¡Registro creado correctamente!"
+        })
+    } catch(error){
+        res.json({message: error.message})
+    }
+}
+
+const updateUsuario = async (req, res) => {
+    try {
+        await UsuarioModel.update(req.body, {
+            where: {id:req.params.id}
+        })
+        res.json({
+            "message":"¡Registro actualizado correctamente!"
+        })
+    } catch(error){
+        res.json({message: error.message})
+    }
+};
+
+//los usuarios no se deberán eliminar para que no haya inconsistencia en los registros de eventos, comunidades, etc
+
 module.exports = {
     getTodosUsuarios,
     getUsuarioPorId,
     loginUsuario,
+    createUsuario,
+    updateUsuario
 };

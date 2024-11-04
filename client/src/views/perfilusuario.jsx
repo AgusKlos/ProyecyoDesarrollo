@@ -3,10 +3,17 @@ import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Image, Button } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../components/context';
+import axios from 'axios';
 
 const PerfilUsuario = () => {
-
     const navigate = useNavigate()
+    const {user, logout}= useUser();
+    const modificarPerfil=async()=>{
+        const response= await axios.post('http://localhost:8080/updateperfil',{
+
+        })
+    }
 
     const handleNoticiasClick = () => {
         navigate('/noticias')

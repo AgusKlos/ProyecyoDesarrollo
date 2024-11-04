@@ -6,7 +6,7 @@ const noticiasRoutes = require('./routes/noticias.js');
 const comunidadesRoutes = require('./routes/comunidades.js');
 const { getTodosComunidades } = require('./controllers/controllerComunidad.js');
 const { createUsuarioXComunidad } = require('./controllers/controllerComunidadXUsuario.js');
-const {loginUsuario } = require('./controllers/controllerUsuario.js');
+const {loginUsuario, updateUsuario } = require('./controllers/controllerUsuario.js');
 const { createUsuarioXEvento } = require('./controllers/controllerEventoXUsuario.js');
 const { getTodosEventos } = require('./controllers/controllerEvento.js');
 const { getTodosNoticias } = require('./controllers/controllerNoticia.js');
@@ -48,6 +48,7 @@ app.get('/eventos',getTodosEventos);
 app.get('/noticias', getTodosNoticias);
 //metodos post
 app.post('/login', loginUsuario);
+app.post('/updateperfil',updateUsuario);
 app.post('/comunidadXusuario', createUsuarioXComunidad);
 app.post('/eventosXusuario', createUsuarioXEvento);
 

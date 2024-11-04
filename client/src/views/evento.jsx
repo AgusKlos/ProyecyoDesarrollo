@@ -46,10 +46,10 @@ const Evento = () => {
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">
-                                    <Nav.Link className="text-white" href="#home" onClick={handleNoticiasClick}>Noticias</Nav.Link>
-                                    <Nav.Link className="text-white" href="#link" onClick={handleComunidadesClick}>Comunidades</Nav.Link>
-                                    <Nav.Link className="text-white" href="#link" onClick={handleEventosClick}>Eventos</Nav.Link>
-                                    <Nav.Link className="text-white" href="#link" onClick={handleBeneficiosClick}>Beneficios</Nav.Link>
+                                    <Nav.Link className="text-white" onClick={handleNoticiasClick}>Noticias</Nav.Link>
+                                    <Nav.Link className="text-white" onClick={handleComunidadesClick}>Comunidades</Nav.Link>
+                                    <Nav.Link className="text-white" onClick={handleEventosClick}>Eventos</Nav.Link>
+                                    <Nav.Link className="text-white" onClick={handleBeneficiosClick}>Beneficios</Nav.Link>
                                 </Nav>
                             </Navbar.Collapse>
                     </Container>
