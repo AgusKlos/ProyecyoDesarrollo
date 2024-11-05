@@ -8,6 +8,13 @@ const { getTodosComunidades } = require('./controllers/controllerComunidad.js');
 const { createUsuarioXComunidad } = require('./controllers/controllerComunidadXUsuario.js');
 const {loginUsuario } = require('./controllers/controllerUsuario.js');
 const app = express();
+const fs = require('fs');
+const path = require('path');
+
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // Configuración de CORS
 app.use(cors({
@@ -16,7 +23,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-app.use(bodyParser.json()); 
+app.use(bodyParser.json({limit: '10mb' })); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
@@ -47,6 +54,7 @@ app.get('/api/comunidades', getTodosComunidades);
 //metodos post
 app.post('/api/login', loginUsuario);
 app.post('/api/comunidadXusuario', createUsuarioXComunidad);
+app.use('/uploads', express.static(path.join(__dirname, 'routes', 'uploads')));
 
 const port = 8080;
 app.listen(port, () => {

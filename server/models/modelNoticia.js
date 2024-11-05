@@ -12,6 +12,14 @@ const NoticiaModel = db.define('Noticia', {
         type: DataTypes.STRING(100), 
         allowNull: false 
     },
+    imagen: {
+        type: DataTypes.TEXT, 
+        allowNull: true
+    },
+    categoria: {
+        type: DataTypes.STRING(100), 
+        allowNull: false 
+    }, 
     descripcion: {
         type: DataTypes.TEXT, 
         allowNull: false

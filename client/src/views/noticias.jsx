@@ -67,7 +67,6 @@ const Noticias = () => {
         fetchNoticias();
     };
 
-
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
@@ -152,8 +151,9 @@ const Noticias = () => {
                                         <p className="card-text">{noticia.descripcion}</p>
                                         <p className="card-text"><small className="text-muted">Fecha: {new Date(noticia.fecha).toLocaleDateString()}</small></p>
                                         {noticia.imagen && (
-                                            <img src={noticia.imagen} alt="Imagen de la noticia" style={{ width: '100%', marginTop: '10px' }} />
+                                            <img src={`http://localhost:8080${noticia.imagen}`} alt="Imagen de la noticia" style={{ width: '100%', marginTop: '10px' }} />
                                         )}
+                                        
                                     </div>
                                 </div>
                             </div>

@@ -2,7 +2,6 @@ const NoticiaModel = require( '../models/modelNoticia');
 
 // metodos CRUD
 
-
 // todos los registros
 const getTodosNoticias = async (req, res) => {
     try {
@@ -33,9 +32,9 @@ const getNoticia = async (req, res) => {
 //crear un registro
 const createNoticia = async(req, res) => {
     try {
-        const { titulo, descripcion, fecha, idUsuario } = req.body;
+        const { titulo, descripcion, fecha, idUsuario, imagen, categoria } = req.body;
         console.log("los datos son: ", req.body); //esto sacarlo después
-        const noticia = await NoticiaModel.create({ titulo, descripcion, fecha, idUsuario });
+        const noticia = await NoticiaModel.create({ titulo, descripcion, fecha, idUsuario, imagen, categoria });
         res.status(201).json({ message: 'Noticia creada con éxito', noticia }); // Cambiado a 201
     } catch(error){
         console.error('Error al crear la noticia:', error);
