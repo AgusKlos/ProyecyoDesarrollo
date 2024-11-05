@@ -10,9 +10,15 @@ const PerfilUsuario = () => {
     const navigate = useNavigate()
     const {user, logout}= useUser();
     const modificarPerfil=async()=>{
-        const response= await axios.post('http://localhost:8080/updateperfil',{
-
+        console.log(user);
+        try {
+            const response= await axios.post('http://localhost:8080/updateperfil',{
+            idUsuario: user.id
         })
+        //alert('Has actualizado tu perfil correctamente');
+        }catch (error){
+            console.error('Error en la solicitud de actualizar tu perfil', error);
+        }   
     }
 
     const handleNoticiasClick = () => {
@@ -65,6 +71,7 @@ const PerfilUsuario = () => {
             <Button className='m-2 bg-dark' variant="secondary" onClick={() => window.history.back()}>
                 &#8592; Volver
             </Button>
+            <input onChange={modificarPerfil}></input>
 
         
 

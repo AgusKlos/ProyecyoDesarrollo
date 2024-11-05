@@ -85,9 +85,7 @@ const Inicio = () => {
     };
 
     return (
-        <>  
-            <Menu show={showMenu} handleClose={handleCloseMenu} />
-            
+        <> 
             {/* Barra de navegación principal */}
             <Navbar className="bg-dark text-white text-center py-2">
                 <Container>
@@ -106,6 +104,8 @@ const Inicio = () => {
                     </Navbar.Collapse>
                     {user ? (
                         <span className="text-white me-3 d-flex align-items-center">
+                            <Menu show={showMenu} handleClose={handleCloseMenu} />
+                            <Button variant="outline-light ms-5 me-2">
                             <FaUser 
                                 className="me-2" 
                                 style={{ cursor: 'pointer' }} 
@@ -116,9 +116,8 @@ const Inicio = () => {
                                 onClick={handleShowMenu}
                             >
                                 {`Bienvenido, ${user.nombre}`}
+                                
                             </span>
-                            <Button variant="outline-light ms-5 me-2" onClick={handleLogoutClick}>
-                                Cerrar Sesión
                             </Button>
                         </span>
                     ) : (
