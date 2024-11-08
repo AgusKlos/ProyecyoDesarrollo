@@ -10,6 +10,7 @@ const {loginUsuario, updateUsuario } = require('./controllers/controllerUsuario.
 const { createUsuarioXEvento } = require('./controllers/controllerEventoXUsuario.js');
 const { getTodosEventos } = require('./controllers/controllerEvento.js');
 const { getTodosNoticias } = require('./controllers/controllerNoticia.js');
+const { getComunidadesUsuario} = require ('./controllers/controllerComunidadXUsuario.js')
 const app = express();
 
 // Configuración de CORS
@@ -43,6 +44,7 @@ app.use((err, req, res, next) => {
 
 //metodos get
 app.get('/');
+app.get('/getcomunidadesUsuario', getComunidadesUsuario);
 app.get('/comunidades', getTodosComunidades);
 app.get('/eventos',getTodosEventos);
 app.get('/noticias', getTodosNoticias);
@@ -55,4 +57,18 @@ app.post('/eventosXusuario', createUsuarioXEvento);
 const port = 8080;
 app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
+});
+
+
+
+// Importa los modelos
+const ComunidadModel = require('./models/modelComunidad.js');
+const ComunidadXUsuarioModel = require('./models/modelComunidadXUsuario.js');
+
+// Define las asociaciones
+ComunidadModel.hasMany(ComunidadXUsuarioModel, {
+  foreignKey: 'idComunidad'
+});
+ComunidadXUsuarioModel.belongsTo(ComunidadModel, {
+  foreignKey: 'idComunidad'
 });
