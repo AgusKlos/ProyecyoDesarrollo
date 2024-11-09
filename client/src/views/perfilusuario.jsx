@@ -10,6 +10,7 @@ const PerfilUsuario = () => {
     const {user, logout}= useUser();
     const idUsuario = user ? user.id : null;
     const [comunidades, setComunidades] = useState([]);
+    const [eventos, setEventos] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
 
@@ -17,7 +18,7 @@ const PerfilUsuario = () => {
         console.log(user);
         try {
             const response= await axios.post('http://localhost:8080/updateperfil',{
-            idUsuario: user.id
+            idUsuario: idUsuario
         })
         //alert('Has actualizado tu perfil correctamente');
         }catch (error){
@@ -25,19 +26,42 @@ const PerfilUsuario = () => {
         }   
     }
 
-    useEffect(()=>{
-        const getComunidadesUsuario = async ()=>{
-            try{
-                const response =  await axios.get('http://localhost:8080/getcomunidadesUsuario',{
-                    idUsuario: idUsuario
+    useEffect(() => {
+        const getComunidadesUsuario = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/getComunidadesUsuario`, {
+                    params: {
+                        id_Usuario: idUsuario 
+                    },
                 });
+                setComunidades(response.data);
+                console.log('Comunidades del usuario:', response.data);
+            } catch (error) {
+                console.error('Error al traer las comunidades del usuario:', error);
+            }
+        };
+        const getEventosUsuario= async () => {
+            try{
+                const response= await axios.get(`http://localhost:8080/getEventosUsuario`,{
+                    params:{
+                        id_Usuario: idUsuario
+                    },
+                });
+                setEventos(response.data);
+                console.log('Eventos del usuario:', response.data);
             }catch(error){
-                console.error('Error al traer las comunidades del usuario');
-            }   
-        }
-        getComunidadesUsuario(); 
-    }, []);
+                console.error('Error al traer los eventos del usuario:', error);
+            }
+        };
+        getEventosUsuario();
+        getComunidadesUsuario();
+    }, [idUsuario]);
+
     
+    
+    const filteredEventos = eventos.filter(evento =>
+        evento.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const filteredComunidades = comunidades.filter(comunidad =>
         comunidad.nombre.toLowerCase().includes(searchTerm.toLowerCase())
@@ -45,6 +69,10 @@ const PerfilUsuario = () => {
 
     const handleCardClick = (idComunidad) => {
         navigate(`/comunidad/${idComunidad}`);
+    };
+
+    const handleCardClick2 = (idEvento) => {
+        navigate(`/eventos/${idEvento}`);
     };
 
     const handleNoticiasClick = () => {
@@ -80,17 +108,17 @@ const PerfilUsuario = () => {
         <>
             <Navbar className="bg-dark text-white text-center py-2">
                 <Container>
-                <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" href="#home" onClick={handleInicioClick}>
+                <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" onClick={handleInicioClick}>
                     <Image src={utniconwhite} className="img-fluid d-flex justify-content-center align-items-center mw-100 h-auto mx-2 my-0" alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
                     UTN &middot; La Plata
                     </Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
-                                <Nav.Link className="text-white" href="#home" onClick={handleNoticiasClick}>Noticias</Nav.Link>
-                                <Nav.Link className="text-white" href="#link" onClick={handleComunidadesClick}>Comunidades</Nav.Link>
-                                <Nav.Link className="text-white" href="#link" onClick={handleEventosClick}>Eventos</Nav.Link>
-                                <Nav.Link className="text-white" href="#link" onClick={handleBeneficiosClick}>Beneficios</Nav.Link>
+                                <Nav.Link className="text-white" onClick={handleNoticiasClick}>Noticias</Nav.Link>
+                                <Nav.Link className="text-white" onClick={handleComunidadesClick}>Comunidades</Nav.Link>
+                                <Nav.Link className="text-white" onClick={handleEventosClick}>Eventos</Nav.Link>
+                                <Nav.Link className="text-white" onClick={handleBeneficiosClick}>Beneficios</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
                 </Container>
@@ -129,11 +157,31 @@ const PerfilUsuario = () => {
                         </Col>
                     )}
                 </Row>
+                {/*<button onClick={getEventosUsuario}>Obtener eventos usuario</button>*/}
+                <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+                    {filteredEventos.length > 0 ? (
+                        filteredEventos.map((evento) => (
+                            <Col key={evento.idEvento}>
+                                <Card className="text-center h-100">
+                                    <Card.Body>
+                                        <div dangerouslySetInnerHTML={{ __html: evento.icon }} />
+                                        <Card.Title>{evento.nombre}</Card.Title>
+                                        <Button variant="primary" onClick={() => handleCardClick2(evento.idEvento)}>Ver Evento</Button>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))
+                    ) : (
+                        <Col>
+                            <p>No se encontraron eventos</p>
+                        </Col>
+                    )}
+                </Row>
             </div>
         
 
         </>
     );
-}
+};
 
-export default PerfilUsuario
+export default PerfilUsuario;

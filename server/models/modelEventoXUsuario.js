@@ -1,5 +1,7 @@
 const db = require('../database/db.js');
-const  {DataTypes}  = require('sequelize'); 
+const  {DataTypes}  = require('sequelize');
+const EventoModel = require('./modelEvento');
+
 
 const EventoXUsuarioModel = db.define('EventoXUsuario', {
     ID:{

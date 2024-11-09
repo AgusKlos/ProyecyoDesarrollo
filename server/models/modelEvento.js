@@ -1,5 +1,6 @@
 const db = require('../database/db.js');
 const { DataTypes } = require('sequelize');
+const EventoXUsuarioModel = require ('./modelEventoXUsuario.js');
 
 const EventoModel = db.define('eventos', {
     idEvento: {
@@ -21,5 +22,6 @@ const EventoModel = db.define('eventos', {
     tableName: 'Evento',
     timestamps: false
 })
+
 
 module.exports = EventoModel;

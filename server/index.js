@@ -7,7 +7,7 @@ const comunidadesRoutes = require('./routes/comunidades.js');
 const { getTodosComunidades } = require('./controllers/controllerComunidad.js');
 const { createUsuarioXComunidad } = require('./controllers/controllerComunidadXUsuario.js');
 const {loginUsuario, updateUsuario } = require('./controllers/controllerUsuario.js');
-const { createUsuarioXEvento } = require('./controllers/controllerEventoXUsuario.js');
+const { createUsuarioXEvento, getEventosUsuario } = require('./controllers/controllerEventoXUsuario.js');
 const { getTodosEventos } = require('./controllers/controllerEvento.js');
 const { getTodosNoticias } = require('./controllers/controllerNoticia.js');
 const { getComunidadesUsuario} = require ('./controllers/controllerComunidadXUsuario.js')
@@ -44,7 +44,8 @@ app.use((err, req, res, next) => {
 
 //metodos get
 app.get('/');
-app.get('/getcomunidadesUsuario', getComunidadesUsuario);
+app.get('/getComunidadesUsuario', getComunidadesUsuario);
+app.get('/getEventosUsuario',getEventosUsuario)
 app.get('/comunidades', getTodosComunidades);
 app.get('/eventos',getTodosEventos);
 app.get('/noticias', getTodosNoticias);
