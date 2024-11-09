@@ -31,7 +31,7 @@ const AppRoutes = () => {
                 <Route path="/bolsatrabajo" element={<BolsaTrabajo/>}></Route>
                 <Route path="/perfilusuario" element={<PerfilUsuario/>}></Route>
                 <Route path="/tipocomunidades" element={<TipoComunidades/>}></Route>
-                <Route path="/noticia/:idNoticia" element={<Noticia/>} />
+                <Route path="/noticia/:id" element={<Noticia/>} />
                 <Route path="/noticias" element={<Noticias/>}></Route>
                 <Route path='/beneficios' element={<Beneficios/>}></Route>
                 <Route path="/comunidad/:idComunidad" element={<Comunidad />} />

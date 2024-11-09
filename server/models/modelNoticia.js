@@ -1,22 +1,45 @@
 const db = require('../database/db.js');
-const  {DataTypes}  = require('sequelize'); 
+const { DataTypes } = require('sequelize');
 
 const NoticiaModel = db.define('Noticia', {
     idNoticia: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false 
     },
-    descripcion: {type: DataTypes.STRING},
-    fecha: {type: DataTypes.DATE},
-    titulo: {type: DataTypes.STRING},
+    titulo: {
+        type: DataTypes.STRING(100), 
+        allowNull: false 
+    },
+    imagen: {
+        type: DataTypes.TEXT, 
+        allowNull: true
+    },
+    categoria: {
+        type: DataTypes.STRING(100), 
+        allowNull: false 
+    }, 
+    descripcion: {
+        type: DataTypes.TEXT, 
+        allowNull: false
+    },
+    fecha: {
+        type: DataTypes.DATE,
+        allowNull: false 
+    },
     idUsuario: {
         type: DataTypes.INTEGER,
-        foreignKey: true
-    }}, {
-        freezeTableName: true,  
-        tableName: 'Noticia',
-        timestamps: false
-    })
+        allowNull: false, 
+        references: {
+            model: 'Usuario', 
+            key: 'idUsuario'
+        }
+    }
+}, {
+    freezeTableName: true,
+    tableName: 'Noticia',
+    timestamps: false
+});
 
 module.exports = NoticiaModel;

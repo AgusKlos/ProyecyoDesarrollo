@@ -12,6 +12,13 @@ const { getTodosEventos } = require('./controllers/controllerEvento.js');
 const { getTodosNoticias } = require('./controllers/controllerNoticia.js');
 const { getComunidadesUsuario} = require ('./controllers/controllerComunidadXUsuario.js')
 const app = express();
+const fs = require('fs');
+const path = require('path');
+
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // Configuración de CORS
 app.use(cors({
@@ -19,6 +26,9 @@ app.use(cors({
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+app.use(bodyParser.json({limit: '10mb' })); 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
 
@@ -33,7 +43,7 @@ db.sync()
 
 
 // Rutas
-//app.use('/api/noticias', noticiasRoutes);
+app.use('/api/noticias', noticiasRoutes);
 app.use(noticiasRoutes);
 
 
@@ -54,6 +64,7 @@ app.post('/login', loginUsuario);
 app.post('/updateperfil',updateUsuario);
 app.post('/comunidadXusuario', createUsuarioXComunidad);
 app.post('/eventosXusuario', createUsuarioXEvento);
+app.use('/uploads', express.static(path.join(__dirname, 'routes', 'uploads')));
 
 const port = 8080;
 app.listen(port, () => {

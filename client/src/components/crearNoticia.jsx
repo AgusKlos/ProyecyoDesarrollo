@@ -6,6 +6,22 @@ const CrearNoticia = ({ show, handleClose, user, onNoticiaCreada }) => {
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [fecha, setFecha] = useState('');
+    const [imagen, setImagen] = useState(null);
+    const [categoria, setCategoria] = useState('');
+
+    //console.log("Usuario", user)
+    //user ? console.log("Usuario ID", user.id) : console.log("El usuario no existe.");
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagen(reader.result);  // El resultado será una cadena base64
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -13,16 +29,13 @@ const CrearNoticia = ({ show, handleClose, user, onNoticiaCreada }) => {
             const response = await axios.post('http://localhost:8080/api/noticias', {
                 titulo,
                 descripcion,
-                fecha,
+                imagen: imagen,
+                categoria,
+                fecha: new Date(fecha),
                 idUsuario: user.id, 
             });
 
-            console.log({
-                titulo,
-                descripcion,
-                fecha,
-                idUsuario: user.idUsuario,
-            });
+            console.log("Respuesta", response.status)
 
             if (response.status === 201) {
                 // Aquí puedes manejar la respuesta, como cerrar el modal y reiniciar los campos
@@ -54,6 +67,16 @@ const CrearNoticia = ({ show, handleClose, user, onNoticiaCreada }) => {
                             required
                         />
                     </Form.Group>
+                    <Form.Group controlId="formCategoria">
+                        <Form.Label className='mt-2'>Categoria</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Ingrese la categoría"
+                            value={categoria}
+                            onChange={(e) => setCategoria(e.target.value)}
+                            required
+                        />
+                    </Form.Group>
                     <Form.Group controlId="formDescripcion">
                         <Form.Label className='mt-2'>Descripción</Form.Label>
                         <Form.Control
@@ -74,6 +97,17 @@ const CrearNoticia = ({ show, handleClose, user, onNoticiaCreada }) => {
                             required
                         />
                     </Form.Group>
+                    <Form.Group controlId="formImagen">
+                        <Form.Label className='mt-2'>Imagen</Form.Label>
+                        <Form.Control
+                            type="file"
+                            accept="image/*" 
+                            onChange={handleImageChange}
+                        />
+                    </Form.Group>
+                    {imagen && (
+                        <img src={imagen} alt="Previsualización" style={{ width: '100%', marginTop: '10px' }} />
+                    )}
                     <Button variant="primary" type="submit" className='mt-4'>
                         Crear Noticia
                     </Button>

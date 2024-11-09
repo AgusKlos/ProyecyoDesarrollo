@@ -11,16 +11,19 @@ const Noticia = () => {
     const { id } = useParams(); // Obtenemos el id de la noticia desde la URL
     const [noticia, setNoticia] = useState(null);
     const [otrasNoticias, setOtrasNoticias] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchNoticia = async () => {
+        const fetchNoticias = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/noticias`);
                 const noticiaEncontrada = response.data.find(n => n.idNoticia === Number(id)); // Cambia la URL según tu configuración
                 setNoticia(noticiaEncontrada);
             } catch (error) {
-                console.error('Error al obtener la noticia:', error);
+                console.error('Error al obtener las noticias:', error);
+            } finally {
+                setLoading(false); 
             }
         };
 
@@ -33,12 +36,12 @@ const Noticia = () => {
             }
         };
 
-        fetchNoticia();
+        fetchNoticias();
         fetchOtrasNoticias();
     }, [id]);
 
     const handleNoticiaClick = (idNoticia) => {
-        navigate(`/noticia/${idNoticia}`); // Navegar a la noticia específica
+        navigate(`/noticia/${idNoticia}`); 
     };
 
     const handleNoticiasClick = () => {
@@ -64,6 +67,15 @@ const Noticia = () => {
     const handleBeneficiosClick = () => {
         navigate('/beneficios');
     }
+
+    if (loading) {
+        return <p>Cargando noticia...</p>; 
+    }
+
+    if (!noticia) {
+        return <p>No se encontró la noticia.</p>; 
+    }
+
     
     return (
         <>
@@ -94,17 +106,16 @@ const Noticia = () => {
 
             <Row className='my-4 mx-3'>
                 <Col md={8}>
-                    {noticia ? (
-                        <div className="card mb-4">
-                            <div className="card-body">
-                                <h5 className="card-title">{noticia.titulo}</h5>
-                                <p className="card-text">{noticia.descripcion}</p>
-                                <p className="card-text"><small className="text-muted">Fecha: {new Date(noticia.fecha).toLocaleDateString()}</small></p>
-                            </div>
+                    <div className="card mb-4">
+                        <div className="card-body">
+                            <h5 className="card-title">{noticia.titulo}</h5>
+                            <p className="card-text">{noticia.descripcion}</p>
+                            <p className="card-text"><small className="text-muted">Fecha: {new Date(noticia.fecha).toLocaleDateString()}</small></p>
+                            {noticia.imagen && (
+                                <img src={`http://localhost:8080${noticia.imagen}`} alt="Imagen de la noticia" style={{ width: '100%', marginTop: '10px' }} />
+                            )}
                         </div>
-                    ) : (
-                        <p>Cargando noticia...</p>
-                    )}
+                    </div>
                 </Col>
                 <Col md={4}>
                     <h5>Otras Noticias</h5>
