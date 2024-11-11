@@ -262,10 +262,10 @@ const Inicio = () => {
                     </Col>
                     <Col className="text-end">
                         <h5>Seguinos en</h5>
-                        <a href="#" className="text-white me-3"><FontAwesomeIcon icon={faFacebook} /></a>
-                        <a href="#" className="text-white me-3"><FontAwesomeIcon icon={faTwitter} /></a>
-                        <a href="#" className="text-white me-3"><FontAwesomeIcon icon={faInstagram} /></a>
-                        <a href="#" className="text-white"><FontAwesomeIcon icon={faYoutube} /></a>
+                        <a href="https://www.facebook.com/utnfrlaplata/" target="_blank" rel="noopener noreferrer" className="text-white me-3"><FontAwesomeIcon icon={faFacebook} /></a>
+                        <a href="https://x.com/utnfrlaplata" target="_blank" rel="noopener noreferrer" className="text-white me-3"><FontAwesomeIcon icon={faTwitter} /></a>
+                        <a href="https://www.instagram.com/utnfrlp/" target="_blank" rel="noopener noreferrer" className="text-white me-3"><FontAwesomeIcon icon={faInstagram} /></a>
+                        <a href="https://www.youtube.com/channel/UCOMYT48wFK3YGLIb2-KxJWQ" target="_blank" rel="noopener noreferrer" className="text-white"><FontAwesomeIcon icon={faYoutube} /></a>
                         <p className="text-muted mt-3">Desarrollado en 2024 ©</p>
                     </Col>
                     </Row>
