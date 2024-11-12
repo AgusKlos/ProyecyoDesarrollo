@@ -14,6 +14,7 @@ import TipoComunidades from '../views/tipocomunidades.jsx';
 import Noticia from '../views/noticia.jsx';
 import Noticias from '../views/noticias.jsx';
 import Beneficios from '../views/beneficios.jsx';
+import PantallaError404 from '../views/error404.jsx'
 import { UserProvider } from '../components/context.jsx';
 
 const AppRoutes = () => {
@@ -35,6 +36,7 @@ const AppRoutes = () => {
                 <Route path="/noticias" element={<Noticias/>}></Route>
                 <Route path='/beneficios' element={<Beneficios/>}></Route>
                 <Route path="/comunidad/:idComunidad" element={<Comunidad />} />
+                <Route path="*" element={<PantallaError404/>} />
             </Routes>
         </UserProvider>
     );

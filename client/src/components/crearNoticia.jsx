@@ -52,7 +52,7 @@ const CrearNoticia = ({ show, handleClose, user, onNoticiaCreada }) => {
 
     return (
         <Modal show={show} onHide={handleClose} centered>
-            <Modal.Header closeButton>
+            <Modal.Header className="bg-dark text-white" closeButton>
                 <Modal.Title>Crear Noticia</Modal.Title>
             </Modal.Header>
             <Modal.Body>

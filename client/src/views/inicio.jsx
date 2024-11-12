@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/inicio.scss';
 import { Container, Card, Row, Col, Badge} from 'react-bootstrap';
@@ -18,7 +18,7 @@ import evento2 from '../assets/images/EVENTO_2.jpg';
 import evento3 from '../assets/images/EVENTO_3.jpg';
 import { useUser } from '../components/context';
 import Menu from '../components/menu';
-
+import axios from 'axios';
 
 const Inicio = () => {
     const { user, logout } = useUser();  // Obtener el usuario del contexto
@@ -27,28 +27,73 @@ const Inicio = () => {
     const handleCloseMenu = () => setShowMenu(false);
     const navigate = useNavigate()
     const [activeLink, setActiveLink] = useState('');
+    const [noticias, setNoticias] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const idUsuario = user ? user.id : null;
+    const [fechaFilter, setFechaFilter] = useState('');
+    const [eventos, setEventos]= useState([]);
 
-    const eventos = [
-        {
-          fecha: '10 de agosto - 20:00 hs',
-          titulo: 'Nuevos lenguajes y sus usos practicos',
-          imagen: evento1,
-          categorias: ['Conferencias', 'Virtual', 'Español'],
-        },
-        {
-          fecha: '12 de agosto - 21:00 hs',
-          titulo: 'Entrega de diplomas ING INDUSTRIAL',
-          imagen: evento2,
-          categorias: ['Honores', 'Presencial', 'Español'],
-        },
-        {
-          fecha: '1 de septiembre - 18:00 hs',
-          titulo: 'Taller de RCP',
-          imagen: evento3,
-          categorias: ['Taller', 'Presencial', 'Español'],
-        },
-    ];
+    const [filteredEventos, setFilteredEventos] = useState([]);
 
+    const handleCardClick = (idEvento) => {
+        navigate(`/evento/${idEvento}`);
+    };
+
+    useEffect(() => {
+        const bajarEventos = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/eventos');
+                setEventos(response.data);
+            } catch (error) {
+                console.error('Error al obtener las comunidades:', error);
+            }
+        };
+        bajarEventos();
+    }, []);
+
+    useEffect(() => {
+        // Filtrar eventos según el término de búsqueda y la fecha
+        const eventosFiltrados = eventos.filter(evento => {
+            const matchesName = searchTerm === '' || evento.nombre.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesFecha = fechaFilter === '' || evento.fecha === fechaFilter;
+            return matchesName && matchesFecha;
+        });
+        setFilteredEventos(eventosFiltrados); // Actualizar eventos filtrados
+    }, [eventos, searchTerm, fechaFilter]); 
+
+    const handleUnirmeAEvento = async (idEvento,idUsuario) => {
+        if (!idUsuario) {
+            alert('Debes iniciar sesión para unirte al evento');
+            return;
+        }
+        try {
+            const response = await axios.post('http://localhost:8080/eventosXusuario', {
+                idEvento,
+                idUsuario:idUsuario
+            });
+            alert('Te has unido al evento');
+        } catch (error) {
+            console.error('Error en la solicitud de unirse al evento:', error);
+        }
+    };
+
+
+    const fetchNoticias = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/noticias'); // Cambia la URL según tu configuración
+            setNoticias(response.data);
+        } catch (error) {
+            console.error('Error al obtener las noticias:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchNoticias();
+    }, []);
+
+    const handleNoticiaClick = (idNoticia) => {
+        navigate(`/noticia/${idNoticia}`); // Navegar a la noticia específica
+    };
     
 
     const handleNoticiasClick = () => {
@@ -167,25 +212,26 @@ const Inicio = () => {
                         </button>
                     </div>
 
-                    <div className="col-md-9">
-                        <div className="row">
-                            {['NOTICIAS_1.jpg', 'NOTICIAS_2.jpg', 'NOTICIAS_3.jpg'].map((image, index) => (
-                                <div className="col-md-6 col-lg-4 mb-4" key={index}>
-                                    <div className="card">
-                                        <img 
-                                            src={require(`../assets/images/${image}`)} 
-                                            className="card-img-top" 
-                                            alt={`Card ${index + 1}`} 
-                                        />
-                                        <div className="card-body">
-                                            <h5 className="card-title">Título {index + 1}</h5>
-                                            <p className="card-text">Texto de la tarjeta {index + 1}</p>
-                                        </div>
+                <div className="col-md-9">
+                    <div className="row">
+                        {noticias.slice(0, 3).map((noticia) => (
+                            <div className="col-md-6 col-lg-4 mb-4" key={noticia.idNoticia}>
+                                <div className="card" onClick={() => handleNoticiaClick(noticia.idNoticia)}>
+                                    <div className="card-body">
+                                        <h5 className="card-title">{noticia.titulo}</h5>
+                                        <p className="card-text">{noticia.descripcion}</p>
+                                        <p className="card-text"><small className="text-muted">Fecha: {new Date(noticia.fecha).toLocaleDateString()}</small></p>
+                                        {noticia.imagen && (
+                                            <img src={`http://localhost:8080${noticia.imagen}`} alt="Imagen de la noticia" style={{ width: '100%', marginTop: '10px' }} />
+                                        )}
+                                        
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))}
                     </div>
+                </div>
+
                 </div>
             </section>
 
@@ -212,27 +258,33 @@ const Inicio = () => {
                             Ver Todos
                         </button>
                     </div>
-                    <Row className='mt-2'>
-                        {eventos.map((evento, index) => (
-                            <Col key={index} xs={6} md={4} lg={3} xl={2} className="mb-4 mx-5">
-                            <Card style={{ width: '15rem' }}>
-                                <Card.Img variant="top" src={evento.imagen} style={{ height: '10rem' }} />
-                                <Card.Body>
-                                <Card.Title style={{ fontSize: '1rem' }}>{evento.titulo}</Card.Title>
-                                <Card.Text>
-                                    <small className="text-muted">{evento.fecha}</small>
-                                </Card.Text>
-                                <div className="d-flex justify-content-between">
-                                    {evento.categorias.map((categoria, i) => (
-                                    <Badge key={i} variant="secondary" className="mr-1" style={{ fontSize: '0.8rem' }}>
-                                        {categoria}
-                                    </Badge>
-                                    ))}
-                                </div>
-                                </Card.Body>
-                            </Card>
-                            </Col>
-                        ))}
+                    <Row className="justify-content-center">
+                        {filteredEventos.length > 0 ? (
+                            filteredEventos.slice(0,4).map((evento, index) => (
+                                <Col key={index} xs={6} md={4} lg={3} xl={2} className="mb-4 mx-5">
+                                    <Card style={{ width: '15rem' }}>
+                                        <Card.Img variant="top" src={evento.imagen} style={{ height: '10rem' }} />
+                                        <Card.Body>
+                                            <Card.Title style={{ fontSize: '1rem' }}>{evento.nombre}</Card.Title>
+                                            <Card.Text>
+                                                <small className="text-muted">{evento.fecha}</small>
+                                            </Card.Text>
+                                            <div className="d-flex justify-content-between">
+                                                {evento.categorias && evento.categorias.map((categoria, i) => (
+                                                    <Badge key={i} variant="secondary" className="mr-1" style={{ fontSize: '0.8rem' }}>
+                                                        {categoria}
+                                                    </Badge>
+                                                ))}
+                                            </div>
+                                            <Button variant="primary" className="mt-2" onClick={() => handleCardClick(evento.id)}>Ver Detalles</Button>
+                                            <Button variant="success" className="mt-2 ms-1" onClick={() => handleUnirmeAEvento(evento.idEvento,idUsuario)}>Unirme</Button>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))
+                        ) : (
+                            <p>No se encontraron eventos.</p>
+                        )}
                     </Row>
                 </div>
             </section>

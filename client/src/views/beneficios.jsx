@@ -57,7 +57,7 @@ const Beneficios = () => {
                         className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center"
                         onClick={() => handleNavigationClick('')}
                     >
-                        <Image src={utniconwhite} alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
+                        <Image src={utniconwhite} className="img-fluid d-flex justify-content-center align-items-center mw-100 h-auto mx-2 my-0" alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
                         UTN &middot; La Plata
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
