@@ -30,7 +30,7 @@ const Noticia = () => {
         const fetchOtrasNoticias = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/noticias'); // Obtener todas las noticias para mostrar en el aside
-                setOtrasNoticias(response.data.filter(n => n.id !== Number(id))); // Filtrar la noticia actual
+                setOtrasNoticias(response.data.filter(n => n.idNoticia !== Number(id))); // Filtrar la noticia actual
             } catch (error) {
                 console.error('Error al obtener otras noticias:', error);
             }
