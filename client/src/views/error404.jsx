@@ -1,12 +1,12 @@
 import React from 'react'
-//import errorBot from '../images/errobot.png';
+import errorBot from '../assets/images/roboterror.png';
 
 function Error404(){
     return(
         <>
             <div className='mt-3'>
                 <div className="d-flex justify-content-center align-items-center mb-0 pb-0">
-                   {/* <img src={errorBot} alt="Error" className='mb-0 pb-0' style={{ width:'300px'}} />*/}
+                   <img src={errorBot} alt="Error" className='mb-0 pb-0' style={{ width:'300px'}} />
                 </div>
                 <div className='px-5 pb-5 mt-0 pt-0 justify-content-center'>
                     <h1 className="p-err text-center mt-0 pt-0 mb-2 display-1 justify-content-center">404</h1>
