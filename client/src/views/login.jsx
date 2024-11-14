@@ -31,6 +31,9 @@ const Login = () => {
             mail,
             contrasenia   
             });
+
+            console.log(response.data.usuario);
+
             if (response.data && response.data.usuario) {
                 login(response.data.usuario);
                 navigate('/');

@@ -19,6 +19,7 @@ import evento3 from '../assets/images/EVENTO_3.jpg';
 import { useUser } from '../components/context';
 import Menu from '../components/menu';
 import axios from 'axios';
+import UserMenu from '../components/userMenu.jsx';
 
 const Inicio = () => {
     const { user, logout } = useUser();  // Obtener el usuario del contexto
@@ -37,6 +38,12 @@ const Inicio = () => {
 
     const handleCardClick = (idEvento) => {
         navigate(`/evento/${idEvento}`);
+    };
+
+    const handleLogout = () => {
+        logout();  
+        localStorage.removeItem('user'); 
+        navigate('/'); 
     };
 
     useEffect(() => {
@@ -131,7 +138,6 @@ const Inicio = () => {
 
     return (
         <> 
-            {/* Barra de navegación principal */}
             <Navbar className="bg-dark text-white text-center py-2">
                 <Container>
                     <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" onClick={() => navigate('/')}>
@@ -147,24 +153,8 @@ const Inicio = () => {
                             <Nav.Link className="text-white" onClick={() => navigate('/beneficios')}>Beneficios</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
-                    {user ? (
-                        <span className="text-white me-3 d-flex align-items-center">
-                            <Menu show={showMenu} handleClose={handleCloseMenu} />
-                            <Button variant="outline-light ms-5 me-2">
-                            <FaUser 
-                                className="me-2" 
-                                style={{ cursor: 'pointer' }} 
-                                onClick={handleShowMenu} 
-                            />
-                            <span 
-                                style={{ cursor: 'pointer' }}
-                                onClick={handleShowMenu}
-                            >
-                                {`Bienvenido, ${user.nombre}`}
-                                
-                            </span>
-                            </Button>
-                        </span>
+                    {user ? (           
+                        <UserMenu user={user} onLogout={handleLogout} />
                     ) : (
                         <Button variant="outline-light ms-2 me-3" onClick={() => navigate('/login')}>
                             Iniciar Sesión
@@ -188,7 +178,6 @@ const Inicio = () => {
                                 <h5>Título de la Slide 2</h5>
                             </div>
                         </div>
-                        {/* Agregar más imágenes aquí si es necesario */}
                     </div>
                     <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>

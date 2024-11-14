@@ -40,14 +40,12 @@ const loginUsuario = async (req, res) => {
     try {
         
         const usuario = await UsuarioModel.findOne({ where: { mail } });
-
-        
+          
         if (!usuario || usuario.contrasenia !== contrasenia) {
             return res.status(401).json({ message: 'Correo o contraseña incorrecta' });
         }
-
         
-        res.json({ message: 'Login exitoso', usuario: { id: usuario.idUsuario, nombre: usuario.nombre } });
+        res.json({ message: 'Login exitoso', usuario: { id: usuario.idUsuario, nombre: usuario.nombre, apellido: usuario.apellido } });
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         res.status(500).json({ message: 'Error interno del servidor' });
