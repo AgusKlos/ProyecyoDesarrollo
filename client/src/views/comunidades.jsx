@@ -116,7 +116,7 @@ const Comunidades = () => {
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
-                <Container>
+                <Container className="ms-3">
                     <Navbar.Brand
                         className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center"
                         onClick={() => handleNavigationClick('')}
@@ -125,7 +125,7 @@ const Comunidades = () => {
                         UTN &middot; La Plata
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
+                    <Navbar.Collapse id="basic-navbar-nav" className="me-4">
                         <Nav className="cabecera me-auto">
                             <Nav.Link className={`text-white ${activeLink === 'noticias' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('noticias')}>Noticias</Nav.Link>
                             <Nav.Link className={`text-white ${activeLink === 'comunidades' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('comunidades')}>Comunidades</Nav.Link>
@@ -134,9 +134,11 @@ const Comunidades = () => {
                         </Nav>
                     </Navbar.Collapse>
                     {user ? (
-                        <span className="text-white me-3"><Button variant="outline-light ms-5 me-2" onClick={handleLogoutClick}>
-                            Cerrar Sesión
-                        </Button></span>
+                        <span className="text-white me-3">
+                            <Button variant="outline-light me-1" onClick={handleLogoutClick}>
+                                Cerrar Sesión
+                            </Button>
+                        </span>
                     ) : (
                         <Button variant="outline-light me-3" onClick={handleLoginClick}>
                             Iniciar Sesión

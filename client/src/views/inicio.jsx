@@ -139,13 +139,13 @@ const Inicio = () => {
     return (
         <> 
             <Navbar className="bg-dark text-white text-center py-2">
-                <Container>
+                <Container className="ms-3">
                     <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" onClick={() => navigate('/')}>
                         <Image src={utniconwhite} className="img-fluid d-flex justify-content-center align-items-center mw-100 h-auto mx-2 my-0" alt="Logo UTN" style={{ width: '18px', height: '18px' }} />
                         UTN &middot; La Plata
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
+                    <Navbar.Collapse className="me-5" id="basic-navbar-nav">
                         <Nav className="cabecera me-auto">
                             <Nav.Link className="text-white" onClick={() => navigate('/noticias')}>Noticias</Nav.Link>
                             <Nav.Link className="text-white" onClick={() => navigate('/comunidades')}>Comunidades</Nav.Link>
