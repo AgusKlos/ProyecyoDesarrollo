@@ -1,10 +1,9 @@
 const db = require('../database/db.js');
-const  {DataTypes}  = require('sequelize');
-const EventoModel = require('./modelEvento');
+const { DataTypes } = require('sequelize');
 
 
-const EventoXUsuarioModel = db.define('EventoXUsuario', {
-    ID:{
+const EventoXUsuarioModel = db.define('eventoxusuario', {
+    ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -13,14 +12,15 @@ const EventoXUsuarioModel = db.define('EventoXUsuario', {
         type: DataTypes.INTEGER,
         foreignKey: true
     },
-    idUsuario:{
+    idUsuario: {
         type: DataTypes.INTEGER,
         foreignKey: true
     }
-},{
-    freezeTableName: true,  
-    tableName: 'EventoXUsuario',
+}, {
+    freezeTableName: true,
+    tableName: 'eventoxusuario',
     timestamps: false
 });
+
 
 module.exports = EventoXUsuarioModel;

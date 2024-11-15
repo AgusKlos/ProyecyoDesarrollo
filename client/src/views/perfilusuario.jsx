@@ -27,8 +27,13 @@ const PerfilUsuario = () => {
     }
 
     useEffect(() => {
+        if (!idUsuario) {
+            return; // Si idUsuario es null o undefined, no hacer nada
+        }
+        console.log(idUsuario);
         const getComunidadesUsuario = async () => {
             try {
+                console.log(idUsuario);
                 const response = await axios.get(`http://localhost:8080/getComunidadesUsuario`, {
                     params: {
                         id_Usuario: idUsuario 
@@ -42,6 +47,7 @@ const PerfilUsuario = () => {
         };
         const getEventosUsuario= async () => {
             try{
+                console.log(idUsuario)
                 const response= await axios.get(`http://localhost:8080/getEventosUsuario`,{
                     params:{
                         id_Usuario: idUsuario
@@ -136,7 +142,6 @@ const PerfilUsuario = () => {
             <Button className='m-2 bg-dark' variant="secondary" onClick={() => window.history.back()}>
                 &#8592; Volver
             </Button>
-            <input onChange={modificarPerfil}></input>
             <div>
             <Row xs={1} sm={2} md={3} lg={4} className="g-4">
                     {filteredComunidades.length > 0 ? (

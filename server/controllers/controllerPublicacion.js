@@ -64,10 +64,22 @@ export const deletePublicacion = async (req, res) => {
     }
 }
 
+export const getPublicacionesdeComunidad = async (req, res) => {
+    try {
+        const publicaciones = await PublicacionModel.findAll({
+            where: { idComunidad: req.params.idComunidad }
+        });
+        res.json(publicaciones);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+};
+
 module.exports = {
     getTodosPublicaciones,
     getPublicacion,
     deletePublicacion,
     updatePublicacion,
     createPublicacion,
+    getPublicacionesdeComunidad
 };

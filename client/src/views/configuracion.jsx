@@ -38,7 +38,7 @@ const Configuracion = () => {
 
     try {
         
-        const response = await axios.put(`http://localhost:3001/api/usuario/${user.id}`, formData);
+        const response = await axios.put(`http://localhost:3000/api/usuario/${user.id}`, formData);
   
         if (response.status === 200) {
           const updatedUser = { ...user, ...formData };

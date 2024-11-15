@@ -191,7 +191,7 @@ const Eventos = () => {
                                             </Badge>
                                         ))}
                                     </div>
-                                    <Button variant="primary" className="mt-2" onClick={() => handleCardClick(evento.id)}>Ver Detalles</Button>
+                                    <Button variant="primary" className="mt-2" onClick={() => handleCardClick(evento.idEvento)}>Ver Detalles</Button>
                                     <Button variant="success" className="mt-2 ms-1" onClick={() => handleUnirmeAEvento(evento.idEvento,idUsuario)}>Unirme</Button>
                                 </Card.Body>
                             </Card>

@@ -19,6 +19,8 @@ const UsuarioModel = db.define('Usuario', {
     freezeTableName: true,  
     tableName: 'Usuario',
     timestamps: false
-})
+});
+
+
 
 module.exports = UsuarioModel; 

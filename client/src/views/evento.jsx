@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Image } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
 import { Button, Col, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useParams} from 'react-router-dom';
 import { useUser } from '../components/context';
 
 const Evento = () => {
     const { user, logout } = useUser();
-    const navigate = useNavigate()
+    const [evento, setEvento]= useState([]);
+    const navigate = useNavigate();
+    const { idEvento } = useParams();
+
+    useEffect(() => {
+        const eventosGuardados = localStorage.getItem('eventos');
+        if (eventosGuardados) {
+            const eventos = JSON.parse(eventosGuardados);
+            const eventoEncontrado = eventos.find(ev => ev.idEvento === parseInt(idEvento));
+            console.log(eventoEncontrado);
+            setEvento(eventoEncontrado);
+        }
+    }, [idEvento]);
+    if (!evento) {
+        return <div>Cargando...</div>;
+    }
 
     const handleNoticiasClick = () => {
         navigate('/noticias')
@@ -67,92 +82,28 @@ const Evento = () => {
             <Button className='m-2 bg-dark' variant="secondary" onClick={() => window.history.back()}>
                 &#8592; Volver
             </Button>
-            
-
-            <Row>
-                <Container className='me-0 pe-0 ms-4 ps-4'>
+            <div>
+                <Navbar bg="dark" variant="dark">
+                    <Container>
+                        <Navbar.Brand href="#home">
+                            <Image src={utniconwhite} width="30" height="30" className="d-inline-block align-top" alt="UTN icon" />
+                            {' UTN Eventos'}
+                        </Navbar.Brand>
+                        <Nav className="me-auto">
+                            <Nav.Link onClick={handleNoticiasClick}>Noticias</Nav.Link>
+                        </Nav>
+                    </Container>
+                </Navbar>
+                <Container>
                     <Row>
-                        <Col className='mt-4 ms-0 ps-0 me-3'>
-                            <Row>
-                                <Col>
-                                <Image src="https://i.imgur.com/k64z6uH.png" fluid />
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                <h2>Nuevos lenguajes y sus usos practicos</h2>
-                                <p>
-                                    ...
-                                </p>
-                                <p>
-                                    ...
-                                </p>
-                                <p>
-                                    ...
-                                </p>
-                                <p>
-                                    ...
-                                </p>
-                                </Col>
-                            </Row>
-                        </Col>
-
-                        <Col className='me-0 pe-0'>
-                            <Container className='me-0 pe-0'>
-                                <Row className="mb-3">
-                                    <Col xs={2}>
-                                    <div className="text-center">
-                                        <span className="display-6">10</span>
-                                    </div>
-                                    </Col>
-                                    <Col>
-                                    <p>10 de Agosto - 20:00 hs</p>
-                                    <p>Ubicación: Virtual</p>
-                                    <Button variant="primary">Inscribirse</Button>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                    <p>Conferencias</p>
-                                    <p>Virtual</p>
-                                    <p>Español</p>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                    <h5>Organiza</h5>
-                                    <Row>
-                                        <Col xs={6}>
-                                        <Image src="imagen1.jpg" roundedCircle />
-                                        <p>Nombre Apellido</p>
-                                        </Col>
-                                        <Col xs={6}>
-                                        <Image src="imagen2.jpg" roundedCircle />
-                                        <p>Nombre Apellido</p>
-                                        </Col>
-                                    </Row>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                    <h5>Contacto</h5>
-                                    <p><a href="mailto:contacto123contacto123@gmail.com">contacto123contacto123@gmail.com</a></p>
-                                    <p><a href="mailto:contacto123contacto123@gmail.com">contacto123contacto123@gmail.com</a></p>
-                                    <p>
-                                        <a href="#">
-                                        <i className="bi bi-share-fill"></i> Compartir
-                                        </a>
-                                    </p>
-                                    </Col>
-                                </Row>
-                            </Container>
+                        <Col>
+                            <h1>{evento.nombre}</h1>
+                            <p>{evento.descripcion}</p>
+                            {/* Renderiza más detalles del evento aquí */}
                         </Col>
                     </Row>
-                    
-                
                 </Container>
-            </Row>
-
+            </div>
         </>
     );
 }

@@ -1,8 +1,7 @@
 const db = require('../database/db.js');
 const { DataTypes } = require('sequelize');
-const EventoXUsuarioModel = require ('./modelEventoXUsuario.js');
 
-const EventoModel = db.define('eventos', {
+const EventoModel = db.define('evento', {
     idEvento: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -19,9 +18,9 @@ const EventoModel = db.define('eventos', {
     }
 },{
     freezeTableName: true,  
-    tableName: 'Evento',
+    tableName: 'evento',
     timestamps: false
-})
+});
 
 
 module.exports = EventoModel;

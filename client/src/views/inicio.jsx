@@ -101,7 +101,7 @@ const Inicio = () => {
 
     const fetchNoticias = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/noticias'); // Cambia la URL según tu configuración
+            const response = await axios.get('http://localhost:8080/noticias');
             setNoticias(response.data);
         } catch (error) {
             console.error('Error al obtener las noticias:', error);
@@ -113,7 +113,7 @@ const Inicio = () => {
     }, []);
 
     const handleNoticiaClick = (idNoticia) => {
-        navigate(`/noticia/${idNoticia}`); // Navegar a la noticia específica
+        navigate(`/noticia/${idNoticia}`);
     };
     
 
