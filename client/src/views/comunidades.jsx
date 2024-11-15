@@ -276,13 +276,6 @@ const Comunidades = () => {
                         )}
                     </Row>
                 </div>
-
-                {/* <CrearComunidad 
-                    show={showCrearComunidad} 
-                    onHide={() => setShowCrearComunidad(false)} 
-                    handleClose = {handleClose}
-                    user={user}
-                    onCommunityCreated={handleCommunityCreated} /> */}
             </Container>
         </>
     );
