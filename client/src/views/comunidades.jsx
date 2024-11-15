@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import utniconwhite from '../assets/images/utniconwhite.png';
-import { Navbar, Container, Nav, Image, Card, Button, Row, Col, Form } from 'react-bootstrap';
+import { Navbar, Container, Nav, Image, Card, Button, Row, Col, Form, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useUser } from '../components/context';
@@ -8,15 +8,58 @@ import { IoCodeSlash, IoBarChart, IoBuild, IoBusiness, IoCalculator, IoWifi, IoD
 import UserMenu from '../components/userMenu.jsx';
 import CrearComunidad from '../components/crearComunidad';
 
+const getIconForComunidad = (nombre) => {
+    if (!nombre) {
+        return IoSchool;
+    }
+
+    const iconMapping = [
+        { keywords: ['ingenieros', 'ingeniería', 'ingeniero'], icon: IoBuild },
+        { keywords: ['programación', 'programador', 'programadores', 'programar'], icon: IoCodeSlash },
+        { keywords: ['economía', 'economías', 'industrial', 'industriales', 'finanzas', 'finanza', 'estadística', 'estadísticas'], icon: IoBarChart },
+        { keywords: ['mecánica', 'mecánicas'], icon: IoBuild },
+        { keywords: ['civil', 'construcción'], icon: IoBusiness },
+        { keywords: ['cálculo', 'metamática', 'exactas', 'exacta'], icon: IoCalculator },
+        { keywords: ['wifi', 'wi-fi', 'internet'], icon: IoWifi },
+        { keywords: ['sistemas'], icon: Math.random() > 0.5 ? IoDesktop : IoLaptop },
+        { keywords: ['física', 'físicas'], icon: IoMagnet },
+        { keywords: ['celular', 'iphone'], icon: IoPhonePortrait },
+        { keywords: ['deporte', 'deportes', 'fútbol', 'vóleibol', 'hockey', 'basquet', 'basquetbol', 'handball'], icon: IoTrophy },
+        { keywords: ['android'], icon: IoLogoAndroid },
+        { keywords: ['eléctrica', 'energía', 'electricidad', 'eléctricas'], icon: IoBulb },
+        { keywords: ['química', 'laboratorio', 'laboratorios', 'químicas'], icon: IoFlask },
+        { keywords: ['angular'], icon: IoLogoAngular },
+        { keywords: ['docker'], icon: IoLogoDocker },
+        { keywords: ['javascript'], icon: IoLogoJavascript },
+        { keywords: ['html', 'html5'], icon: IoLogoHtml5 },
+        { keywords: ['node', 'nodejs', 'node.js'], icon: IoLogoNodejs },
+        { keywords: ['python'], icon: IoLogoPython },
+        { keywords: ['react'], icon: IoLogoReact },
+        { keywords: ['linux', 'bash', 'debian'], icon: IoLogoTux },
+        { keywords: [], icon: IoSchool } // Default icon
+    ];
+
+    for (const mapping of iconMapping) {
+        if (mapping.keywords.some(keyword => nombre.includes(keyword))) {
+            return mapping.icon;
+        }
+    }
+    return IoSchool; // Default icon
+};
+
 const Comunidades = () => {
     const { user, logout } = useUser();
     const navigate = useNavigate();
     const [activeLink, setActiveLink] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [comunidades, setComunidades] = useState([]);
+    const [joinedComunidades, setJoinedComunidades] = useState([]);
     const [darkMode, setDarkMode] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
     const [showCrearComunidad, setShowCrearComunidad] = useState(false);
+    const [nombre, setNombre] = useState('');
+    const [descripcion, setDescripcion] = useState('');
+    const [comunidad, setComunidad] = useState({});
     const idUsuario = user ? user.id : null;
 
     const handleFilterChange = (eventKey) => {
@@ -61,17 +104,29 @@ const Comunidades = () => {
         navigate(`/${path}`);
     };
 
-    const fetchComunidades = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/comunidades');
-            setComunidades(response.data);
-        } catch (error) {
-            console.error('Error al obtener las comunidades:', error);
-        }
-    };
-
     const handleCardClick = (idComunidad) => {
         navigate(`/comunidad/${idComunidad}`);
+    };
+
+    const handleCrearComunidadClick = async () => {
+        
+        if (!user) {
+            alert('Debes iniciar sesión para crear una comunidad.');
+            return;
+        }
+        try {
+            const response = await axios.post('http://localhost:8080/crearComunidad', {
+                idComunidad:comunidad.idComunidad,
+                idUsuario,
+                nombre,
+                descripcion
+            });
+            alert('Has creado la comunidad');
+            setShowCrearComunidad(false);
+            setComunidades([...comunidades, response.data]);
+        } catch (error) {
+            console.error('Error en la solicitud de crear la comunidad:', error);
+        }
     };
 
     const handleUnirmeAComunidad = async (idComunidad, idUsuario) => {
@@ -108,48 +163,9 @@ const Comunidades = () => {
         setShowCrearComunidad(false);  // Cierra el modal
     };
 
-    const iconMapping = [
-        { keywords: ['ingenieros', 'ingeniería', 'ingeniero'], icon: IoBuild },
-        { keywords: ['programación', 'programador', 'programadores', 'programar'], icon: IoCodeSlash },
-        { keywords: ['economía', 'economías', 'industrial', 'industriales', 'finanzas', 'finanza', 'estadística', 'estadísticas'], icon: IoBarChart },
-        { keywords: ['mecánica', 'mecánicas'], icon: IoBuild },
-        { keywords: ['civil', 'construcción'], icon: IoBusiness },
-        { keywords: ['cálculo', 'metamática', 'exactas', 'exacta'], icon: IoCalculator },
-        { keywords: ['wifi', 'wi-fi', 'internet'], icon: IoWifi },
-        { keywords: ['sistemas'], icon: Math.random() > 0.5 ? IoDesktop : IoLaptop },
-        { keywords: ['física', 'físicas'], icon: IoMagnet },
-        { keywords: ['celular', 'iphone'], icon: IoPhonePortrait },
-        { keywords: ['deporte', 'deportes', 'fútbol', 'vóleibol', 'hockey', 'basquet', 'basquetbol', 'handball'], icon: IoTrophy },
-        { keywords: ['android'], icon: IoLogoAndroid },
-        { keywords: ['eléctrica', 'energía', 'electricidad', 'eléctricas'], icon: IoBulb },
-        { keywords: ['química', 'laboratorio', 'laboratorios', 'químicas'], icon: IoFlask },
-        { keywords: ['angular'], icon: IoLogoAngular },
-        { keywords: ['docker'], icon: IoLogoDocker },
-        { keywords: ['javascript'], icon: IoLogoJavascript },
-        { keywords: ['html', 'html5'], icon: IoLogoHtml5 },
-        { keywords: ['node', 'nodejs', 'node.js'], icon: IoLogoNodejs },
-        { keywords: ['python'], icon: IoLogoPython },
-        { keywords: ['react'], icon: IoLogoReact },
-        { keywords: ['linux', 'bash', 'debian'], icon: IoLogoTux },
-        { keywords: [], icon: IoSchool } // Default icon
-    ];
-
-    const getIconForComunidad = (nombre) => {
-        if (!nombre) {
-            return IoSchool;
-        }
-
-        const lowerCaseName = nombre.toLowerCase();
-        for (const { keywords, icon } of iconMapping) {
-            if (keywords.some(keyword => lowerCaseName.includes(keyword))) {
-                return icon;
-            }
-        }
-        return IoSchool; // Default icon
-    };
 
     const filteredComunidades = comunidades.filter(comunidad =>
-        comunidad.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+        comunidad && comunidad.nombre && comunidad.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
@@ -203,37 +219,71 @@ const Comunidades = () => {
                         <Button className='bg-dark mb-1' onClick={() => setSearchTerm('')}>Limpiar Búsqueda</Button>
                     </Col>
                 </Row>
-                <Row xs={1} sm={2} md={3} lg={4} className="g-4">
-                    {filteredComunidades.length > 0 ? (
-                        filteredComunidades.map((comunidad) => (
-                            <Col key={comunidad.idComunidad}>
-                                <Card className="text-center h-100">
-                                    <Card.Body>
-                                        {React.createElement(getIconForComunidad(comunidad.nombre), { style: { fontSize: '2rem' } })}
-                                        <Card.Title>{comunidad.nombre}</Card.Title>
-                                        <Button variant="primary" className="mt-1" onClick={() => handleCardClick(comunidad.idComunidad)}>Ver comunidad</Button>
-                                        <Button variant="success" className="ms-2 mt-1" onClick={() => handleUnirmeAComunidad(comunidad.idComunidad, idUsuario)}>Unirme</Button>
-                                    </Card.Body>
-                                </Card>
+                <div>
+                    <Button variant="primary" onClick={() => setShowCrearComunidad(true)}>Crear Comunidad</Button>
+                    <Modal show={showCrearComunidad} onHide={() => setShowCrearComunidad(false)}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Crear Comunidad</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form>
+                                <Form.Group controlId="formNombre">
+                                    <Form.Label>Nombre</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Ingresa el nombre de la comunidad"
+                                        value={nombre}
+                                        onChange={(e) => setNombre(e.target.value)}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formDescripcion" className="mt-3">
+                                    <Form.Label>Descripción</Form.Label>
+                                    <Form.Control
+                                        as="textarea"
+                                        rows={3}
+                                        placeholder="Ingresa la descripción de la comunidad"
+                                        value={descripcion}
+                                        onChange={(e) => setDescripcion(e.target.value)}
+                                    />
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => setShowCrearComunidad(false)}>Cancelar</Button>
+                            <Button variant="primary" onClick={handleCrearComunidadClick}>Crear</Button>
+                        </Modal.Footer>
+                    </Modal>
+                    <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+                        {filteredComunidades.length > 0 ? (
+                            filteredComunidades.map((comunidad) => (
+                                <Col key={comunidad.idComunidad}>
+                                    <Card className="text-center h-100">
+                                        <Card.Body>
+                                            {React.createElement(getIconForComunidad(comunidad.nombre), { style: { fontSize: '2rem' } })}
+                                            <Card.Title>{comunidad.nombre}</Card.Title>
+                                            <Button variant="primary" className="mt-1" onClick={() => handleCardClick(comunidad.idComunidad)}>Ver comunidad</Button>
+                                            {!joinedComunidades.includes(comunidad.idComunidad) && (
+                                                <Button variant="success" className="ms-2 mt-1" onClick={() => handleUnirmeAComunidad(comunidad.idComunidad,idUsuario)}>Unirme</Button>
+                                            )}
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))
+                        ) : (
+                            <Col>
+                                <p>No se encontraron comunidades</p>
                             </Col>
-                        ))
-                    ) : (
-                        <Col>
-                            <p>No se encontraron comunidades</p>
-                        </Col>
-                    )}
-                </Row>
+                        )}
+                    </Row>
+                </div>
+
+                {/* <CrearComunidad 
+                    show={showCrearComunidad} 
+                    onHide={() => setShowCrearComunidad(false)} 
+                    handleClose = {handleClose}
+                    user={user}
+                    onCommunityCreated={handleCommunityCreated} /> */}
             </Container>
-
-            <CrearComunidad 
-                show={showCrearComunidad} 
-                onHide={() => setShowCrearComunidad(false)} 
-                handleClose = {handleClose}
-                user={user}
-                onCommunityCreated={handleCommunityCreated} 
-                
-            />
-
         </>
     );
 }

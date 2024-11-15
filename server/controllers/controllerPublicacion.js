@@ -4,7 +4,7 @@ const PublicacionModel = require( '../models/modelPublicacion');
 
 
 // todos los registros
-export const getTodosPublicaciones = async (req, res) => {
+const getTodosPublicaciones = async (req, res) => {
     try {
         const publicaciones = await PublicacionModel.findAll()
         res.json(publicaciones)
@@ -14,7 +14,7 @@ export const getTodosPublicaciones = async (req, res) => {
 }
 
 //un registro 
-export const getPublicacion = async (req, res) => {
+const getPublicacion = async (req, res) => {
     try {
         const Publicacion = PublicacionModel.findAll({
             where: {id:req.params.id}
@@ -25,7 +25,7 @@ export const getPublicacion = async (req, res) => {
 }
 
 //crear un registro
-export const createPublicacion = async(req, res) => {
+const createPublicacion = async(req, res) => {
     try {
         await PublicacionModel.create(req.body)
         res.json({
@@ -37,7 +37,7 @@ export const createPublicacion = async(req, res) => {
 }
 
 //actualizar un registro 
-export const updatePublicacion = async (req, res) => {
+const updatePublicacion = async (req, res) => {
     try {
         await PublicacionModel.update(req.body, {
             where: {id:req.params.id}
@@ -51,7 +51,7 @@ export const updatePublicacion = async (req, res) => {
 }
 
 //Eliminar un regisro
-export const deletePublicacion = async (req, res) => {
+const deletePublicacion = async (req, res) => {
     try {
         await PublicacionModel.destroy({
             where: {id:req.params.id}
@@ -64,7 +64,7 @@ export const deletePublicacion = async (req, res) => {
     }
 }
 
-export const getPublicacionesdeComunidad = async (req, res) => {
+const getPublicacionesdeComunidad = async (req, res) => {
     try {
         const publicaciones = await PublicacionModel.findAll({
             where: { idComunidad: req.params.idComunidad }

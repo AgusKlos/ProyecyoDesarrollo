@@ -36,6 +36,7 @@ const getComunidad = async (req, res) => {
 };
 //crear un registro
 const createComunidad = async(req, res) => {
+    const {idComunidad,idUsuario,nombre,descripcion} = req.body;
     try {
         await ComunidadModel.create(req.body)
         res.json({

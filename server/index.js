@@ -4,7 +4,7 @@ const db = require('./database/db.js');
 const bodyParser = require('body-parser');
 const noticiasRoutes = require('./routes/noticias.js');
 const usuarioRoutes = require('./routes/usuarios.js');
-const { getTodosComunidades } = require('./controllers/controllerComunidad.js');
+const { getTodosComunidades, createComunidad } = require('./controllers/controllerComunidad.js');
 const { createUsuarioXComunidad } = require('./controllers/controllerComunidadXUsuario.js');
 const {loginUsuario, updateUsuario } = require('./controllers/controllerUsuario.js');
 const { createUsuarioXEvento, getEventosUsuario } = require('./controllers/controllerEventoXUsuario.js');
@@ -62,8 +62,8 @@ db.sync()
 // Rutas
 app.use('/api/noticias', noticiasRoutes);
 app.use(noticiasRoutes);
-app.use('/api/comunidades', comunidadesRoutes);
-app.use(comunidadesRoutes);
+//app.use('/api/comunidades', comunidadesRoutes);
+//app.use(comunidadesRoutes);
 app.use('/api/usuarios', usuarioRoutes)
 
 
@@ -85,6 +85,7 @@ app.post('/login', loginUsuario);
 app.post('/updateperfil',updateUsuario);
 app.post('/comunidadXusuario', createUsuarioXComunidad);
 app.post('/eventosXusuario', createUsuarioXEvento);
+app.post('/crearComunidad',createComunidad);
 app.use('/uploads', express.static(path.join(__dirname, 'routes', 'uploads')));
 
 const port = 8080;
