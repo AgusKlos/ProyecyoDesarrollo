@@ -9,6 +9,7 @@ import BtnAcceder from '../components/buttons/BtnAcceder';
 import IptPassword from "../components/inputs/IptPassword";
 import IptUsername from "../components/inputs/IptUsername";
 import { useUser } from '../components/context';
+import utnlogin from "../assets/images/utnlogin.jpg";
 
 const Login = () => {
     const [mail, setMail] = useState('');
@@ -67,17 +68,43 @@ const Login = () => {
                 </Container>
             </Navbar>
 
-            <Container className="d-flex justify-content-center align-items-center vh-100">
+            <Container
+                className="d-flex py-0 justify-content-center align-items-center vh-100"
+                style={{
+                    backgroundImage: `url(${utnlogin})`, 
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    minHeight: '100vh',
+                }}
+            >
                 <Card className="text-center bg-secondary" style={{ borderRadius: '15px', width: '300px' }}>
                     <Card.Body>
-                    <Card.Title className="mb-4">Iniciar Sesión</Card.Title>
-                    <Form>
-                        <IptUsername controlId="formBasicUsername" placeholder="Usuario" value={mail} onChange={handleUsernameChange} className="my-2"> </IptUsername>
-                        <IptPassword controlId="formBasicPassword" placeholder="Contraseña" value={contrasenia} onChange={handlePasswordChange} className="my-2"> </IptPassword>
-                        <BtnAcceder variant="primary" type="submit" className="float-end" onClick={handleAccederClick}>
-                            Acceder
-                        </BtnAcceder>
-                    </Form>
+                        <Card.Title className="mb-4">Iniciar Sesión</Card.Title>
+                        <Form>
+                            <IptUsername
+                                controlId="formBasicUsername"
+                                placeholder="Usuario"
+                                value={mail}
+                                onChange={handleUsernameChange}
+                                className="my-2"
+                            />
+                            <IptPassword
+                                controlId="formBasicPassword"
+                                placeholder="Contraseña"
+                                value={contrasenia}
+                                onChange={handlePasswordChange}
+                                className="my-2"
+                            />
+                            <BtnAcceder
+                                variant="primary"
+                                type="submit"
+                                className="float-end"
+                                onClick={handleAccederClick}
+                            >
+                                Acceder
+                            </BtnAcceder>
+                        </Form>
                     </Card.Body>
                 </Card>
             </Container>
