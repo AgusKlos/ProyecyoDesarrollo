@@ -9,11 +9,13 @@ import { Image } from 'react-bootstrap';
 import utniconwhite from '../assets/images/utniconwhite.png';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../components/context';
+import UserMenu from '../components/userMenu.jsx';
 
 const Beneficios = () => {
 
     const { user, logout } = useUser();
     const navigate = useNavigate()
+    const [darkMode, setDarkMode] = useState(false);
     const [activeLink, setActiveLink] = useState('');
     const idUsuario = user ? user.id : null;
 
@@ -21,6 +23,16 @@ const Beneficios = () => {
         setActiveLink('noticias');
         navigate('/noticias');
     }; 
+
+    const handleDarkModeToggle = () => {
+        setDarkMode(!darkMode);
+    };
+
+    const handleLogout = () => {
+        logout();  
+        localStorage.removeItem('user'); 
+        navigate('/'); 
+    };
 
     const handleComunidadesClick = () => {
         setActiveLink('comunidades');
@@ -52,7 +64,7 @@ const Beneficios = () => {
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
-                <Container>
+                <Container className="ms-1 me-5">
                     <Navbar.Brand 
                         className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center"
                         onClick={() => handleNavigationClick('')}
@@ -70,13 +82,13 @@ const Beneficios = () => {
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
-                {user ? (
-                            <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
-                        ) : (
-                            <Button variant="outline-light me-3" onClick={handleLoginClick}>
-                                Iniciar Sesión
-                            </Button>
-                    )}
+                {user ? (           
+                    <UserMenu user={user} onLogout={handleLogout} onDarkModeToggle={handleDarkModeToggle} darkMode={darkMode}/>
+                ) : (
+                    <Button variant="outline-light ms-2 me-3" onClick={() => navigate('/login')}>
+                        Iniciar Sesión
+                    </Button>
+                )}
             </Navbar>
 
             <section className="my-5">

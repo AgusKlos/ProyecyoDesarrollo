@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useUser } from '../components/context';
+import UserMenu from '../components/userMenu.jsx';
 
 const Eventos = () => {
     const [eventos, setEventos]= useState([]);
@@ -14,6 +15,7 @@ const Eventos = () => {
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
     const [attendanceFilter, setAttendanceFilter] = useState('Virtual');
     const { user, logout } = useUser();
+    const [darkMode, setDarkMode] = useState(false);
     const [activeLink, setActiveLink] = useState('');
     const idUsuario = user ? user.id : null;
     const navigate = useNavigate();
@@ -45,6 +47,16 @@ const Eventos = () => {
 
     const handleCardClick = (idEvento) => {
         navigate(`/evento/${idEvento}`);
+    };
+
+    const handleDarkModeToggle = () => {
+        setDarkMode(!darkMode);
+    };
+
+    const handleLogout = () => {
+        logout();  
+        localStorage.removeItem('user'); 
+        navigate('/'); 
     };
 
     const handleUnirmeAEvento = async (idEvento,idUsuario) => {
@@ -105,7 +117,7 @@ const Eventos = () => {
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
-                <Container>
+                <Container className="ms-1 me-5">
                     <Navbar.Brand 
                         className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center"
                         onClick={() => navigate('/')}
@@ -123,10 +135,12 @@ const Eventos = () => {
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
-                {user ? (
-                    <span className="text-white me-3">{`Bienvenido, ${user.nombre}`}</span>
+                {user ? (           
+                    <UserMenu className="me-1" user={user} onLogout={handleLogout} onDarkModeToggle={handleDarkModeToggle} darkMode={darkMode}/>
                 ) : (
-                    <Button variant="outline-light me-3" onClick={() => navigate('/login')}>Iniciar Sesión</Button>
+                    <Button variant="outline-light ms-2 me-3" onClick={() => navigate('/login')}>
+                        Iniciar Sesión
+                    </Button>
                 )}
             </Navbar>
 

@@ -6,12 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import CrearNoticia from '../components/crearNoticia';
 import { useUser } from '../components/context';
 import axios from 'axios';
+import UserMenu from '../components/userMenu.jsx';
 
 const Noticias = () => {
     const { user, logout } = useUser();
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
     const [showCrearNoticia, setShowCrearNoticia] = useState(false);
     const [noticias, setNoticias] = useState([]);
+    const [darkMode, setDarkMode] = useState(false);
     const navigate = useNavigate();
 
     const handleShowCrearNoticia = () => setShowCrearNoticia(true);
@@ -21,6 +23,15 @@ const Noticias = () => {
       setSelectedFilter(eventKey);
     };
 
+    const handleDarkModeToggle = () => {
+        setDarkMode(!darkMode);
+    };
+
+    const handleLogout = () => {
+        logout();  
+        localStorage.removeItem('user'); 
+        navigate('/'); 
+    };
 
     const handleNoticiasClick = () => {
         navigate('/noticias')
@@ -70,13 +81,13 @@ const Noticias = () => {
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
-                <Container className="ms-3">
+                <Container className="ms-1">
                 <Navbar.Brand className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center" onClick={handleInicioClick}>
                     <Image src={utniconwhite} className="img-fluid d-flex justify-content-center align-items-center mw-100 h-auto mx-2 my-0" alt="Logo UTN" style={{ width: '18px', height: '18px'}}/>
                     UTN &middot; La Plata
                     </Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav" className="me-4">
+                        <Navbar.Collapse id="basic-navbar-nav" className="me-1">
                             <Nav className="me-auto">
                                 <Nav.Link className="text-white" onClick={handleNoticiasClick}>Noticias</Nav.Link>
                                 <Nav.Link className="text-white" onClick={handleComunidadesClick}>Comunidades</Nav.Link>
@@ -85,20 +96,20 @@ const Noticias = () => {
                             </Nav>
                         </Navbar.Collapse>
                         {user ? (
-                            <Button variant="outline-light" onClick={handleShowCrearNoticia}>
+                            <Button className="me-2" variant="outline-light" onClick={handleShowCrearNoticia}>
                                 Crear Noticia
                             </Button>
                         ) : (
                             <span className="text-white d-none d-md-inline me-3">No puedes crear noticias sin estar autenticado</span>
                         )}
                 </Container>
-                {user ? (
-                            <span className="text-white me-3"></span>
-                        ) : (
-                            <Button variant="outline-light me-3" onClick={handleLoginClick}>
-                                Iniciar Sesión
-                            </Button>
-                    )}
+                {user ? (           
+                    <UserMenu className="ms-4 ps-4" user={user} onLogout={handleLogout} onDarkModeToggle={handleDarkModeToggle} darkMode={darkMode}/>
+                ) : (
+                    <Button variant="outline-light ms-2 me-1" onClick={() => navigate('/login')}>
+                        Iniciar Sesión
+                    </Button>
+                )}
             </Navbar>
 
             <Row className="mb-4 mx-2">

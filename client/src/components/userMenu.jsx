@@ -2,7 +2,7 @@ import React from 'react';
 import { Dropdown, Button } from 'react-bootstrap';
 import { FaUser } from 'react-icons/fa';
 
-const UserMenu = ({ user, onLogout }) => {
+const UserMenu = ({ user, onLogout, onDarkModeToggle, darkMode }) => {
   return (
     <Dropdown align="end">
       <Dropdown.Toggle 
@@ -25,8 +25,10 @@ const UserMenu = ({ user, onLogout }) => {
         <Dropdown.Item href="/perfilusuario">Mi Perfil</Dropdown.Item>
         <Dropdown.Item href="#/encuestas">Encuestas</Dropdown.Item>
         <Dropdown.Item href="#/notificaciones">Notificaciones</Dropdown.Item>
-        <Dropdown.Item href="#/modo-oscuro">Modo oscuro</Dropdown.Item>
-        <Dropdown.Item href="#/configuracion">Configuración</Dropdown.Item>
+        <Dropdown.Item onClick={onDarkModeToggle}>
+          {darkMode ? 'Modo Claro' : 'Modo Oscuro'}
+        </Dropdown.Item>
+        <Dropdown.Item href="/configuracion">Configuración</Dropdown.Item>
         <Dropdown.Divider />
         <Dropdown.Item onClick={onLogout}>Salir</Dropdown.Item>
       </Dropdown.Menu>

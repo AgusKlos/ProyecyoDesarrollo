@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useUser } from '../components/context';
 import { IoCodeSlash, IoBarChart, IoBuild, IoBusiness, IoCalculator, IoWifi, IoDesktop, IoLaptop, IoMagnet, IoPhonePortrait, IoTrophy, IoLogoAndroid, IoBulb, IoFlask, IoLogoAngular, IoLogoDocker, IoLogoJavascript, IoLogoHtml5, IoLogoNodejs, IoLogoPython, IoLogoReact, IoLogoTux, IoSchool } from 'react-icons/io5'; // Importación de los iconos de react-icons
+import UserMenu from '../components/userMenu.jsx';
 
 const Comunidades = () => {
     const { user, logout } = useUser();
@@ -12,11 +13,22 @@ const Comunidades = () => {
     const [activeLink, setActiveLink] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [comunidades, setComunidades] = useState([]);
+    const [darkMode, setDarkMode] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
     const idUsuario = user ? user.id : null;
 
     const handleFilterChange = (eventKey) => {
         setSelectedFilter(eventKey);
+    };
+
+    const handleDarkModeToggle = () => {
+        setDarkMode(!darkMode);
+    };
+
+    const handleLogout = () => {
+        logout();  
+        localStorage.removeItem('user'); 
+        navigate('/'); 
     };
 
     const handleInputChange = (e) => {
@@ -116,7 +128,7 @@ const Comunidades = () => {
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
-                <Container className="ms-3">
+                <Container className="ms-3 me-1">
                     <Navbar.Brand
                         className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center"
                         onClick={() => handleNavigationClick('')}
@@ -133,14 +145,10 @@ const Comunidades = () => {
                             <Nav.Link className={`text-white ${activeLink === 'beneficios' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('beneficios')}>Beneficios</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
-                    {user ? (
-                        <span className="text-white me-3">
-                            <Button variant="outline-light me-1" onClick={handleLogoutClick}>
-                                Cerrar Sesión
-                            </Button>
-                        </span>
+                    {user ? (           
+                        <UserMenu className="me-1 pe-1" user={user} onLogout={handleLogout} onDarkModeToggle={handleDarkModeToggle} darkMode={darkMode}/>
                     ) : (
-                        <Button variant="outline-light me-3" onClick={handleLoginClick}>
+                        <Button variant="outline-light ms-2 me-1" onClick={() => navigate('/login')}>
                             Iniciar Sesión
                         </Button>
                     )}
@@ -167,11 +175,10 @@ const Comunidades = () => {
                             <Col key={comunidad.idComunidad}>
                                 <Card className="text-center h-100">
                                     <Card.Body>
-                                        {/* Render icon based on the community name */}
                                         {React.createElement(getIconForComunidad(comunidad.nombre), { style: { fontSize: '2rem' } })}
                                         <Card.Title>{comunidad.nombre}</Card.Title>
-                                        <Button variant="primary" onClick={() => handleCardClick(comunidad.idComunidad)}>Ver comunidad</Button>
-                                        <Button variant="success" className="ms-2" onClick={() => handleUnirmeAComunidad(comunidad.idComunidad, idUsuario)}>Unirme</Button>
+                                        <Button variant="primary" className="mt-1" onClick={() => handleCardClick(comunidad.idComunidad)}>Ver comunidad</Button>
+                                        <Button variant="success" className="ms-2 mt-1" onClick={() => handleUnirmeAComunidad(comunidad.idComunidad, idUsuario)}>Unirme</Button>
                                     </Card.Body>
                                 </Card>
                             </Col>

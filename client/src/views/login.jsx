@@ -28,8 +28,8 @@ const Login = () => {
         event.preventDefault();
         try{
             const response = await axios.post('http://localhost:8080/login', {
-            mail,
-            contrasenia   
+                mail,
+                contrasenia   
             });
 
             console.log(response.data.usuario);

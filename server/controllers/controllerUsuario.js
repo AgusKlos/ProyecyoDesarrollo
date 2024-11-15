@@ -65,9 +65,11 @@ const createUsuario = async(req, res) => {
 
 const updateUsuario = async (req, res) => {
     try {
-        await UsuarioModel.update(req.body, {
-            where: {id:req.params.id}
-        })
+        const {nombre, apellido, mail} = req.body;
+        await UsuarioModel.update(
+            {nombre, apellido, mail}, 
+            {where: {id:req.params.id}}
+        )
         res.json({
             "message":"¡Registro actualizado correctamente!"
         })
