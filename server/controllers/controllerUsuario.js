@@ -64,21 +64,29 @@ const createUsuario = async(req, res) => {
 }
 
 const updateUsuario = async (req, res) => {
+    const { nombre, apellido, mail, contrasenia } = req.body;
+    const { id } = req.params;
+
     try {
-        const {nombre, apellido, mail, contrasenia} = req.body;
-        await UsuarioModel.update(
-            {nombre, apellido, mail, contrasenia}, 
-            {where: {id:req.params.id}}
-        )
-        res.json({
-            "message":"¡Registro actualizado correctamente!"
-        })
-    } catch(error){
-        res.json({message: error.message})
+        const usuario = await UsuarioModel.findByPk(id);
+
+        if (!usuario) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        usuario.nombre = nombre || usuario.nombre;
+        usuario.apellido = apellido || usuario.apellido;
+        usuario.mail = mail || usuario.mail;
+        usuario.contrasenia = contrasenia || usuario.contrasenia;
+
+        await usuario.save();
+
+        res.status(200).json({ message: 'Usuario actualizado correctamente', usuario });
+    } catch (error) {
+        console.error('Error al actualizar usuario:', error);
+        res.status(500).json({ message: error.message });
     }
 };
-
-//los usuarios no se deberán eliminar para que no haya inconsistencia en los registros de eventos, comunidades, etc
 
 module.exports = {
     getTodosUsuarios,

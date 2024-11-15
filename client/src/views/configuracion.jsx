@@ -13,6 +13,7 @@ const Configuracion = () => {
     mail: '',
     contrasenia: '',
   });
+  const idUsuario = user ? user.id : null;
 
   useEffect(() => {
     if (user) {
@@ -25,11 +26,16 @@ const Configuracion = () => {
     }
   }, [user]);
 
+  const handleInicioClick = () => {
+    navigate('/');
+};
+
+  // Actualizar el usuario en la base de datos
   const updateUserInDatabase = async (updatedData) => {
     if (!user) return;
 
     try {
-      const response = await axios.put(`http://localhost:3001/api/usuario/${user.id}`, updatedData);
+      const response = await axios.put(`http://localhost:8080/api/usuarios/${idUsuario}`, updatedData);
       if (response.status === 200) {
         const updatedUser = { ...user, ...updatedData };
         setUser(updatedUser); 
@@ -41,14 +47,13 @@ const Configuracion = () => {
     }
   };
 
+  // Manejo de los cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
-    // Cada vez que el usuario modifica un campo, se guarda inmediatamente en la base de datos.
-    updateUserInDatabase({ ...formData, [name]: value });
   };
 
+  // Guardar los cambios en el usuario
   const handleSave = async (e) => {
     e.preventDefault();
     if (user) {
@@ -56,10 +61,7 @@ const Configuracion = () => {
     }
   };
 
-    const handleInicioClick = () => {
-        navigate('/');
-    };
-
+  // Manejo del click en "Cancelar"
   const handleCancel = () => {
     setFormData({
       nombre: user.nombre || '',
@@ -88,7 +90,7 @@ const Configuracion = () => {
                     placeholder="Ingresa tu nombre"
                     name="nombre"
                     value={formData.nombre}
-                    onChange={handleChange}
+                    onChange={handleChange} // Solo actualiza el estado local
                   />
                 </Form.Group>
 
@@ -99,7 +101,7 @@ const Configuracion = () => {
                     placeholder="Ingresa tu apellido"
                     name="apellido"
                     value={formData.apellido}
-                    onChange={handleChange}
+                    onChange={handleChange} // Solo actualiza el estado local
                   />
                 </Form.Group>
 
@@ -108,20 +110,20 @@ const Configuracion = () => {
                   <Form.Control
                     type="email"
                     placeholder="Ingresa tu correo electrónico"
-                    name="correo"
+                    name="mail"
                     value={formData.mail}
-                    onChange={handleChange}
+                    onChange={handleChange} // Solo actualiza el estado local
                   />
                 </Form.Group>
 
-                <Form.Group controlId="formcontraseña" className="mb-3">
+                <Form.Group controlId="formContrasenia" className="mb-3">
                   <Form.Label>Contraseña</Form.Label>
                   <Form.Control
-                    type="contrasenia"
+                    type="password"
                     placeholder="Ingresa tu contraseña"
-                    name="contraseña"
+                    name="contrasenia"
                     value={formData.contrasenia}
-                    onChange={handleChange}
+                    onChange={handleChange} // Solo actualiza el estado local
                   />
                 </Form.Group>
 
@@ -131,7 +133,7 @@ const Configuracion = () => {
                 <Button
                   variant="secondary"
                   className="ms-3"
-                  onClick={handleCancel}
+                  onClick={handleCancel, handleInicioClick}
                 >
                   Cancelar
                 </Button>
@@ -145,5 +147,4 @@ const Configuracion = () => {
 };
 
 export default Configuracion;
-
 

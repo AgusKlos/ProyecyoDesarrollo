@@ -15,8 +15,6 @@ const CrearComunidad = ({ show, onHide, handleClose, user, onCommunityCreated  }
                 idUsuario: user.id, // Suponemos que el usuario está autenticado
             });
 
-            console.log("nyd", nombre, descripcion);
-
             if (response.status === 201 || response.status === 200) {
                 // Notificar que la comunidad fue creada y cerrar el modal
                 onCommunityCreated (response.data.comunidad);

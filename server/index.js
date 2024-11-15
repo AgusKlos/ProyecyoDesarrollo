@@ -10,10 +10,13 @@ const {loginUsuario, updateUsuario } = require('./controllers/controllerUsuario.
 const { createUsuarioXEvento, getEventosUsuario } = require('./controllers/controllerEventoXUsuario.js');
 const { getTodosEventos } = require('./controllers/controllerEvento.js');
 const { getTodosNoticias } = require('./controllers/controllerNoticia.js');
-const { getComunidadesUsuario} = require ('./controllers/controllerComunidadXUsuario.js')
+const { getComunidadesUsuario} = require ('./controllers/controllerComunidadXUsuario.js');
+const usuarioRoutes = require('./routes/usuarios.js');
 const app = express();
 const fs = require('fs');
 const path = require('path');
+
+
 
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
@@ -23,8 +26,8 @@ if (!fs.existsSync(uploadDir)) {
 // Configuración de CORS
 app.use(cors({
   origin: ['http://localhost:3000', 'http://localhost:3001'],
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use(bodyParser.json({limit: '10mb' })); 
@@ -73,6 +76,8 @@ app.listen(port, () => {
 
 app.use('/api/comunidades', comunidadesRoutes);
 app.use(comunidadesRoutes);
+
+app.use('/api/usuarios', usuarioRoutes)
 
 // Importa los modelos
 const ComunidadModel = require('./models/modelComunidad.js');
