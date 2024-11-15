@@ -26,10 +26,6 @@ const Configuracion = () => {
     }
   }, [user]);
 
-  const handleInicioClick = () => {
-    navigate('/');
-};
-
   // Actualizar el usuario en la base de datos
   const updateUserInDatabase = async (updatedData) => {
     if (!user) return;
@@ -127,13 +123,13 @@ const Configuracion = () => {
                   />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={handleInicioClick}>
+                <Button variant="primary" type="submit">
                   Guardar cambios
                 </Button>
                 <Button
                   variant="secondary"
                   className="ms-3"
-                  onClick={handleCancel, handleInicioClick}
+                  onClick={handleCancel}
                 >
                   Cancelar
                 </Button>
