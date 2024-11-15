@@ -11,6 +11,7 @@ const Configuracion = () => {
     nombre: '',
     apellido: '',
     mail: '',
+    contrasenia: '',
   });
 
   useEffect(() => {
@@ -19,50 +20,52 @@ const Configuracion = () => {
         nombre: user.nombre || '',
         apellido: user.apellido || '',
         mail: user.mail || '',
+        contrasenia: user.contrasenia || '',
       });
     }
   }, [user]);
 
+  const updateUserInDatabase = async (updatedData) => {
+    if (!user) return;
+
+    try {
+      const response = await axios.put(`http://localhost:3001/api/usuario/${user.id}`, updatedData);
+      if (response.status === 200) {
+        const updatedUser = { ...user, ...updatedData };
+        setUser(updatedUser); 
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      }
+    } catch (error) {
+      console.error('Error al actualizar los datos:', error);
+      alert('Hubo un error al actualizar los datos.');
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    // Cada vez que el usuario modifica un campo, se guarda inmediatamente en la base de datos.
+    updateUserInDatabase({ ...formData, [name]: value });
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
-
-    if (!user) {
-        alert('No hay datos de usuario para actualizar');
-        return;
+    if (user) {
+      updateUserInDatabase(formData);
     }
-
-    try {
-        
-        const response = await axios.put(`http://localhost:3001/api/usuario/${user.id}`, formData);
-  
-        if (response.status === 200) {
-          const updatedUser = { ...user, ...formData };
-          setUser(updatedUser); 
-          localStorage.setItem('user', JSON.stringify(updatedUser)); 
-          
-        }
-      } catch (error) {
-        console.error('Error al actualizar los datos:', error);
-        alert('Hubo un error al actualizar los datos.');
-      }
   };
 
     const handleInicioClick = () => {
         navigate('/');
     };
 
-
-
   const handleCancel = () => {
     setFormData({
       nombre: user.nombre || '',
       apellido: user.apellido || '',
       mail: user.mail || '',
+      contrasenia: user.contrasenia || '',
     });
   };
 
@@ -112,7 +115,7 @@ const Configuracion = () => {
                 </Form.Group>
 
                 <Form.Group controlId="formcontraseña" className="mb-3">
-                  <Form.Label>Contraseña </Form.Label>
+                  <Form.Label>Contraseña</Form.Label>
                   <Form.Control
                     type="contrasenia"
                     placeholder="Ingresa tu contraseña"

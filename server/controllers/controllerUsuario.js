@@ -65,9 +65,9 @@ const createUsuario = async(req, res) => {
 
 const updateUsuario = async (req, res) => {
     try {
-        const {nombre, apellido, mail} = req.body;
+        const {nombre, apellido, mail, contrasenia} = req.body;
         await UsuarioModel.update(
-            {nombre, apellido, mail}, 
+            {nombre, apellido, mail, contrasenia}, 
             {where: {id:req.params.id}}
         )
         res.json({

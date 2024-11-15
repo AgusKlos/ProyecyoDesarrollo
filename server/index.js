@@ -71,7 +71,8 @@ app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
 });
 
-
+app.use('/api/comunidades', comunidadesRoutes);
+app.use(comunidadesRoutes);
 
 // Importa los modelos
 const ComunidadModel = require('./models/modelComunidad.js');
