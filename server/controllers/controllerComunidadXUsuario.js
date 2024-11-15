@@ -33,7 +33,8 @@ const getComunidadesUsuario = async (req, res) => {
     }
 };
 
+
 module.exports={
     createUsuarioXComunidad,
-    getComunidadesUsuario,
+    getComunidadesUsuario
 }

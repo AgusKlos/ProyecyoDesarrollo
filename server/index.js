@@ -3,12 +3,14 @@ const cors = require('cors');
 const db = require('./database/db.js');
 const bodyParser = require('body-parser');
 const noticiasRoutes = require('./routes/noticias.js');
+const usuarioRoutes = require('./routes/usuarios.js');
 const { getTodosComunidades } = require('./controllers/controllerComunidad.js');
 const { createUsuarioXComunidad } = require('./controllers/controllerComunidadXUsuario.js');
 const {loginUsuario, updateUsuario } = require('./controllers/controllerUsuario.js');
 const { createUsuarioXEvento, getEventosUsuario } = require('./controllers/controllerEventoXUsuario.js');
 const { getTodosEventos } = require('./controllers/controllerEvento.js');
 const { getTodosNoticias } = require('./controllers/controllerNoticia.js');
+
 const { getComunidadesUsuario} = require ('./controllers/controllerComunidadXUsuario.js')
 
 const ComunidadModel = require('./models/modelComunidad.js');
@@ -28,6 +30,8 @@ const fs = require('fs');
 const path = require('path');
 const { getPublicacionesdeComunidad } = require('./controllers/controllerPublicacion.js');
 
+
+
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
@@ -36,7 +40,7 @@ if (!fs.existsSync(uploadDir)) {
 // Configuración de CORS
 app.use(cors({
   origin: ['http://localhost:3000'],
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST','DELETE','PUT'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
@@ -58,6 +62,9 @@ db.sync()
 // Rutas
 app.use('/api/noticias', noticiasRoutes);
 app.use(noticiasRoutes);
+app.use('/api/comunidades', comunidadesRoutes);
+app.use(comunidadesRoutes);
+app.use('/api/usuarios', usuarioRoutes)
 
 
 app.use((err, req, res, next) => {

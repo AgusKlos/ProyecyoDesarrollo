@@ -114,44 +114,12 @@ const Noticias = () => {
 
             <Row className="mb-4 mx-2">
                     
-                <h3 className='mt-3 mb-2'>NOTICIAS</h3> <br/>
-
-                {/* <p className='my-2'>Buscar Noticias</p> */}
-                {/* <Col className="d-flex">
-                    <Dropdown className='me-5 mb-1' onSelect={handleFilterChange}>
-                        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                        Sistemas de Información
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                        <Dropdown.Item eventKey="Sistemas de Información">Sistemas de Información</Dropdown.Item>
-                        <Dropdown.Item eventKey="Industrial">Industrial</Dropdown.Item>
-                        <Dropdown.Item eventKey="Mecánica">Mecánica</Dropdown.Item>
-                        <Dropdown.Item eventKey="Química">Química</Dropdown.Item>
-                        <Dropdown.Item eventKey="Eléctrica">Eléctrica</Dropdown.Item>
-                        <Dropdown.Item eventKey="Civil">Civil</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-
-                    <Button className='ms-5 bg-dark mb-1'>Limpiar Filtros</Button>
-                </Col> */}
-
+                <h3 className='mt-4 mb-2'>NOTICIAS</h3> <br/>
             </Row>
 
             <Row>
-                {/* <Col className='col-md-1'>
-                    <Button className='p-1 py-0 px-2 mx-1' variant="dark" size="sm">Este mes</Button>
-                </Col>
-                <Col className='col-md-1'>
-                    <Button className='p-1 py-0 px-2 mx-1' variant="light" size="sm" style={{ color: 'black' }}>Mes anterior</Button>
-                </Col>
-                <Col className='col-md-1'>
-                    <Button className='p-1 py-0 px-2 mx-1' variant="light" size="sm" style={{ color: 'black' }}>Este año</Button>
-                </Col>
-                <Col className='col-md-1'>
-                    <Button className='p-1 py-0 px-2 mx-1' variant="light" size="sm" style={{ color: 'black' }}>Año anterior</Button>
-                </Col> */}
             </Row>
-            <Row className='my-4 mx-3'>
+            <Row className='my-1 mx-3'>
                 <div className="col-md-9">
                     <div className="row">
                         {noticias.map((noticia) => (

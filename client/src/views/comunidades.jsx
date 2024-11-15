@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useUser } from '../components/context';
 import { IoCodeSlash, IoBarChart, IoBuild, IoBusiness, IoCalculator, IoWifi, IoDesktop, IoLaptop, IoMagnet, IoPhonePortrait, IoTrophy, IoLogoAndroid, IoBulb, IoFlask, IoLogoAngular, IoLogoDocker, IoLogoJavascript, IoLogoHtml5, IoLogoNodejs, IoLogoPython, IoLogoReact, IoLogoTux, IoSchool } from 'react-icons/io5'; // Importación de los iconos de react-icons
 import UserMenu from '../components/userMenu.jsx';
+import CrearComunidad from '../components/crearComunidad';
 
 const Comunidades = () => {
     const { user, logout } = useUser();
@@ -15,6 +16,7 @@ const Comunidades = () => {
     const [comunidades, setComunidades] = useState([]);
     const [darkMode, setDarkMode] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState('Conferencias');
+    const [showCrearComunidad, setShowCrearComunidad] = useState(false);
     const idUsuario = user ? user.id : null;
 
     const handleFilterChange = (eventKey) => {
@@ -39,9 +41,16 @@ const Comunidades = () => {
         const bajarComunidades = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/comunidades');
-                setComunidades(response.data);
+                if (Array.isArray(response.data)) {
+                    const comunidadesLimpias = response.data.filter(comunidad => comunidad?.nombre);
+                    setComunidades(comunidadesLimpias);
+                } else {
+                    console.error("La respuesta no es un array válido:", response.data);
+                    setComunidades([]);  
+                }
             } catch (error) {
                 console.error('Error al obtener las comunidades:', error);
+                setComunidades([]); 
             }
         };
         bajarComunidades();
@@ -52,9 +61,14 @@ const Comunidades = () => {
         navigate(`/${path}`);
     };
 
-    const filteredComunidades = comunidades.filter(comunidad =>
-        comunidad.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const fetchComunidades = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/comunidades');
+            setComunidades(response.data);
+        } catch (error) {
+            console.error('Error al obtener las comunidades:', error);
+        }
+    };
 
     const handleCardClick = (idComunidad) => {
         navigate(`/comunidad/${idComunidad}`);
@@ -83,6 +97,15 @@ const Comunidades = () => {
     const handleLogoutClick = () => {
         logout();
         navigate('/');
+    };
+
+    const handleCommunityCreated = (newComunidad) => {
+        setComunidades((prevComunidades) => [...prevComunidades, newComunidad]);
+        setShowCrearComunidad(false); // Cierra el formulario modal
+    };
+    
+    const handleClose = () => {
+        setShowCrearComunidad(false);  // Cierra el modal
     };
 
     const iconMapping = [
@@ -125,10 +148,14 @@ const Comunidades = () => {
         return IoSchool; // Default icon
     };
 
+    const filteredComunidades = comunidades.filter(comunidad =>
+        comunidad.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <>
             <Navbar className="bg-dark text-white text-center py-2">
-                <Container className="ms-3 me-1">
+                <Container className="ms-1 me-1">
                     <Navbar.Brand
                         className="text-start text-white mb-1 fs-3 d-flex justify-content-center align-items-center"
                         onClick={() => handleNavigationClick('')}
@@ -145,6 +172,13 @@ const Comunidades = () => {
                             <Nav.Link className={`text-white ${activeLink === 'beneficios' ? 'active-link' : ''}`} onClick={() => handleNavigationClick('beneficios')}>Beneficios</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
+                    {user ? (
+                        <Button className="me-2" variant="outline-light" onClick={() => setShowCrearComunidad(true)}>
+                            Crear Comunidad
+                        </Button>
+                    ) : (
+                        <span className="text-white d-none d-md-inline me-3">No puedes crear comunidades sin estar autenticado</span>
+                    )}
                     {user ? (           
                         <UserMenu className="me-1 pe-1" user={user} onLogout={handleLogout} onDarkModeToggle={handleDarkModeToggle} darkMode={darkMode}/>
                     ) : (
@@ -190,6 +224,16 @@ const Comunidades = () => {
                     )}
                 </Row>
             </Container>
+
+            <CrearComunidad 
+                show={showCrearComunidad} 
+                onHide={() => setShowCrearComunidad(false)} 
+                handleClose = {handleClose}
+                user={user}
+                onCommunityCreated={handleCommunityCreated} 
+                
+            />
+
         </>
     );
 }

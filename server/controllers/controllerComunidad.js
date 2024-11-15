@@ -20,14 +20,20 @@ const getTodosComunidades = async (req, res) => {
 //un registro 
 const getComunidad = async (req, res) => {
     try {
-        const Comunidad = ComunidadModel.findAll({
-            where: {id:req.params.id}
-        })
-    }catch (error){
-        res.json({message: error.message})
-    }
-}
+        const comunidad = await ComunidadModel.findOne({
+            where: { id: req.params.id },
+        });
 
+        if (!comunidad) {
+            return res.status(404).json({ error: 'Comunidad no encontrada' });
+        }
+
+        res.json(comunidad);
+    } catch (error) {
+        console.error('Error al obtener la comunidad:', error);
+        res.status(500).json({ error: 'Error al obtener la comunidad' });
+    }
+};
 //crear un registro
 const createComunidad = async(req, res) => {
     try {

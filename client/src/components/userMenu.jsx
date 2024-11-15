@@ -23,8 +23,6 @@ const UserMenu = ({ user, onLogout, onDarkModeToggle, darkMode }) => {
         <span className="m-3">{user.apellido} {user.nombre}</span>
         <Dropdown.Divider />
         <Dropdown.Item href="/perfilusuario">Mi Perfil</Dropdown.Item>
-        <Dropdown.Item href="#/encuestas">Encuestas</Dropdown.Item>
-        <Dropdown.Item href="#/notificaciones">Notificaciones</Dropdown.Item>
         <Dropdown.Item onClick={onDarkModeToggle}>
           {darkMode ? 'Modo Claro' : 'Modo Oscuro'}
         </Dropdown.Item>

@@ -11,7 +11,9 @@ const Configuracion = () => {
     nombre: '',
     apellido: '',
     mail: '',
+    contrasenia: '',
   });
+  const idUsuario = user ? user.id : null;
 
   useEffect(() => {
     if (user) {
@@ -19,50 +21,49 @@ const Configuracion = () => {
         nombre: user.nombre || '',
         apellido: user.apellido || '',
         mail: user.mail || '',
+        contrasenia: user.contrasenia || '',
       });
     }
   }, [user]);
 
+  // Actualizar el usuario en la base de datos
+  const updateUserInDatabase = async (updatedData) => {
+    if (!user) return;
+
+    try {
+      const response = await axios.put(`http://localhost:8080/api/usuarios/${idUsuario}`, updatedData);
+      if (response.status === 200) {
+        const updatedUser = { ...user, ...updatedData };
+        setUser(updatedUser); 
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      }
+    } catch (error) {
+      console.error('Error al actualizar los datos:', error);
+      alert('Hubo un error al actualizar los datos.');
+    }
+  };
+
+  // Manejo de los cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // Guardar los cambios en el usuario
   const handleSave = async (e) => {
     e.preventDefault();
-
-    if (!user) {
-        alert('No hay datos de usuario para actualizar');
-        return;
+    if (user) {
+      updateUserInDatabase(formData);
     }
-
-    try {
-        
-        const response = await axios.put(`http://localhost:3000/api/usuario/${user.id}`, formData);
-  
-        if (response.status === 200) {
-          const updatedUser = { ...user, ...formData };
-          setUser(updatedUser); 
-          localStorage.setItem('user', JSON.stringify(updatedUser)); 
-          
-        }
-      } catch (error) {
-        console.error('Error al actualizar los datos:', error);
-        alert('Hubo un error al actualizar los datos.');
-      }
   };
 
-    const handleInicioClick = () => {
-        navigate('/');
-    };
-
-
-
+  // Manejo del click en "Cancelar"
   const handleCancel = () => {
     setFormData({
       nombre: user.nombre || '',
       apellido: user.apellido || '',
       mail: user.mail || '',
+      contrasenia: user.contrasenia || '',
     });
   };
 
@@ -85,7 +86,7 @@ const Configuracion = () => {
                     placeholder="Ingresa tu nombre"
                     name="nombre"
                     value={formData.nombre}
-                    onChange={handleChange}
+                    onChange={handleChange} // Solo actualiza el estado local
                   />
                 </Form.Group>
 
@@ -96,7 +97,7 @@ const Configuracion = () => {
                     placeholder="Ingresa tu apellido"
                     name="apellido"
                     value={formData.apellido}
-                    onChange={handleChange}
+                    onChange={handleChange} // Solo actualiza el estado local
                   />
                 </Form.Group>
 
@@ -105,24 +106,24 @@ const Configuracion = () => {
                   <Form.Control
                     type="email"
                     placeholder="Ingresa tu correo electrónico"
-                    name="correo"
+                    name="mail"
                     value={formData.mail}
-                    onChange={handleChange}
+                    onChange={handleChange} // Solo actualiza el estado local
                   />
                 </Form.Group>
 
-                <Form.Group controlId="formcontraseña" className="mb-3">
-                  <Form.Label>Contraseña </Form.Label>
+                <Form.Group controlId="formContrasenia" className="mb-3">
+                  <Form.Label>Contraseña</Form.Label>
                   <Form.Control
-                    type="contrasenia"
+                    type="password"
                     placeholder="Ingresa tu contraseña"
-                    name="contraseña"
+                    name="contrasenia"
                     value={formData.contrasenia}
-                    onChange={handleChange}
+                    onChange={handleChange} // Solo actualiza el estado local
                   />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={handleInicioClick}>
+                <Button variant="primary" type="submit">
                   Guardar cambios
                 </Button>
                 <Button
@@ -142,5 +143,4 @@ const Configuracion = () => {
 };
 
 export default Configuracion;
-
 
